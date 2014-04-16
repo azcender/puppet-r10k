@@ -1,4 +1,4 @@
-class profiles::reverse_proxy {
+class profiles::reverse_proxy inherits profiles {
 
   # Hiera lookups
   $proxies = hiera('profiles::reverse_proxy::proxies')

@@ -6,6 +6,6 @@ class profiles::app_servers inherits profiles {
 
   include ::tomcat
 
-  create_resources('tomcat::instances', $instances)
+  create_resources('tomcat::instance', $instances)
   create_resources('wget::fetch', $apps)
 }

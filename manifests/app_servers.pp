@@ -38,7 +38,7 @@ class profiles::app_servers inherits profiles {
     ensure_resource(
       'concat_fragment',
 #     "server.xml_${tomcat_name}_globalnamingresources+${name}",
-      "server.xml_${tomcat_name}+${name}_body2",
+      "server.xml_${tomcat_name}+05_${name}_body1",
       {
         content => $content,
         require => Package["tomcat${tomcat::version}"],

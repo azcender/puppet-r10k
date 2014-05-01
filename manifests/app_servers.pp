@@ -1,9 +1,6 @@
 class profiles::app_servers inherits profiles {
 
-  define iterate_datasources($tomcat_name, $database_servername,\
-                             $database_service, $database_username,\
-                             $database_password, $database_connector,\
-                             $database_port) {
+  define iterate_datasources($tomcat_name, $database_servername, $database_service, $database_username, $database_password, $database_connector, $database_port) {
 
     notify { "Evaluating ${tomcat_name}\\${name}": 
       require => Package["tomcat${tomcat::version}"],

@@ -20,4 +20,15 @@ class profiles::yum inherits profiles {
     repository_dir => '/var/yumrepos/yumrepo',
     repo_cache_dir => '/var/cache/yumrepos/yumrepo'
   }
+
+  class { 'apache': }
+
+  apache::vhost { 'yum.azcender.com':
+    port    => '80',
+    docroot => '/var/yumrepos/yumrepo',
+    directories => [
+      { path => '/var/yumrepos/yumrepo',
+        options => ['Indexes'], }
+    ],
+  }
 }

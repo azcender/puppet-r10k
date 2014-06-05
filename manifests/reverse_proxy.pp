@@ -1,3 +1,4 @@
+# Setup a reverse proxy using apache
 class profiles::reverse_proxy inherits profiles {
 
   # Hiera lookups

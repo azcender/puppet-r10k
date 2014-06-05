@@ -1,3 +1,4 @@
+# Loads jenkins with plugins defined in hiera
 class profiles::jenkins inherits profiles {
 
   # Hiera lookups

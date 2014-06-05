@@ -1,6 +1,7 @@
 # Profile for a tomcat application instance
 # Should be extended to new classes for other app servers
-class app_servers inherits profiles {
+class profiles::app_servers inherits profiles {
+
 
   include java
 

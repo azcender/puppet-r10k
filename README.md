@@ -33,7 +33,7 @@ Supporting materials:
   * librarian-puppet ( '$ sudo gem install librarian-puppet' )
 
 # Upgrades
-This environment uses Vagrant oscar plugin. Whenever oscar is updated, engineers will need to wipe out old VMs and settings
+This environment uses vagrant oscar plugin. Whenever oscar is updated, engineers will need to wipe out old VMs and settings
 before doing a 'vagrant up' with the new release:
   
     $ cd <repo>
@@ -50,12 +50,12 @@ before doing a 'vagrant up' with the new release:
     $ vagrant up
 
 # Notes
-  * The vagrant environment will download the required Vagrant baseboxes if they've not already been installed. This can result in quite a long first run.
+  * vagrant environment will download the required baseboxes if they've not already been installed. This can result in quite a long first run.
   * Login to console via: https://<master eth1 IP>   w/ credentials:  admin@puppetlabs.com/puppetlabs
   * r10k builds out environments in master:/etc/puppetlabs/puppet/environments based on the branches puppet-r10k-environments repo. You can point r10k to a different repo by modifying the Hiera key in puppet/hierdata/common.yaml.
 
 # Troubleshooting
   * vagrant-hosts sometimes fails to insert the master's hostname into the /etc/hosts files on the agent VMs. One work-around is to run 'vagrant provision --provision-with hosts'
-  * For diagnosis Vagrant issues, the following command will be useful:
+  * For diagnosing vagrant issues, the following command will be utterly useful:
 
     $ VAGRANT_LOG=DEBUG vagrant up 2>&1 | tee /tmp/puppet-r10k-vagrant.runlog

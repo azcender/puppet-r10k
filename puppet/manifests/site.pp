@@ -24,8 +24,9 @@ node 'base' {
     section  => 'agent',
     setting  => 'environment',
     value    => 'dev',
+  }
 
-  ini_setting { 'set puppet agent environment':
+  ini_setting { 'set puppet agent polling interval':
     ensure   => present,
     path     => '/etc/puppetlabs/puppet/puppet.conf',
     section  => 'agent',

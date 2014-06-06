@@ -24,6 +24,13 @@ node 'base' {
     section  => 'agent',
     setting  => 'environment',
     value    => 'dev',
+
+  ini_setting { 'set puppet agent environment':
+    ensure   => present,
+    path     => '/etc/puppetlabs/puppet/puppet.conf',
+    section  => 'agent',
+    setting  => 'runinterval',
+    value    => '60',
   }
 
 ##### mDNS - begin #####

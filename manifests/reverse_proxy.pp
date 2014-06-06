@@ -1,8 +1,8 @@
 # Setup a reverse proxy using apache
-class profiles::reverse_proxy inherits profiles {
+class profile::reverse_proxy inherits profile {
 
   # Hiera lookups
-  $proxies = hiera('profiles::reverse_proxy::proxies')
+  $proxies = hiera('profile::reverse_proxy::proxies')
 
   class {'apache':}
 

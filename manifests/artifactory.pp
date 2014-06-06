@@ -1,4 +1,4 @@
 # Instantiates artifactory
-class profiles::artifactory inherits profiles {
+class profile::artifactory inherits profile {
   class {'::artifactory': }
 }

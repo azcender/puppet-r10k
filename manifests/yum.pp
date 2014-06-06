@@ -1,5 +1,5 @@
 # Constructs a yum profile along with a web server
-class profiles::yum inherits profiles {
+class profile::yum inherits profile {
   # Create parent directory for repo
   file { '/var':
     ensure => 'directory'

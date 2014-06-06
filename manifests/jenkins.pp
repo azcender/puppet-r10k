@@ -1,9 +1,9 @@
 # Loads jenkins with plugins defined in hiera
-class profiles::jenkins inherits profiles {
+class profile::jenkins inherits profile {
 
   # Hiera lookups
-  $plugins = hiera('profiles::jenkins::plugins')
-  $config  = hiera('profiles::jenkins::config')
+  $plugins = hiera('profile::jenkins::plugins')
+  $config  = hiera('profile::jenkins::config')
 
   class {'jenkins':
     plugin_hash => $plugins,

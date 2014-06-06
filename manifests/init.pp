@@ -1,6 +1,6 @@
 # The base profile - Likely need to be removed
 # TODO: Make sure is needed
-class profiles {
+class profile {
   # Create any defined hosts
   # create_resources('host', hiera('hosts'))
 

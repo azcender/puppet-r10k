@@ -29,7 +29,7 @@ node 'base' {
   ini_setting { 'set puppet agent polling interval':
     ensure   => present,
     path     => '/etc/puppetlabs/puppet/puppet.conf',
-    section  => 'agent',
+    section  => 'main',
     setting  => 'runinterval',
     value    => '60',
   }

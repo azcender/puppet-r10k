@@ -142,19 +142,19 @@ node /^master.*$/ inherits base {
   service { 'pe-httpd': ensure => running, }
 
   Ini_setting['set puppet agent environment'] {
-    value => 'production',
+    value    => 'production',
   }
 }
 
 node default inherits base {
   notify { "Node ${::hostname} received default node classification!": }
   file { '/tmp/runpuppet.sh':
-    ensure => 'file',
-    mode =>  '0755',
-    owner => 'root',
-    group => 'root',
-    content => "#!/bin/bash\npuppet agent -t",
+    ensure   => 'file',
+    mode     => '0755',
+    owner    => 'root',
+    group    => 'root',
+    content  => "#!/bin/bash\npuppet agent -t",
   } -> exec { 'at now + 1 min -f /tmp/runpuppet.sh':
-    path => ['/bin', '/sbin', '/usr/bin', '/usr/sbin', '/opt/puppet/bin'],
+    path     => ['/bin', '/sbin', '/usr/bin', '/usr/sbin', '/opt/puppet/bin'],
   }
 }

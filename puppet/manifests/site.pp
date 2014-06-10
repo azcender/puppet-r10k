@@ -35,51 +35,51 @@ node 'base' {
   }
 
 ##### mDNS - begin #####
-# case $::osfamily {
-#
-#   'redhat': {
-#     exec{'retrieve_epel_key':
-#       command => "/usr/bin/wget --no-check-certificate -q https://fedoraproject.org/static/217521F6.txt -O /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL",
-#       creates => "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL",
-#     }
-#     file{'/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL':
-#       owner   => root,
-#       group   => root,
-#       mode    => 0444,
-#       require => Exec["retrieve_epel_key"],
-#     }
-#     yumrepo { "epel":
-#       mirrorlist => 'http://mirrors.fedoraproject.org/mirrorlist?repo=epel-5&arch=$basearch',
-#       enabled    => 1,
-#       gpgcheck   => 1,
-#       gpgkey     => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL",
-#       require    => File["/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL"]
-#     }
-#     $mdns_packages = ['nss-mdns', 'avahi']
-#     package { 'nss-mdns':
-#       ensure  => installed,
-#       require => Yumrepo[ "epel" ],
-#     }
-#     package { 'avahi':
-#       ensure  => installed,
-#       require => Package['nss-mdns'],
-#     }
-#     service { 'avahi-daemon':
-#       ensure   => running,
-#       require  => Package['nss-mdns'],
-#     }
-#   }
-#
-#   'debian': {
-#     $mdns_packages = ['lib32nss-mdns', 'avahi-daemon']
-#     package { $mdns_packages: ensure => installed }
-#   }
-#
-#   default: {
-#     $mdns_packages = ['nss-mdns', 'avahi']
-#     package { $mdns_packages: ensure => installed }
-#   }
-# }
+  case $::osfamily {
+
+    'redhat': {
+      exec{'retrieve_epel_key':
+        command => "/usr/bin/wget --no-check-certificate -q https://fedoraproject.org/static/217521F6.txt -O /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL",
+        creates => "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL",
+      }
+      file{'/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL':
+        owner   => root,
+        group   => root,
+        mode    => 0444,
+        require => Exec["retrieve_epel_key"],
+      }
+      yumrepo { "epel":
+        mirrorlist => 'http://mirrors.fedoraproject.org/mirrorlist?repo=epel-5&arch=$basearch',
+        enabled    => 1,
+        gpgcheck   => 1,
+        gpgkey     => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL",
+        require    => File["/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL"]
+      }
+      $mdns_packages = ['nss-mdns', 'avahi']
+      package { 'nss-mdns':
+        ensure  => installed,
+        require => Yumrepo[ "epel" ],
+      }
+      package { 'avahi':
+        ensure  => installed,
+        require => Package['nss-mdns'],
+      }
+      service { 'avahi-daemon':
+        ensure   => running,
+        require  => Package['nss-mdns'],
+      }
+    }
+
+    'debian': {
+      $mdns_packages = ['lib32nss-mdns', 'avahi-daemon']
+      package { $mdns_packages: ensure => installed }
+    }
+
+    default: {
+      $mdns_packages = ['nss-mdns', 'avahi']
+      package { $mdns_packages: ensure => installed }
+    }
+  }
 ##### mDNS - end #####
 
 }

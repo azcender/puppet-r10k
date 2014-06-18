@@ -90,14 +90,31 @@ node /^master.*$/ inherits base {
   }
 
   package { 'git': ensure => present, }
-
   file { 'r10k environments dir':
     ensure   => directory,
     path     => '/etc/puppetlabs/puppet/environments',
   }
 
   class { 'r10k':
-    remote   => hiera('r10k_repo', 'git@bitbucket.org:prolixalias/puppet-r10k-environments.git')
+    version           => '1.2.1',
+
+    sources           => {
+      'puppet' => {
+        'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
+        'basedir' => "${::settings::confdir}/environments",
+        'prefix'  => false,
+      },
+
+      'hiera' => {
+        'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-hiera.git',
+        'basedir' => "${::settings::confdir}/hiera",
+        'prefix'  => true,
+      }
+    },
+
+    purgedirs         => ["${::settings::confdir}/environments"],
+    manage_modulepath => true,
+    modulepath        => "${::settings::confdir}/environments/\$environment/modules:/opt/puppet/share/puppet/modules",
   }
 
   exec { 'r10k deploy environment --puppetfile':
@@ -105,7 +122,7 @@ node /^master.*$/ inherits base {
     require  => [Package['git'],File['r10k environments dir'],Class['r10k::install']],
   }
 
-# include r10k::prerun_command
+#  include r10k::prerun_command
   include r10k::mcollective
 
   ini_setting { 'master module path':

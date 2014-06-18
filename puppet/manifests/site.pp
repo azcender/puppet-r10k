@@ -129,7 +129,7 @@ node /^master.*$/ inherits base {
 #    ensure  => present,
 #    path    => '/etc/puppetlabs/puppet/puppet.conf',
 #    section => 'main',
-#    setting => 'heira_config',
+#    setting => 'hiera_config',
 #    value   => '/etc/puppetlabs/puppet/environments/$environment/hiera.yaml',
 #  }
 

@@ -3,11 +3,11 @@
 class profile::tomcat {
   include java
 
-  class { '::tomcat':
-    version     => 7,
-    sources     => true,
-    sources_src => 'http://archive.apache.org/dist/tomcat/',
-  }
+#  class { '::tomcat':
+#    version     => 7,
+#    sources     => true,
+#    sources_src => 'http://archive.apache.org/dist/tomcat/',
+#  }
 
   ::tomcat::instance {'myapp':
     ensure    => present,

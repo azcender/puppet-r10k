@@ -9,6 +9,8 @@ class profile::tomcat {
 #    sources_src => 'http://archive.apache.org/dist/tomcat/',
 #  }
 
+  include ::tomcat
+
   ::tomcat::instance {'myapp':
     ensure    => present,
     http_port => '8080',

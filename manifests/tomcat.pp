@@ -3,13 +3,13 @@
 class profile::tomcat {
   include java
 
-  class { 'tomcat':
+  class { '::tomcat':
     version     => 7,
     sources     => true,
     sources_src => 'http://archive.apache.org/dist/tomcat/',
   }
 
-  tomcat::instance {'myapp':
+  ::tomcat::instance {'myapp':
     ensure    => present,
     http_port => '8080',
   }

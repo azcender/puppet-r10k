@@ -3,12 +3,10 @@
 class profile::tomcat {
   include java
 
-  include tomcat
+  class{ 'tomcat': }
 
   tomcat::instance {'myapp':
     ensure           => present,
     http_port        => '8080',
-    instance_basedir => '/srv/tomcat',
-    tomcat_version   => '6'
   }
 }

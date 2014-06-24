@@ -3,7 +3,7 @@
 class profile::tomcat {
   include java
 
-  class{ 'tomcat': }
+  class{ '::tomcat': }
 
   tomcat::instance {'myapp':
     ensure           => present,

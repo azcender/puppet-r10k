@@ -5,10 +5,9 @@ class profile::tomcat {
 
   include tomcat
 
-  Class['tomcat'] -> Class['tomcat::instance']
-
   tomcat::instance {'myapp':
-    ensure    => present,
-    http_port => '8080',
+    ensure           => present,
+    http_port        => '8080',
+    instance_basedir => '/srv/tomcat'
   }
 }

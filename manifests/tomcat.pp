@@ -8,6 +8,7 @@ class profile::tomcat {
   tomcat::instance {'myapp':
     ensure           => present,
     http_port        => '8080',
-    instance_basedir => '/srv/tomcat'
+    instance_basedir => '/srv/tomcat',
+    version          => '6'
   }
 }

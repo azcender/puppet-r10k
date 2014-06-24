@@ -11,7 +11,7 @@ class profile::tomcat {
 
   include tomcat
 
-  ::tomcat::instance {'myapp':
+  tomcat::instance {'myapp':
     ensure    => present,
     http_port => '8080',
   }

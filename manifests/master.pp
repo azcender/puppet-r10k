@@ -5,4 +5,9 @@ class master {
     mode    => 'a+5',
     recurse => 'true'
   }
+
+  file {'/etc/puppetlabs/puppet/environments':
+    mode    => 'a+5',
+    recurse => 'true'
+  }
 }

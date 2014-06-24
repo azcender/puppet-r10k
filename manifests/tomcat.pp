@@ -5,7 +5,7 @@ class profile::tomcat {
 
   class{ '::tomcat': }
 
-  tomcat::instance {'myapp':
+  ::tomcat::instance {'myapp':
     ensure           => present,
     http_port        => '8080',
   }

@@ -9,7 +9,7 @@ class profile::tomcat {
 #    sources_src => 'http://archive.apache.org/dist/tomcat/',
 #  }
 
-  include ::tomcat
+  include tomcat
 
   ::tomcat::instance {'myapp':
     ensure    => present,

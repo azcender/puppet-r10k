@@ -9,6 +9,6 @@ class profile::tomcat {
     ensure           => present,
     http_port        => '8080',
     instance_basedir => '/srv/tomcat',
-    version          => '6'
+    tomcat_version   => '6'
   }
 }

@@ -9,5 +9,6 @@ class profile::avahi {
     path  => '/etc/avahi/avahi-daemon.conf',
     line  => 'disallow-other-stacks=yes',
     match => '#disallow-other-stacks=no',
-  }
+  } ~>
+  Service['avahi-daemon']
 }

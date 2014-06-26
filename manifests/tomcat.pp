@@ -4,7 +4,7 @@ class profile::tomcat {
   $files = hiera('profile::tomcat::file')
 
   # Create file resources
-  create_resource(file, $files)
+  create_resources(file, $files)
 
   include java
 

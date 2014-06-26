@@ -6,6 +6,7 @@
   :datadir: /vagrant/puppet/hieradata
   
 :hierarchy:
+  - "tier/%{::tier}"
   - common
 
 :logger: console

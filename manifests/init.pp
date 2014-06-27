@@ -4,5 +4,5 @@ class profile {
   $puppet_agent_environment = hiera('profile::puppet_agent_environment')
 
   # Create file resources
-  create_resources(init_setting, $puppet_agent_environment)
+  create_resources(ini_setting, $puppet_agent_environment)
 }

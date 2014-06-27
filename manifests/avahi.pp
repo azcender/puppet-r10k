@@ -1,5 +1,5 @@
 # Installs Avahi web daemon service
-class profile::avahi {
+class profile::avahi inherits profile {
   class{ '::avahi':
     firewall => 'true'
   }

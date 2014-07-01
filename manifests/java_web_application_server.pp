@@ -13,6 +13,10 @@ class profile::java_web_application_server {
   # The maven class requires a version number
   $maven_version = hiera('profile::java_web_application_server::maven_version')
 
+  # A standard tomcat instace needs to be instantiated before building separate
+  # instances.
+  class{ '::tomcat': }
+
   # The applications are configured in hiera
   $applications = hiera('profile::java_web_application_server::applications')
 
@@ -21,9 +25,4 @@ class profile::java_web_application_server {
   # A standard tomcat instace needs to be instantiated before building separate
   # instances.
   class{ '::tomcat': }
-
-  ::tomcat::instance {'myapp':
-    ensure           => present,
-    http_port        => '8080',
-  }
 }

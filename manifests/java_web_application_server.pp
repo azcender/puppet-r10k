@@ -13,6 +13,11 @@ class profile::java_web_application_server {
   # The maven class requires a version number
   $maven_version = hiera('profile::java_web_application_server::maven_version')
 
+  # Install Maven
+  class { "maven::maven":
+    version => $maven_version, # version to install
+  }
+
   # A standard tomcat instace needs to be instantiated before building separate
   # instances.
   class{ '::tomcat': }

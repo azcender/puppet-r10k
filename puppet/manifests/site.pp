@@ -18,20 +18,12 @@ node 'base' {
 
   Host <<||>>
 
-  ini_setting { 'set puppet agent environment':
-    ensure   => present,
-    path     => '/etc/puppetlabs/puppet/puppet.conf',
-    section  => 'agent',
-    setting  => 'environment',
-    value    => 'dev',
-  }
-
   ini_setting { 'set puppet agent polling interval':
     ensure   => present,
     path     => '/etc/puppetlabs/puppet/puppet.conf',
     section  => 'main',
     setting  => 'runinterval',
-    value    => '60',
+    value    => '1800',
   }
 }
 

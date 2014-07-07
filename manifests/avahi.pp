@@ -1,8 +1,6 @@
 # Installs Avahi web daemon service
 class profile::avahi inherits profile {
-  class{ '::avahi':
-    firewall => 'true'
-  }
+  class{ '::avahi': }
 
   # Need to disallow other services
   file_line {'disallow_other_stacks_in_avahi':

@@ -4,12 +4,17 @@ class profile {
   # Puppet agent dev environment
   # Default: production
   $puppet_agent_environment =
-    hiera('profile::puppet_agent_environment', 'production')
+    hiera('profile::puppet_agent_environment')
 
   # Puppet agent polling interval
   # Default:  1800 (30 mins)
   $puppet_agent_runinterval =
-    hiera('profile::puppet_agent_runinterval', '120')
+    hiera('profile::puppet_agent_runinterval')
+
+  # Empty runintervals are not allowed
+  if $puppet_agent_runinterval == '' {
+    $puppet_agent_runinterval = 120
+  }
 
   # Initialization value for puppet development environment:
   #    production

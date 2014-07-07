@@ -17,6 +17,23 @@ node 'base' {
   }
 
   Host <<||>>
+
+  ini_setting { 'set puppet agent environment':
+    ensure   => present,
+    path     => '/etc/puppetlabs/puppet/puppet.conf',
+    section  => 'agent',
+    setting  => 'environment',
+    value    => 'dev',
+  }
+
+  ini_setting { 'set puppet agent polling interval':
+    ensure   => present,
+    path     => '/etc/puppetlabs/puppet/puppet.conf',
+    section  => 'main',
+    setting  => 'runinterval',
+    value    => '60',
+  }
+
 }
 
 node /^master.*$/ inherits base {
@@ -92,6 +109,10 @@ node /^master.*$/ inherits base {
   }
 
   service { 'pe-httpd': ensure => running, }
+
+  Ini_setting['set puppet agent environment'] {
+    value    => 'production',
+  }
 }
 
 node default inherits base {

@@ -92,10 +92,6 @@ node /^master.*$/ inherits base {
   }
 
   service { 'pe-httpd': ensure => running, }
-
-  Ini_setting['set puppet agent environment'] {
-    value    => 'production',
-  }
 }
 
 node default inherits base {

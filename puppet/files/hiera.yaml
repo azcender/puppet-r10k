@@ -3,6 +3,8 @@
   - yaml
 
 :hierarchy:
+  - "osfamily/%{::osfamily}"
+  - "tier/%{::tier}"
   - common
 
 :yaml:

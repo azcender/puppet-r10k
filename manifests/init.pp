@@ -12,8 +12,9 @@ class profile {
     hiera('profile::puppet_agent_runinterval')
 
   # Empty runintervals are not allowed
-  if $puppet_agent_runinterval == '' {
-    $puppet_agent_runinterval = 120
+  $runinterval = $puppet_agent_runinterval? {
+    ''      => '120',
+    default => $puppet_agent_runinterval
   }
 
   # Initialization value for puppet development environment:
@@ -35,6 +36,6 @@ class profile {
     path     => '/etc/puppetlabs/puppet/puppet.conf',
     section  => 'main',
     setting  => 'runinterval',
-    value    => $puppet_agent_runinterval,
+    value    => $runinterval,
   }
 }

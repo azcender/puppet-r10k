@@ -9,3 +9,8 @@ vms:
     box: centos-64-x64-vbox4210-nocm
     roles:
       - pe-puppet-agent
+
+  - name: centos1
+    box: centos-64-x64-vbox4210-nocm
+    roles:
+      - pe-puppet-agent

@@ -3,11 +3,6 @@
 # Does not support JEE applications
 class profile::java_web_application_server {
 
-  # Temp host entries
-  host {'artifactory.azcender.com':
-    ip => '10.0.0.100'
-  }
-
   # Java is needed to run the applications¬
   include java
 

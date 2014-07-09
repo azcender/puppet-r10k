@@ -4,6 +4,7 @@
 
 :hierarchy:
   - "osfamily/%{::osfamily}"
+  - "role/%{::role}"
   - "tier/%{::tier}"
   - common
 

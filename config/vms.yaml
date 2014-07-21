@@ -1,7 +1,8 @@
 ---
 vms:
   - name: master
-    box: ubuntu-server-12042-x64-vbox4210-nocm
+    box: centos-64-x64-vbox4210-nocm
+#    box: ubuntu-server-12042-x64-vbox4210-nocm
     roles:
       - pe-puppet-master
 

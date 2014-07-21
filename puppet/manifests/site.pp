@@ -24,12 +24,10 @@ node /^master.*$/ inherits base {
     class { 'firewall': ensure => stopped, }
   }
 
-#  package { 'git': ensure => present, }
-
   # Simple decleration of zack/r10k
   class { 'r10k':
     remote                 => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
-    include_prerun_command => true,
+    include_prerun_command => false,
   }
 
   file { 'r10k environments dir':
@@ -63,9 +61,8 @@ node /^master.*$/ inherits base {
 #    path     => ['/bin','/sbin','/usr/bin','/usr/sbin','/opt/puppet/bin'],
 #    require  => [Package['git'],File['r10k environments dir'],Class['r10k::install']],
 #  }
-#
-#  include r10k::prerun_command
-#  include r10k::mcollective
+
+#  include r10k::prerun_command  include r10k::mcollective
 
   ini_setting { 'master module path':
     ensure   => present,

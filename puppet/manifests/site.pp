@@ -26,6 +26,11 @@ node /^master.*$/ inherits base {
 
   package { 'git': ensure => present, }
 
+  # Simple decleration of zack/r10k
+  class { 'r10k':
+    remote => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
+  }
+
 #  file { 'r10k environments dir':
 #    ensure   => directory,
 #    path     => '/etc/puppetlabs/puppet/environments',
@@ -59,7 +64,7 @@ node /^master.*$/ inherits base {
 #  }
 #
 #  include r10k::prerun_command
-#  include r10k::mcollective
+  include r10k::mcollective
 
   ini_setting { 'master module path':
     ensure   => present,

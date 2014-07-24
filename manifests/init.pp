@@ -6,6 +6,12 @@ class profile {
   $puppet_agent_environment =
     hiera('profile::puppet_agent_environment')
 
+  # Puppet agent environment should default to production
+  $agent_environment = $puppet_agent_environment? {
+    ''      => 'production',
+    default => $puppet_agent_environment
+  }
+
   # Puppet agent polling interval
   # Default:  1800 (30 mins)
   $puppet_agent_runinterval =
@@ -27,7 +33,7 @@ class profile {
     path     => '/etc/puppetlabs/puppet/puppet.conf',
     section  => 'agent',
     setting  => 'environment',
-    value    => $puppet_agent_environment,
+    value    => $agent_environment,
   }
 
   # Set agent polling interval

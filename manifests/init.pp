@@ -13,7 +13,7 @@ class profile {
 
   # Empty runintervals are not allowed
   $runinterval = $puppet_agent_runinterval? {
-    ''      => '120',
+    ''      => '1800',
     default => $puppet_agent_runinterval
   }
 

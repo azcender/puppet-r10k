@@ -26,8 +26,7 @@ node /^master.*$/ inherits base {
 
   # Simple decleration of zack/r10k
   class { 'r10k':
-    remote                 => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
-    include_prerun_command => false,
+    remote => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
   }
 
   file { 'r10k environments dir':

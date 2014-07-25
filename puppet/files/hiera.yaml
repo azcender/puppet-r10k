@@ -3,8 +3,8 @@
   - yaml
 
 :hierarchy:
-  - "osfamily/%{::osfamily}"
   - "role/%{::role}"
+  - "fqdn/%{::fqdn}"
   - "tier/%{::tier}"
   - common
 

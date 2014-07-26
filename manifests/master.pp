@@ -10,4 +10,6 @@ class profile::master {
     mode    => 'a+r',
     recurse => 'true'
   }
+
+  class { '::r10k': }
 }

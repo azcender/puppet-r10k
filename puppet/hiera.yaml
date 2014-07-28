@@ -2,11 +2,11 @@
 :backends:
   - yaml
 
-:yaml:
-  :datadir: /vagrant/puppet/hieradata
-  
 :hierarchy:
+  - "role/%{::role}"
+  - "fqdn/%{::fqdn}"
   - "tier/%{::tier}"
   - common
 
-:logger: console
+:yaml:
+  :datadir: "/etc/puppetlabs/puppet/hiera/hiera_%{::environment}"

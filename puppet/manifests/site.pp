@@ -25,37 +25,35 @@ node /^master.*$/ inherits base {
   }
 
   # Simple decleration of zack/r10k
-  class { 'r10k':
-    remote => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
-  }
-
+#  class { 'r10k':
+#    remote => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
+#  }
+#
   file { 'r10k environments dir':
     ensure   => directory,
     path     => '/etc/puppetlabs/puppet/environments',
   }
 
-#  class { 'r10k':
-#    version           => '1.2.1',
-#
-#    sources           => {
-#      'puppet' => {
-#        'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
-#        'basedir' => "${::settings::confdir}/environments",
-#        'prefix'  => false,
-#      },
-#
-#      'hiera' => {
-#        'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-hiera.git',
-#        'basedir' => "${::settings::confdir}/hiera",
-#        'prefix'  => true,
-#      }
-#    },
-#
-#    purgedirs         => ["${::settings::confdir}/environments"],
-#    manage_modulepath => true,
-#    modulepath        => "${::settings::confdir}/environments/\$environment/modules:/opt/puppet/share/puppet/modules",
-#  }
-#
+  class { 'r10k':
+    sources           => {
+      'puppet' => {
+        'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
+        'basedir' => "${::settings::confdir}/environments",
+        'prefix'  => false,
+      },
+
+      'hiera' => {
+        'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-hiera.git',
+        'basedir' => "${::settings::confdir}/hiera",
+        'prefix'  => true,
+      }
+    },
+
+    purgedirs         => ["${::settings::confdir}/environments"],
+    manage_modulepath => true,
+    modulepath        => "${::settings::confdir}/environments/\$environment/modules:/opt/puppet/share/puppet/modules",
+  }
+
 #  exec { 'r10k deploy environment --puppetfile':
 #    path     => ['/bin','/sbin','/usr/bin','/usr/sbin','/opt/puppet/bin'],
 #    require  => [Package['git'],File['r10k environments dir'],Class['r10k::install']],

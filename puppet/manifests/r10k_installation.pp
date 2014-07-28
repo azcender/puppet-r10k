@@ -11,8 +11,6 @@ node /^master.*$/ inherits base {
   }
 
   class { 'r10k':
-    version           => '1.0.2',
-
     sources           => {
       'puppet' => {
         'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
@@ -37,8 +35,8 @@ node /^master.*$/ inherits base {
     require  => [Package['git'],File['r10k environments dir'],Class['r10k::install']],
   }
 
-  include r10k::prerun_command
-  include r10k::mcollective
+#  include r10k::prerun_command
+#  include r10k::mcollective
 
   ini_setting { 'master module path':
     ensure   => present,

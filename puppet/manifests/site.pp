@@ -32,7 +32,7 @@ node /^master.*$/ inherits base {
   file { 'r10k environments dir':
     ensure   => directory,
     path     => '/etc/puppetlabs/puppet/environments',
-  }
+  } ->
 
   class { 'r10k':
     sources           => {
@@ -52,23 +52,24 @@ node /^master.*$/ inherits base {
     purgedirs         => ["${::settings::confdir}/environments"],
     manage_modulepath => true,
     modulepath        => "${::settings::confdir}/environments/\$environment/modules:/opt/puppet/share/puppet/modules",
-  }
+  } ->
 
-#  exec { 'r10k deploy environment --puppetfile':
-#    path     => ['/bin','/sbin','/usr/bin','/usr/sbin','/opt/puppet/bin'],
-#    require  => [Package['git'],File['r10k environments dir'],Class['r10k::install']],
-#  }
+  exec { 'r10k deploy environment --puppetfile':
+    path     => ['/bin','/sbin','/usr/bin','/usr/sbin','/opt/puppet/bin'],
+    require  => [Package['git'],File['r10k environments dir'],Class['r10k::install']],
+    timeout  => 0,
+  } ->
 
 #  include r10k::prerun_command  include r10k::mcollective
 
-  ini_setting { 'master module path':
-    ensure   => present,
-    path     => '/etc/puppetlabs/puppet/puppet.conf',
-    section  => 'main',
-    setting  => 'modulepath',
-    value    => '/etc/puppetlabs/puppet/environments/$environment/modules:/opt/puppet/share/puppet/modules',
-  }
-
+#  ini_setting { 'master module path':
+#    ensure   => present,
+#    path     => '/etc/puppetlabs/puppet/puppet.conf',
+#    section  => 'main',
+#    setting  => 'modulepath',
+#    value    => '/etc/puppetlabs/puppet/environments/$environment/modules:/opt/puppet/share/puppet/modules',
+#  }
+#
   ini_setting { 'master manifest path':
     ensure   => present,
     path     => '/etc/puppetlabs/puppet/puppet.conf',

@@ -63,7 +63,8 @@ node /^master.*$/ inherits base {
 
   # Make sure pe-puppet-dashboard is read and write
   file {'/opt/puppet':
-    mode => 'a+rx',
+    mode =>    'a+rx',
+    recurse => true,
   } ->
 
   ini_setting { 'master manifest path':

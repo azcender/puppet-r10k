@@ -55,6 +55,17 @@ node /^master.*$/ inherits base {
     timeout  => 0,
   } ->
 
+  # Make sure the modules are readable
+  file {'/etc/puppetlabs/puppet/environments':
+    mode    => 'a+r',
+    recurse => 'true'
+  } ->
+
+  # Make sure pe-puppet-dashboard is read and write
+  file {'/opt/puppet':
+    mode => 'a+rx',
+  } ->
+
   ini_setting { 'master manifest path':
     ensure   => present,
     path     => '/etc/puppetlabs/puppet/puppet.conf',

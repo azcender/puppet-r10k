@@ -24,11 +24,6 @@ node /^master.*$/ inherits base {
     class { 'firewall': ensure => stopped, }
   }
 
-  file { 'r10k environments dir':
-    ensure   => directory,
-    path     => '/etc/puppetlabs/puppet/environments',
-  } ->
-
   class { 'r10k':
     sources           => {
       'puppet' => {

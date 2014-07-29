@@ -24,11 +24,6 @@ node /^master.*$/ inherits base {
     class { 'firewall': ensure => stopped, }
   }
 
-  # Simple decleration of zack/r10k
-#  class { 'r10k':
-#    remote => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
-#  }
-#
   file { 'r10k environments dir':
     ensure   => directory,
     path     => '/etc/puppetlabs/puppet/environments',
@@ -60,16 +55,6 @@ node /^master.*$/ inherits base {
     timeout  => 0,
   } ->
 
-#  include r10k::prerun_command  include r10k::mcollective
-
-#  ini_setting { 'master module path':
-#    ensure   => present,
-#    path     => '/etc/puppetlabs/puppet/puppet.conf',
-#    section  => 'main',
-#    setting  => 'modulepath',
-#    value    => '/etc/puppetlabs/puppet/environments/$environment/modules:/opt/puppet/share/puppet/modules',
-#  }
-#
   ini_setting { 'master manifest path':
     ensure   => present,
     path     => '/etc/puppetlabs/puppet/puppet.conf',
@@ -77,15 +62,6 @@ node /^master.*$/ inherits base {
     setting  => 'manifest',
     value    => '/etc/puppetlabs/puppet/environments/$environment/manifests/site.pp',
   }
-
-# hiera.yaml is read only at master startup thus this will not work!
-#  ini_setting { 'hiera path':
-#    ensure  => present,
-#    path    => '/etc/puppetlabs/puppet/puppet.conf',
-#    section => 'main',
-#    setting => 'hiera_config',
-#    value   => '/etc/puppetlabs/puppet/environments/$environment/hiera.yaml',
-#  }
 
   file { '/etc/puppetlabs/puppet/hiera.yaml':
     ensure   => file, mode => '0755', owner => 'root', group => 'root',

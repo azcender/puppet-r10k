@@ -3,12 +3,10 @@ node /^master.*$/ inherits base {
     class { 'firewall': ensure => stopped, }
   }
 
-  package { 'git': ensure => present, }
-
   file { 'r10k environments dir':
     ensure   => directory,
     path     => '/etc/puppetlabs/puppet/environments',
-  }
+  } ->
 
   class { 'r10k':
     sources           => {
@@ -28,23 +26,13 @@ node /^master.*$/ inherits base {
     purgedirs         => ["${::settings::confdir}/environments"],
     manage_modulepath => true,
     modulepath        => "${::settings::confdir}/environments/\$environment/modules:/opt/puppet/share/puppet/modules",
-  }
+  } ->
 
   exec { 'r10k deploy environment --puppetfile':
     path     => ['/bin','/sbin','/usr/bin','/usr/sbin','/opt/puppet/bin'],
     require  => [Package['git'],File['r10k environments dir'],Class['r10k::install']],
-  }
-
-#  include r10k::prerun_command
-#  include r10k::mcollective
-
-  ini_setting { 'master module path':
-    ensure   => present,
-    path     => '/etc/puppetlabs/puppet/puppet.conf',
-    section  => 'main',
-    setting  => 'modulepath',
-    value    => '/etc/puppetlabs/puppet/environments/$environment/modules:/opt/puppet/share/puppet/modules',
-  }
+    timeout  => 0,
+  } ->
 
   ini_setting { 'master manifest path':
     ensure   => present,
@@ -61,8 +49,4 @@ node /^master.*$/ inherits base {
   }
 
   service { 'pe-httpd': ensure => running, }
-
-  ini_setting['set puppet agent environment'] {
-    value    => 'production',
-  }
 }

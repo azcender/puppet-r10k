@@ -44,4 +44,13 @@ class profile {
     setting  => 'runinterval',
     value    => $runinterval,
   }
+
+  # Set http listener on
+  ini_setting { 'set http api listener on':
+    ensure   => present,
+    path     => '/etc/puppetlabs/puppet/puppet.conf',
+    section  => 'agent',
+    setting  => 'listen',
+    value    => true,
+  }
 }

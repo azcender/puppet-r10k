@@ -55,11 +55,18 @@ node /^master.*$/ inherits base {
     timeout  => 0,
   } ->
 
-  # Make sure the modules are readable
+  # Make sure the modules are readable (Only prod initially)
   file {'/etc/puppetlabs/puppet/environments/production':
     mode    => 'a+r',
     recurse => 'true'
   } ->
+
+  # Make sure hire directory is readable too
+  file {"${::settings::confdir}/hiera" :
+    mode    => 'a+r',
+    recurse => 'true'
+  } ->
+
 
   # Make sure pe-puppet-dashboard is read and write
   file {'/opt/puppet':

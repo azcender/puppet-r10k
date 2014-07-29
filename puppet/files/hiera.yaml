@@ -3,7 +3,10 @@
   - yaml
 
 :hierarchy:
+  - "role/%{::role}"
+  - "fqdn/%{::fqdn}"
+  - "tier/%{::tier}"
   - common
 
 :yaml:
-  :datadir: "/etc/puppetlabs/puppet/environments/%{::environment}/hieradata"
+  :datadir: "/etc/puppetlabs/puppet/hiera/hiera_%{::environment}"

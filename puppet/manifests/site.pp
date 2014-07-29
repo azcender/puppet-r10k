@@ -17,71 +17,6 @@ node 'base' {
   }
 
   Host <<||>>
-
-  ini_setting { 'set puppet agent environment':
-    ensure   => present,
-    path     => '/etc/puppetlabs/puppet/puppet.conf',
-    section  => 'agent',
-    setting  => 'environment',
-    value    => 'dev',
-  }
-
-  ini_setting { 'set puppet agent polling interval':
-    ensure   => present,
-    path     => '/etc/puppetlabs/puppet/puppet.conf',
-    section  => 'main',
-    setting  => 'runinterval',
-    value    => '60',
-  }
-
-##### mDNS - begin #####
-  case $::osfamily {
-
-    'redhat': {
-      exec{'retrieve_epel_key':
-        command => "/usr/bin/wget --no-check-certificate -q https://fedoraproject.org/static/217521F6.txt -O /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL",
-        creates => "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL",
-      }
-      file{'/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL':
-        owner   => root,
-        group   => root,
-        mode    => 0444,
-        require => Exec["retrieve_epel_key"],
-      }
-      yumrepo { "epel":
-        mirrorlist => 'http://mirrors.fedoraproject.org/mirrorlist?repo=epel-5&arch=$basearch',
-        enabled    => 1,
-        gpgcheck   => 1,
-        gpgkey     => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL",
-        require    => File["/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL"]
-      }
-      $mdns_packages = ['nss-mdns', 'avahi']
-      package { 'nss-mdns':
-        ensure  => installed,
-        require => Yumrepo[ "epel" ],
-      }
-      package { 'avahi':
-        ensure  => installed,
-        require => Package['nss-mdns'],
-      }
-      service { 'avahi-daemon':
-        ensure   => running,
-        require  => Package['nss-mdns'],
-      }
-    }
-
-    'debian': {
-      $mdns_packages = ['lib32nss-mdns', 'avahi-daemon']
-      package { $mdns_packages: ensure => installed }
-    }
-
-    default: {
-      $mdns_packages = ['nss-mdns', 'avahi']
-      package { $mdns_packages: ensure => installed }
-    }
-  }
-##### mDNS - end #####
-
 }
 
 node /^master.*$/ inherits base {
@@ -89,15 +24,17 @@ node /^master.*$/ inherits base {
     class { 'firewall': ensure => stopped, }
   }
 
-  package { 'git': ensure => present, }
+  # Simple decleration of zack/r10k
+#  class { 'r10k':
+#    remote => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
+#  }
+#
   file { 'r10k environments dir':
     ensure   => directory,
     path     => '/etc/puppetlabs/puppet/environments',
-  }
+  } ->
 
   class { 'r10k':
-    version           => '1.2.1',
-
     sources           => {
       'puppet' => {
         'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
@@ -115,24 +52,24 @@ node /^master.*$/ inherits base {
     purgedirs         => ["${::settings::confdir}/environments"],
     manage_modulepath => true,
     modulepath        => "${::settings::confdir}/environments/\$environment/modules:/opt/puppet/share/puppet/modules",
-  }
+  } ->
 
   exec { 'r10k deploy environment --puppetfile':
     path     => ['/bin','/sbin','/usr/bin','/usr/sbin','/opt/puppet/bin'],
     require  => [Package['git'],File['r10k environments dir'],Class['r10k::install']],
-  }
+    timeout  => 0,
+  } ->
 
-#  include r10k::prerun_command
-  include r10k::mcollective
+#  include r10k::prerun_command  include r10k::mcollective
 
-  ini_setting { 'master module path':
-    ensure   => present,
-    path     => '/etc/puppetlabs/puppet/puppet.conf',
-    section  => 'main',
-    setting  => 'modulepath',
-    value    => '/etc/puppetlabs/puppet/environments/$environment/modules:/opt/puppet/share/puppet/modules',
-  }
-
+#  ini_setting { 'master module path':
+#    ensure   => present,
+#    path     => '/etc/puppetlabs/puppet/puppet.conf',
+#    section  => 'main',
+#    setting  => 'modulepath',
+#    value    => '/etc/puppetlabs/puppet/environments/$environment/modules:/opt/puppet/share/puppet/modules',
+#  }
+#
   ini_setting { 'master manifest path':
     ensure   => present,
     path     => '/etc/puppetlabs/puppet/puppet.conf',
@@ -157,10 +94,6 @@ node /^master.*$/ inherits base {
   }
 
   service { 'pe-httpd': ensure => running, }
-
-  Ini_setting['set puppet agent environment'] {
-    value    => 'production',
-  }
 }
 
 node default inherits base {

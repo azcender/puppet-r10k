@@ -24,6 +24,11 @@ node /^master.*$/ inherits base {
     class { 'firewall': ensure => stopped, }
   }
 
+  file { 'r10k environments dir':
+    ensure   => directory,
+    path     => '/etc/puppetlabs/puppet/environments',
+  } ->
+
   class { 'r10k':
     sources           => {
       'puppet' => {
@@ -51,7 +56,7 @@ node /^master.*$/ inherits base {
   } ->
 
   # Make sure the modules are readable
-  file {'/etc/puppetlabs/puppet/environments':
+  file {'/etc/puppetlabs/puppet/environments/production':
     mode    => 'a+r',
     recurse => 'true'
   } ->

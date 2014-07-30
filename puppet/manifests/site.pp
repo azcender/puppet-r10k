@@ -24,10 +24,29 @@ node /^master.*$/ inherits base {
     class { 'firewall': ensure => stopped, }
   }
 
+  file { 'r10k hiera dir':
+    ensure   => directory,
+    path     => '/etc/puppetlabs/puppet/hiera',
+    mode     => 'og+rw',
+    owner    => 'pe-puppet',
+    group    => 'pe-puppet',
+    recurse  => true,
+  }
+
   file { 'r10k environments dir':
     ensure   => directory,
     path     => '/etc/puppetlabs/puppet/environments',
-  } ->
+    mode     => 'og+rw',
+    owner    => 'pe-puppet',
+    group    => 'pe-puppet',
+    recurse  => true,
+  }
+
+  file { 'ruby spec directory':
+    path    => '/opt/puppet/lib/ruby/gems/1.9.1/specifications',
+    mode    => 'a+r',
+    recurse  => true,
+  }
 
   class { 'r10k':
     sources           => {
@@ -51,20 +70,8 @@ node /^master.*$/ inherits base {
 
   exec { 'r10k deploy environment --puppetfile':
     path     => ['/bin','/sbin','/usr/bin','/usr/sbin','/opt/puppet/bin'],
-    require  => [Package['git'],File['r10k environments dir'],Class['r10k::install']],
+    require  => [Package['git'],File['r10k environments dir'],File['r10k hiera dir'],Class['r10k::install'],File['ruby spec directory']],
     timeout  => 0,
-  } ->
-
-  # Make sure the modules are readable (Only prod initially)
-  file {'/etc/puppetlabs/puppet/environments/production':
-    mode    => 'a+r',
-    recurse => 'true'
-  } ->
-
-  # Make sure hire directory is readable too
-  file {"${::settings::confdir}/hiera" :
-    mode    => 'a+r',
-    recurse => 'true'
   } ->
 
   ini_setting { 'master manifest path':

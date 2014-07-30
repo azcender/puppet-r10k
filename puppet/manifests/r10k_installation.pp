@@ -1,4 +1,4 @@
-node /^master.*$/ inherits base {
+node default {
   if $::osfamily == 'redhat' {
     class { 'firewall': ensure => stopped, }
   }
@@ -32,6 +32,25 @@ node /^master.*$/ inherits base {
     path     => ['/bin','/sbin','/usr/bin','/usr/sbin','/opt/puppet/bin'],
     require  => [Package['git'],File['r10k environments dir'],Class['r10k::install']],
     timeout  => 0,
+  } ->
+
+  # Make sure the modules are readable (Only prod initially)
+  file {'/etc/puppetlabs/puppet/environments/production':
+    mode    => 'a+r',
+    recurse => 'true'
+  } ->
+
+  # Make sure hire directory is readable too
+  file {"${::settings::confdir}/hiera" :
+    mode    => 'a+r',
+    recurse => 'true'
+  } ->
+
+
+  # Make sure pe-puppet-dashboard is read and write
+  file {'/opt/puppet':
+    mode =>    'a+rx',
+    recurse => true,
   } ->
 
   ini_setting { 'master manifest path':

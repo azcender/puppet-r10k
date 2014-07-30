@@ -83,9 +83,24 @@ node /^master.*$/ inherits base {
   }
 
   file { '/etc/puppetlabs/puppet/hiera.yaml':
-    ensure   => file, mode => '0755', owner => 'root', group => 'root',
-    source   => 'file:///vagrant/puppet/files/hiera.yaml',
-    notify   => Service['pe-httpd'],
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    content => '---
+:backends:
+  - yaml
+
+:hierarchy:
+  - "role/%{::role}"
+  - "fqdn/%{::fqdn}"
+  - "tier/%{::tier}"
+  - common
+
+:yaml:
+  :datadir: "/etc/puppetlabs/puppet/hiera/hiera_%{::environment}"
+',
+    notify => Service['pe-httpd'],
   }
 
   service { 'pe-httpd': ensure => running, }

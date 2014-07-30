@@ -46,13 +46,6 @@ node default {
     recurse => 'true'
   } ->
 
-
-  # Make sure pe-puppet-dashboard is read and write
-  file {'/opt/puppet':
-    mode =>    'a+rx',
-    recurse => true,
-  } ->
-
   ini_setting { 'master manifest path':
     ensure   => present,
     path     => '/etc/puppetlabs/puppet/puppet.conf',

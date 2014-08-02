@@ -42,12 +42,6 @@ node /^master.*$/ inherits base {
     recurse  => true,
   }
 
-  file { 'ruby spec directory':
-    path    => '/opt/puppet/lib/ruby/gems/1.9.1/specifications',
-    mode    => 'a+r',
-    recurse  => true,
-  }
-
   class { 'r10k':
     sources           => {
       'puppet' => {
@@ -66,6 +60,12 @@ node /^master.*$/ inherits base {
     purgedirs         => ["${::settings::confdir}/environments"],
     manage_modulepath => true,
     modulepath        => "${::settings::confdir}/environments/\$environment/modules:/opt/puppet/share/puppet/modules",
+  } ->
+
+  file { 'ruby spec directory':
+    path    => '/opt/puppet/lib/ruby/gems/1.9.1/specifications',
+    mode    => 'a+r',
+    recurse  => true,
   } ->
 
   exec { 'r10k deploy environment --puppetfile':

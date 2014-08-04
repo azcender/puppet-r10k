@@ -35,7 +35,6 @@ class profile::java_web_application_server {
   # 
   # Type: maven
   $applications_default = {
-    tomcat_libraries       => hiera('profile::java_web_application_server::tomcat_libraries'),
     available_applications => hiera('profile::java_web_application_server::applications'),
   }
 

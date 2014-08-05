@@ -36,6 +36,7 @@ class profile::java_web_application_server {
   # Type: maven
   $applications_default = {
     available_applications => hiera('profile::java_web_application_server::applications'),
+    available_resources    => hiera('profile::java_web_application_server::resources'),
   }
 
   # The instances to be configured on this node

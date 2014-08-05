@@ -7,14 +7,14 @@ class profile::master {
   }
 
   file {'/etc/puppetlabs/puppet/environments':
-    mode    => 'a+r',
+    mode    => 'u+r',
     owner   => 'pe-puppet',
     group   => 'pe-puppet',
     recurse => 'true'
   }
 
   file {'/etc/puppetlabs/puppet/hiera':
-    mode    => 'a+r',
+    mode    => 'u+r',
     owner   => 'pe-puppet',
     group   => 'pe-puppet',
     recurse => 'true'

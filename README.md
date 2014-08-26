@@ -1,5 +1,4 @@
 puppet-r10k
-=================
 
 Vagrant environment for PE3 w/ [r10k](http://github.com/adrienthebo/r10k) development and current best practices for building out
 self-contained environments (classification, code & data bindings).

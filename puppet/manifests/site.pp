@@ -23,7 +23,6 @@ node /^master.*$/ inherits base {
   if $::osfamily == 'redhat' {
     class { 'firewall': ensure => stopped, }
   }
-
   file { 'r10k hiera dir':
     ensure   => directory,
     path     => '/etc/puppetlabs/puppet/hiera',

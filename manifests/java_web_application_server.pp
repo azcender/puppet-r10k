@@ -17,7 +17,7 @@ class profile::java_web_application_server {
   # Retrieve the shared libraries
   $shared_libraries = hiera('profile::java_web_application_server::shared_libraries')
 
-  notify($shared_libraries)
+  notice("$shared_libraries")
 
   # Install Maven
   class { "maven::maven":

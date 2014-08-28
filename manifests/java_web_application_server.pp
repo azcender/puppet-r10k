@@ -34,7 +34,7 @@ class profile::java_web_application_server {
   }
 
    # Create the shared libraries using the facade object
-  create_resources('::java_web_application_server::maven', $shared_libraries)
+  create_resources('::java_web_application_server::maven', $shared_libraries, $maven_default)
 
   # Create the default information needed to create an instance
   #

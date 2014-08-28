@@ -30,7 +30,7 @@ class profile::java_web_application_server {
 
   # Add repos to maven default
   $maven_default = {
-    repos = hiera('profile::java_web_application_server::maven_repos'),
+    repos => hiera('profile::java_web_application_server::maven_repos'),
   }
 
    # Create the shared libraries using the facade object

@@ -30,63 +30,40 @@ class profile {
   #    other (Often names for user id)
   case $::operatingsystem {
     windows: {
-      # Set "environment"
-      ini_setting { 'set puppet environment':
-        ensure   => present,
-        path     => 'C:/ProgramData/PuppetLabs/puppet/etc/puppet.conf',
-        section  => 'agent',
-        setting  => 'environment',
-        value    => $agent_environment,
-      }
-
-      # Set agent polling interval
-      ini_setting { 'set puppet agent polling interval':
-        ensure   => present,
-        path     => 'C:/ProgramData/PuppetLabs/puppet/etc/puppet.conf',
-        section  => 'main',
-        setting  => 'runinterval',
-        value    => $runinterval,
-      }
-
-      # Set HTTP listener on
-      ini_setting { 'set http api listener on':
-        ensure   => present,
-        path     => 'C:/ProgramData/PuppetLabs/puppet/etc/puppet.conf',
-        section  => 'agent',
-        setting  => 'listen',
-        value    => true,
-      }
+      $puppet_conf_path = '%PROGRAMDATA%/PuppetLabs/puppet/etc/puppet.conf'
     }
     Ubuntu, RedHat, CentOS: {
       # Set "environment"
-      ini_setting { 'set puppet development environment':
-        ensure   => present,
-        path     => '/etc/puppetlabs/puppet/puppet.conf',
-        section  => 'agent',
-        setting  => 'environment',
-        value    => $agent_environment,
-      }
-
-      # Set agent polling interval
-      ini_setting { 'set puppet agent polling interval':
-        ensure   => present,
-        path     => '/etc/puppetlabs/puppet/puppet.conf',
-        section  => 'main',
-        setting  => 'runinterval',
-        value    => $runinterval,
-      }
-
-      # Set HTTP listener on
-      ini_setting { 'set http api listener on':
-        ensure   => present,
-        path     => '/etc/puppetlabs/puppet/puppet.conf',
-        section  => 'agent',
-        setting  => 'listen',
-        value    => true,
-      }
+      $puppet_conf_path = '/etc/puppetlabs/puppet/puppet.conf'
     }
     default: {
       fail("Unsupported operating system detected: ${::operatingsystem}")
     }
+  }
+
+  ini_setting { 'set puppet development environment':
+    ensure   => present,
+    path     => $puppet_conf_path,
+    section  => 'agent',
+    setting  => 'environment',
+    value    => $agent_environment,
+  }
+
+  # Set agent polling interval
+  ini_setting { 'set puppet agent polling interval':
+    ensure   => present,
+    path     => $puppet_conf_path,
+    section  => 'main',
+    setting  => 'runinterval',
+    value    => $runinterval,
+  }
+
+  # Set HTTP listener on
+  ini_setting { 'set http api listener on':
+    ensure   => present,
+    path     => $puppet_conf_path,
+    section  => 'agent',
+    setting  => 'listen',
+    value    => true,
   }
 }

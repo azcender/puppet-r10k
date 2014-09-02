@@ -1,6 +1,8 @@
 ---
 roles:
   pe-puppet-master:
+    vbguest:
+      auto_update: true
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provider:
@@ -14,6 +16,8 @@ roles:
       - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp, module_path: puppet/modules, options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
 
   pe-puppet-agent-linux:
+    vbguest:
+      auto_update: true
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
@@ -25,6 +29,8 @@ roles:
   pe-puppet-agent-windows:
     gui: true
     guest: windows
+    vbguest:
+      auto_update: true
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:

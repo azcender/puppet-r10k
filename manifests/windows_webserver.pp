@@ -23,4 +23,5 @@ class profile::windows_webserver inherits profile {
     site_name     => 'www.mysite.com',
     site_path     => 'C:\inetpub\wwwroot\application2',
     app_pool      => 'my_application_pool'
+  }
 }

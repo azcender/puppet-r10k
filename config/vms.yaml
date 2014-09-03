@@ -16,6 +16,16 @@ vms:
     roles:
       - pe-puppet-agent-linux
 
+  - name: centos2
+    box: centos-64-x64-vbox4210-nocm
+    roles:
+      - pe-puppet-agent-linux
+
+  - name: centos3
+    box: centos-64-x64-vbox4210-nocm
+    roles:
+      - pe-puppet-agent-linux
+
   - name: winders0
     box: win-2012r2-standard-amd64-nocm
     roles:

@@ -27,11 +27,11 @@ vms:
       - pe-puppet-agent-linux
 
   - name: winders0
-    box: win-2012r2-standard-amd64-nocm
+    box: win-2012r2-standard-amd64-vbox4314-nocm
     roles:
       - pe-puppet-agent-windows
 
 # - name: winders1
-#   box: win-2012r2-standard-amd64-nocm
+#   box: win-2012r2-standard-amd64-vbox4314-nocm
 #   roles:
 #     - pe-puppet-agent-windows

@@ -4,4 +4,4 @@
 boxes:
   'centos-64-x64-vbox4210-nocm': 'http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210-nocm.box'
   'ubuntu-server-12042-x64-vbox4210-nocm': 'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box'
-  'win-2012r2-standard-amd64-nocm': 'https://vagrantcloud.com/opentable/win-2012r2-standard-amd64-nocm/version/2/provider/virtualbox.box'
+  'win-2012r2-standard-amd64-vbox4314-nocm': 'http://bit.ly/prolixalias-boxes'

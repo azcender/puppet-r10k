@@ -16,6 +16,9 @@ roles:
       - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp, module_path: puppet/modules, options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
 
   pe-puppet-agent-linux:
+    provider:
+      type: virtualbox
+      gui: false
     vbguest:
       auto_update: true
     private_networks:
@@ -27,12 +30,16 @@ roles:
       - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp, module_path: puppet/modules, options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
 
   pe-puppet-agent-windows:
-    gui: true
+    provider:
+      type: virtualbox
+      gui: true
     guest: windows
     vbguest:
-      auto_update: true
+      auto_update: false
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
+    forwarded_ports:
+      - {guest: 5985, host: 5985, id: 'winrm', auto_correct: true}
     provisioners:
       - {type: hosts}
       - {type: pe_bootstrap}

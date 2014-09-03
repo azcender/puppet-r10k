@@ -32,7 +32,7 @@ roles:
   pe-puppet-agent-windows:
     provider:
       type: virtualbox
-      gui: false
+      gui: true
     guest: windows
     vbguest:
       auto_update: false

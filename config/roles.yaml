@@ -32,7 +32,7 @@ roles:
   pe-puppet-agent-windows:
     provider:
       type: virtualbox
-      gui: true
+      gui: false
     guest: windows
     vbguest:
       auto_update: false
@@ -40,6 +40,7 @@ roles:
       - {ip: '0.0.0.0', auto_network: true}
     forwarded_ports:
       - {guest: 5985, host: 5985, id: 'winrm', auto_correct: true}
+      - {guest: 3389, host: 3389}
     provisioners:
       - {type: hosts}
       - {type: pe_bootstrap}

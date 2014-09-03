@@ -11,17 +11,17 @@ vms:
     roles:
       - pe-puppet-agent-linux
 
-  - name: centos1
-    box: centos-64-x64-vbox4210-nocm
-    roles:
-      - pe-puppet-agent-linux
+# - name: centos1
+#   box: centos-64-x64-vbox4210-nocm
+#   roles:
+#     - pe-puppet-agent-linux
 
   - name: winders0
     box: win-2012r2-standard-amd64-nocm
     roles:
       - pe-puppet-agent-windows
 
-  - name: winders1
-    box: win-2012r2-standard-amd64-nocm
-    roles:
-      - pe-puppet-agent-windows
+# - name: winders1
+#   box: win-2012r2-standard-amd64-nocm
+#   roles:
+#     - pe-puppet-agent-windows

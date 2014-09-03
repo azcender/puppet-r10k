@@ -91,8 +91,8 @@ node /^master.*$/ inherits base {
   - yaml
 
 :hierarchy:
-  - "role/%{::role}"
   - "fqdn/%{::fqdn}"
+  - "role/%{::role}"
   - "tier/%{::tier}"
   - common
 

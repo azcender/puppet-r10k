@@ -30,7 +30,7 @@ class profile {
   #    other (Often names for user id)
   case $::operatingsystem {
     windows: {
-      $puppet_conf_path = '%PROGRAMDATA%/PuppetLabs/puppet/etc/puppet.conf'
+      $puppet_conf_path = 'C:/ProgramData/PuppetLabs/puppet/etc/puppet.conf'
     }
     Ubuntu, RedHat, CentOS: {
       # Set "environment"

@@ -12,7 +12,7 @@ class profile {
     default => $puppet_agent_environment
   }
 
-  # Puppet agent polling interval
+  # Puppet intended agent polling interval
   # Default:  1800 (30 mins)
   $puppet_agent_runinterval =
     hiera('profile::puppet_agent_runinterval')

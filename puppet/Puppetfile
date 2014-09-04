@@ -1,14 +1,13 @@
 forge "https://forge.puppetlabs.com"
 
-mod 'ntp', 
-  :git => "https://github.com/puppetlabs/puppetlabs-ntp.git",
-  :ref => '3.1.2'
-mod 'firewall',
+mod "puppetlabs/ntp",
+  :git => "https://github.com/puppetlabs/puppetlabs-ntp.git"
+mod "puppetlabs/firewall",
   :git => "https://github.com/puppetlabs/puppetlabs-firewall.git",
   :ref => '1.1.3'
-mod 'inifile',
+mod "puppetlabs/inifile",
   :git => "https://github.com/puppetlabs/puppetlabs-inifile.git",
   :ref => '1.1.3'
 
-mod 'r10k',
+mod "zack/r10k",
   :git => "https://github.com/acidprime/r10k.git"

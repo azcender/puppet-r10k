@@ -5,6 +5,8 @@ roles:
       auto_update: true
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
+    forwarded_ports:
+      - {guest: 443, host: 8443}
     provider:
       type: virtualbox
       customize:

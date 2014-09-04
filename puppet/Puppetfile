@@ -1,4 +1,4 @@
-forge "https://forge.puppetlabs.com"
+forge "https://forgeapi.puppetlabs.com"
 
 mod "puppetlabs/ntp",
   :git => "https://github.com/puppetlabs/puppetlabs-ntp.git"

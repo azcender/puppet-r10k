@@ -21,8 +21,8 @@ roles:
     provider:
       type: virtualbox
       gui: false
-    customize:
-      - [modifyvm, !ruby/sym id, '--memory', 1024, '--cpus', 2]
+      customize:
+        - [modifyvm, !ruby/sym id, '--memory', 1024, '--cpus', 2]
     vbguest:
       auto_update: true
     private_networks:
@@ -37,9 +37,9 @@ roles:
     provider:
       type: virtualbox
       gui: true
-    guest: windows
-    customize:
-      - [modifyvm, !ruby/sym id, '--memory', 2048, '--cpus', 2]
+      guest: windows
+      customize:
+        - [modifyvm, !ruby/sym id, '--memory', 2048, '--cpus', 2]
     vbguest:
       auto_update: false
     private_networks:

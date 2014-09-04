@@ -1,4 +1,3 @@
 ---
 r10k_repo: 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git'
-
 r10k::include_prerun_command: true

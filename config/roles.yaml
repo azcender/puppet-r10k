@@ -39,7 +39,7 @@ roles:
       gui: true
       customize:
         - [modifyvm, !ruby/sym id, '--memory', 2048, '--cpus', 2]
-    guest: ':windows'
+    guest: 'windows'
     vbguest:
       auto_update: false
     private_networks:

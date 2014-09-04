@@ -34,12 +34,12 @@ roles:
       - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp, module_path: puppet/modules, options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
 
   pe-puppet-agent-windows:
+    guest: windows
     provider:
       type: virtualbox
       gui: true
       customize:
         - [modifyvm, !ruby/sym id, '--memory', 2048, '--cpus', 2]
-    guest: windows
     vbguest:
       auto_update: false
     private_networks:

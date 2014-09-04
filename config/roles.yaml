@@ -37,7 +37,7 @@ roles:
     provider:
       type: virtualbox
       gui: true
-      guest: windows
+      guest: ':windows'
       customize:
         - [modifyvm, !ruby/sym id, '--memory', 2048, '--cpus', 2]
     vbguest:

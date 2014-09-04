@@ -20,6 +20,5 @@ class profile::master {
     recurse => 'true'
   }
 
-
   class { '::r10k': }
 }

@@ -31,7 +31,7 @@ vms:
     roles:
       - pe-puppet-agent-windows
 
-# - name: winders1
-#   box: win-2012r2-standard-amd64-vbox4314-nocm
-#   roles:
-#     - pe-puppet-agent-windows
+  - name: winders1
+    box: win-2012r2-standard-amd64-vbox4314-nocm
+    roles:
+      - pe-puppet-agent-windows

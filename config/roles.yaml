@@ -1,16 +1,16 @@
 ---
 roles:
   pe-puppet-master:
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--memory', 4096, '--cpus', 4]
     vbguest:
       auto_update: true
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     forwarded_ports:
       - {guest: 443, host: 8443}
-    provider:
-      type: virtualbox
-      customize:
-        - [modifyvm, !ruby/sym id, '--memory', 2048, '--cpus', 4]
     provisioners:
       - {type: hosts}
       - {type: pe_bootstrap, role: !ruby/sym master}
@@ -21,6 +21,8 @@ roles:
     provider:
       type: virtualbox
       gui: false
+    customize:
+      - [modifyvm, !ruby/sym id, '--memory', 1024, '--cpus', 2]
     vbguest:
       auto_update: true
     private_networks:
@@ -36,6 +38,8 @@ roles:
       type: virtualbox
       gui: true
     guest: windows
+    customize:
+      - [modifyvm, !ruby/sym id, '--memory', 2048, '--cpus', 2]
     vbguest:
       auto_update: false
     private_networks:

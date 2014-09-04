@@ -19,7 +19,7 @@ node 'base' {
   Host <<||>>
 }
 
-node /^master.*$/ inherits base {
+node /^master*$/ inherits base {
   if $::osfamily == 'redhat' {
     class { 'firewall': ensure => stopped, }
   }

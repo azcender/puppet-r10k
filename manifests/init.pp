@@ -41,6 +41,14 @@ class profile {
     }
   }
 
+  ini_setting { 'remove bogus production env from main section if present':
+    ensure   => absent,
+    path     => $puppet_conf_path,
+    section  => 'main',
+    setting  => 'environment',
+    value    => 'production',
+  }
+
   ini_setting { 'set puppet development environment':
     ensure   => present,
     path     => $puppet_conf_path,

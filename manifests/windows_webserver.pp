@@ -1,5 +1,9 @@
 # Setup IIS to host site(s)
 class profile::windows_webserver inherits profile {
+  Dism { ensure => present, }
+  dism { 'IIS-WebServerRole': } ->
+  dism { 'IIS-WebServer': }
+
   iis::manage_app_pool {'my_application_pool':
     enable_32_bit           => true,
     managed_runtime_version => 'v4.0',

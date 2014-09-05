@@ -106,7 +106,7 @@ node /^master*$/ inherits base {
 }
 
 node default inherits base {
-  notify { "Node ${::hostname} received default node classification!": }
+  notify { "Node ${::hostname} received default classification on local dev. Something is WRONG!": }
   file { '/tmp/runpuppet.sh':
     ensure   => 'file',
     mode     => '0755',

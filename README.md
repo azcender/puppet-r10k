@@ -23,12 +23,13 @@ Supporting materials:
   * [Puppet Infrastructure with R10K](http://terrarum.net/administration/puppet-infrastructure-with-r10k.html)
 
 # Requirements
-  * VirtualBox >= 4.2
+  * VirtualBox = 4.3.14
   * Vagrant >= 1.2
   * vagrant-oscar ( '$ vagrant plugin install oscar' )
-  * vagrant-pe_build ( '$ vagrant plugin install vagrant-pe_build' )
-  * vagrant-auto_network ( '$ vagrant plugin install vagrant-auto_network' )
-  * vagrant-hosts ( '$ vagrant plugin install vagrant-hosts' )
+  * vagrant-vbguest ( '$ vagrant plugin install vagrant-vbguest' )
+  * DEPRECATED - vagrant-pe_build ( '$ vagrant plugin install vagrant-pe_build' )
+  * DEPRECATED - vagrant-auto_network ( '$ vagrant plugin install vagrant-auto_network' )
+  * DEPRECATED - vagrant-hosts ( '$ vagrant plugin install vagrant-hosts' )
   * librarian-puppet ( '$ sudo gem install librarian-puppet' )
 
 # Upgrades
@@ -50,7 +51,7 @@ before doing a 'vagrant up' with the new release:
 
 # Notes
   * vagrant environment will download the required baseboxes if they've not already been installed. This can result in quite a long first run.
-  * Login to console via: https://<master eth1 IP>   w/ credentials:  admin@puppetlabs.com/puppetlabs
+  * Login to console via: https://localhost:8443   w/ credentials:  admin@puppetlabs.com/puppetlabs
   * r10k builds out environments in master:/etc/puppetlabs/puppet/environments based on the branches puppet-r10k-environments repo. You can point r10k to a different repo by modifying the Hiera key in puppet/hierdata/common.yaml.
 
 # Troubleshooting

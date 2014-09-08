@@ -1,12 +1,12 @@
 ---
 roles:
   pe-puppet-master:
+    vbguest:
+      auto_update: true
     provider:
       type: virtualbox
       customize:
         - [modifyvm, !ruby/sym id, '--memory', 4096, '--cpus', 4]
-    vbguest:
-      auto_update: true
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     forwarded_ports:
@@ -18,13 +18,13 @@ roles:
       - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp, module_path: puppet/modules, options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
 
   pe-puppet-agent-linux:
+    vbguest:
+      auto-update: true
     provider:
       type: virtualbox
       gui: false
       customize:
         - [modifyvm, !ruby/sym id, '--memory', 1024, '--cpus', 2]
-    vbguest:
-      auto_update: true
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
@@ -35,13 +35,13 @@ roles:
 
   pe-puppet-agent-windows:
     guest: windows
+    vbguest:
+      auto_update: false
     provider:
       type: virtualbox
       gui: true
       customize:
         - [modifyvm, !ruby/sym id, '--memory', 2048, '--cpus', 2]
-    vbguest:
-      auto_update: false
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     forwarded_ports:

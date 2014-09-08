@@ -9,6 +9,15 @@ class profile::java_web_application_server {
   include ::java
   include ::tomcat
 
+  # Ensure basedir is ready
+  file { '/srv':
+    ensure => directory,
+  }
+
+  file { '/srv/tomcat':
+    ensure => directory,
+  }
+
   # Create the default information needed to create an instance
   #
   # tomcat_libraries (hash):

@@ -3,13 +3,11 @@
 # Does not support JEE applications
 class profile::java_web_application_server {
 
-  # Java is needed to run the applications¬
-  include java
-
+  # Java is needed to run the applications
   # A standard tomcat instace needs to be instantiated before building separate
-  # instances.
-  class{ '::tomcat': }
-  class{ '::java': }
+  # instances
+  include java
+  include tomcat
 
   # Create the default information needed to create an instance
   #

@@ -23,56 +23,7 @@ node /^master*$/ inherits base {
   if $::osfamily == 'redhat' {
     class { 'firewall': ensure => stopped, }
   }
-  file { 'r10k hiera dir':
-    ensure   => directory,
-    path     => '/etc/puppetlabs/puppet/hiera',
-    mode     => 'og+rw',
-    owner    => 'pe-puppet',
-    group    => 'pe-puppet',
-    recurse  => true,
-  }
-
-  file { 'r10k environments dir':
-    ensure   => directory,
-    path     => '/etc/puppetlabs/puppet/environments',
-    mode     => 'og+rw',
-    owner    => 'pe-puppet',
-    group    => 'pe-puppet',
-    recurse  => true,
-  }
-
-  class { 'r10k':
-    sources           => {
-      'puppet' => {
-        'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
-        'basedir' => "${::settings::confdir}/environments",
-        'prefix'  => false,
-      },
-
-      'hiera' => {
-        'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-hiera.git',
-        'basedir' => "${::settings::confdir}/hiera",
-        'prefix'  => true,
-      }
-    },
-
-    purgedirs         => ["${::settings::confdir}/environments"],
-    manage_modulepath => true,
-    modulepath        => "${::settings::confdir}/environments/\$environment/modules:/opt/puppet/share/puppet/modules",
-  } ->
-
-  file { 'ruby spec directory':
-    path    => '/opt/puppet/lib/ruby/gems/1.9.1/specifications',
-    mode    => 'a+r',
-    recurse  => true,
-  } ->
-
-  exec { 'r10k deploy environment --puppetfile':
-    path     => ['/bin','/sbin','/usr/bin','/usr/sbin','/opt/puppet/bin'],
-    require  => [Package['git'],File['r10k environments dir'],File['r10k hiera dir'],Class['r10k::install'],File['ruby spec directory']],
-    timeout  => 0,
-  } ->
-
+  
   ini_setting { 'master manifest path':
     ensure   => absent,
     path     => '/etc/puppetlabs/puppet/puppet.conf',
@@ -109,7 +60,54 @@ node /^master*$/ inherits base {
     path    => '/etc/puppetlabs/puppet/puppet.conf',
     section => 'main',
     setting => 'modulepath',
-  }
+  } ->
+
+  file { 'r10k hiera dir':
+    ensure   => directory,
+    path     => '/etc/puppetlabs/puppet/hiera',
+    mode     => 'og+rw',
+    owner    => 'pe-puppet',
+    group    => 'pe-puppet',
+    recurse  => true,
+  } ->
+
+  file { 'r10k environments dir':
+    ensure   => directory,
+    path     => '/etc/puppetlabs/puppet/environments',
+    mode     => 'og+rw',
+    owner    => 'pe-puppet',
+    group    => 'pe-puppet',
+    recurse  => true,
+  } ->
+
+  file { 'ruby spec directory':
+    path    => '/opt/puppet/lib/ruby/gems/1.9.1/specifications',
+    mode    => 'a+r',
+    recurse  => true,
+  } ->
+
+  class { 'r10k':
+    sources           => {
+      'puppet' => {
+        'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
+        'basedir' => "${::settings::confdir}/environments",
+        'prefix'  => false,
+      },
+
+      'hiera' => {
+        'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-hiera.git',
+        'basedir' => "${::settings::confdir}/hiera",
+        'prefix'  => true,
+      }
+    },
+
+    purgedirs         => ["${::settings::confdir}/environments"],
+  } ->
+
+  exec { 'r10k deploy environment --puppetfile':
+    path     => ['/bin','/sbin','/usr/bin','/usr/sbin','/opt/puppet/bin'],
+    timeout  => 0,
+  } ->
 
   file { '/etc/puppetlabs/puppet/hiera.yaml':
     ensure => 'file',

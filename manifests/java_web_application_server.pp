@@ -6,8 +6,8 @@ class profile::java_web_application_server {
   # Java is needed to run the applications
   # A standard tomcat instace needs to be instantiated before building separate
   # instances
-  include java
-  include tomcat
+  include ::java
+  include ::tomcat
 
   # Create the default information needed to create an instance
   #

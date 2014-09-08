@@ -74,11 +74,41 @@ node /^master*$/ inherits base {
   } ->
 
   ini_setting { 'master manifest path':
-    ensure   => present,
+    ensure   => absent,
     path     => '/etc/puppetlabs/puppet/puppet.conf',
     section  => 'main',
     setting  => 'manifest',
-    value    => '/etc/puppetlabs/puppet/environments/$environment/manifests/site.pp',
+  } ->
+
+  ini_setting { 'environmentpath':
+    ensure  => present,
+    path    => '/etc/puppetlabs/puppet/puppet.conf',
+    section => 'main',
+    setting => 'environmentpath',
+    value   => '$confdir/environments',
+  } ->
+
+  ini_setting { 'default_manifest':
+    ensure  => present,
+    path    => '/etc/puppetlabs/puppet/puppet.conf',
+    section => 'main',
+    setting => 'default_manifest',
+    value   => '$confdir/manifests',
+  } ->
+
+  ini_setting { 'basemodulepath':
+    ensure  => present,
+    path    => '/etc/puppetlabs/puppet/puppet.conf',
+    section => 'main',
+    setting => 'basemodulepath',
+    value   => '$confdir/modules:/opt/puppet/share/puppet/modules',
+  } ->
+
+  ini_setting { 'modulepath':
+    ensure => absent,
+    path    => '/etc/puppetlabs/puppet/puppet.conf',
+    section => 'main',
+    setting => 'modulepath',
   }
 
   file { '/etc/puppetlabs/puppet/hiera.yaml':

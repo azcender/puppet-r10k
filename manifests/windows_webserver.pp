@@ -1,13 +1,11 @@
 # Setup IIS to host site(s)
 class profile::windows_webserver inherits profile {
   Dism { ensure => present, }
-  dism { 'IIS-WebServerRole': } ->
-  dism { 'IIS-WebServer': }
+  ::dism { 'IIS-WebServerRole': } ->
+  ::dism { 'IIS-WebServer': }
 
-  iis::manage_app_pool {'my_application_pool':
-    enable_32_bit           => true,
-    managed_runtime_version => 'v4.0',
-  } ->
+  $pools = hiera('profile::windows_webserver::pools')
+  $sites = hiera('profile::windows_webserver::sites')
 
   iis::manage_site {'www.mysite.com':
     site_path     => 'C:\inetpub\wwwroot\mysite',

@@ -20,5 +20,12 @@ class profile::master {
     recurse => 'true'
   }
 
+  ini_setting { 'modulepath':
+    ensure => absent,
+    path    => '/etc/puppetlabs/puppet/puppet.conf',
+    section => 'main',
+    setting => 'modulepath',
+  }
+
   class { '::r10k': }
 }

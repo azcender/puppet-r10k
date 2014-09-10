@@ -23,7 +23,7 @@ Supporting materials:
   * [Puppet Infrastructure with R10K](http://terrarum.net/administration/puppet-infrastructure-with-r10k.html)
 
 # Requirements
-  * VirtualBox = 4.3.14
+  * VirtualBox = 4.3.16
   * Vagrant >= 1.2
   * vagrant-oscar ( '$ vagrant plugin install oscar' )
   * vagrant-vbguest ( '$ vagrant plugin install vagrant-vbguest' )

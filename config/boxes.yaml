@@ -1,7 +1,12 @@
 ---
-# Boxes from http://puppet-vagrant-boxes.puppetlabs.com/
-# Updated: 2014-08-26
+# Boxes
+# Updated: 2014-09-10 --- PT
 boxes:
-  'centos-64-x64-vbox4210-nocm': 'http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210-nocm.box'
-  'ubuntu-server-12042-x64-vbox4210-nocm': 'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box'
-  'win-2012r2-standard-amd64-vbox4314-nocm': 'http://bit.ly/prolixalias_win-2012r2-standard-amd64-vbox4314-nocm'
+
+  'fs_centos-65-x64-vbox4316-nocm': 'http://rybacrm/boxes/fs/fs_centos-65-x64-vbox4316-nocm'
+  'fs_ubuntu-server-14041-x64-vbox4316-nocm': 'http://rybacrm/boxes/fs/fs_ubuntu-server-14041-x64-vbox4316-nocm'
+  'fs_win-2012r2-standard-amd64-vbox4316-nocm': 'http://rybacrm/boxes/fs/fs_win-2012r2-standard-amd64-vbox4316-nocm'
+# 'fs_centos-65-x64-vbox4316-nocm': 'http://bit.ly/prolixalias_fs_centos-65-x64-vbox4316-nocm'
+# 'fs_ubuntu-server-14041-x64-vbox4316-nocm': 'http://bit.ly/prolixalias_fs_ubuntu-server-14041-x64-vbox4316-nocm'
+# 'fs_win-2012r2-standard-amd64-vbox4316-nocm': 'http://bit.ly/prolixalias_fs_win-2012r2-standard-amd64-vbox4316-nocm'
+

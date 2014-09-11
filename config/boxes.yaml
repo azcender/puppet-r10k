@@ -3,10 +3,10 @@
 # Updated: 2014-09-10 --- PT
 boxes:
 
-  'fs_centos-65-x64-vbox4316-nocm': 'http://192.168.1.12/boxes/fs/fs_centos-65-x64-vbox4316-nocm.box'
-  'fs_ubuntu-server-14041-x64-vbox4316-nocm': 'http://192.168.1.12/boxes/fs/fs_ubuntu-server-14041-x64-vbox4316-nocm.box'
-  'fs_win-2012r2-standard-amd64-vbox4316-nocm': 'http://192.168.1.12/boxes/fs/fs_win-2012r2-standard-amd64-vbox4316-nocm.box'
-# 'fs_centos-65-x64-vbox4316-nocm': 'http://bit.ly/prolixalias_fs_centos-65-x64-vbox4316-nocm'
-# 'fs_ubuntu-server-14041-x64-vbox4316-nocm': 'http://bit.ly/prolixalias_fs_ubuntu-server-14041-x64-vbox4316-nocm'
-# 'fs_win-2012r2-standard-amd64-vbox4316-nocm': 'http://bit.ly/prolixalias_fs_win-2012r2-standard-amd64-vbox4316-nocm'
+# 'fs_centos-65-x64-vbox4316-nocm': 'http://192.168.1.12/boxes/fs/fs_centos-65-x64-vbox4316-nocm.box'
+# 'fs_ubuntu-server-14041-x64-vbox4316-nocm': 'http://192.168.1.12/boxes/fs/fs_ubuntu-server-14041-x64-vbox4316-nocm.box'
+# 'fs_win-2012r2-standard-amd64-vbox4316-nocm': 'http://192.168.1.12/boxes/fs/fs_win-2012r2-standard-amd64-vbox4316-nocm.box'
+  'fs_centos-65-x64-vbox4316-nocm': 'http://bit.ly/prolixalias_fs_centos-65-x64-vbox4316-nocm'
+  'fs_ubuntu-server-14041-x64-vbox4316-nocm': 'http://bit.ly/prolixalias_fs_ubuntu-server-14041-x64-vbox4316-nocm'
+  'fs_win-2012r2-standard-amd64-vbox4316-nocm': 'http://bit.ly/prolixalias_fs_win-2012r2-standard-amd64-vbox4316-nocm'
 

@@ -53,14 +53,10 @@ before doing a 'vagrant up' with the new release:
 
 # Supplemental downloads
 | Version | OS | Link |
-| ------------- |:-------------:| -----:|
-| 3.3.2 | Ubuntu | [Link](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-ubuntu-14.04-amd64.tar.gz) |
+| ------------- |:-------------:|:-----:|
+| 3.3.2 | Ubuntu      | [Link](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-ubuntu-14.04-amd64.tar.gz) |
 | 3.3.2 | RHEL/CentOS | [Link](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-el-6-x86_64.tar.gz) |
-| 3.3.2 | Windows | [Link](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2.msi) |
-
-[PE 3.3.2 - Ubuntu](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-ubuntu-14.04-amd64.tar.gz)
-[PE 3.3.2 - RHEL/CentOS](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-el-6-x86_64.tar.gz)
-[PE 3.3.2 - Windows](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2.msi)
+| 3.3.2 | Windows     | [Link](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2.msi) |
 
 # Troubleshooting
   * vagrant-hosts sometimes fails to insert the master's hostname into the /etc/hosts files on the agent VMs. One work-around is to run 'vagrant provision --provision-with hosts'

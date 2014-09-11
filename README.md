@@ -1,7 +1,6 @@
-#puppet-r10k
+###puppet-r10k
 
-Vagrant environment for PE3 w/ [r10k](http://github.com/adrienthebo/r10k) development and current best practices for building out
-self-contained environments (classification, code & data bindings).
+Vagrant environment for PE3 (currently 3.3.2) w/ [r10k](http://github.com/adrienthebo/r10k) development and current best practices for building out self-contained environments (classification, code & data bindings).
 
 Setup leverages work done in the zack/r10k Forge module. It includes an MCollective plug-in to allow r10k operations via Live
 Management in the Enterprise Console.
@@ -23,8 +22,9 @@ Supporting materials:
   * [Puppet Infrastructure with R10K](http://terrarum.net/administration/puppet-infrastructure-with-r10k.html)
 
 # Requirements
-  * VirtualBox = 4.3.16
-  * Vagrant >= 1.2
+  * rvm == 1.25.17
+  * VirtualBox == 4.3.16
+  * Vagrant >= 1.6.3
   * vagrant-oscar ( '$ vagrant plugin install oscar' )
   * vagrant-vbguest ( '$ vagrant plugin install vagrant-vbguest' )
   * librarian-puppet ( '$ sudo gem install librarian-puppet' )
@@ -51,7 +51,7 @@ before doing a 'vagrant up' with the new release:
   * Login to console via: https://localhost:8443   w/ credentials:  admin@puppetlabs.com/puppetlabs
   * r10k builds out environments in master:/etc/puppetlabs/puppet/environments based on the branches puppet-r10k-environments repo. You can point r10k to a different repo by modifying the Hiera key in puppet/hierdata/common.yaml.
 
-# Supplimental downloads
+# Supplemental downloads
 
 http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-ubuntu-14.04-amd64.tar.gz
 

@@ -51,7 +51,7 @@ before doing a 'vagrant up' with the new release:
   * Login to console via: https://localhost:8443   w/ credentials:  admin@puppetlabs.com/puppetlabs
   * r10k builds out environments in master:/etc/puppetlabs/puppet/environments based on the branches puppet-r10k-environments repo. You can point r10k to a different repo by modifying the Hiera key in puppet/hierdata/common.yaml.
 
-# Supplemental downloads
+# Supplemental PE downloads
 | Version | OS | Link |
 | ------------- |:-------------:|:-----:|
 | 3.3.2 | Ubuntu      | [Link](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-ubuntu-14.04-amd64.tar.gz) |

@@ -144,4 +144,16 @@ node default inherits base {
   } -> exec { 'at now + 1 min -f /tmp/runpuppet.sh':
     path     => ['/bin', '/sbin', '/usr/bin', '/usr/sbin', '/opt/puppet/bin'],
   }
+  case $::operatingsystem {
+    windows: {
+      $puppet_conf_path = 'C:/ProgramData/PuppetLabs/puppet/etc/puppet.conf'
+    }
+    Ubuntu, RedHat, CentOS: {
+      # Set "environment"
+      $puppet_conf_path = '/etc/puppetlabs/puppet/puppet.conf'
+    }
+    default: {
+      fail("Unsupported operating system detected: ${::operatingsystem}")
+    }
+  }
 }

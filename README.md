@@ -1,4 +1,4 @@
-###puppet-r10k
+# puppet-r10k
 
 Vagrant environment for PE3 (currently 3.3.2) w/ [r10k](http://github.com/adrienthebo/r10k) development and current best practices for building out self-contained environments (classification, code & data bindings).
 
@@ -52,13 +52,15 @@ before doing a 'vagrant up' with the new release:
   * r10k builds out environments in master:/etc/puppetlabs/puppet/environments based on the branches puppet-r10k-environments repo. You can point r10k to a different repo by modifying the Hiera key in puppet/hierdata/common.yaml.
 
 # Supplemental downloads
+| Version | OS | Link |
+| ------------- |:-------------:| -----:|
+| 3.3.2 | Ubuntu | [Link](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-ubuntu-14.04-amd64.tar.gz) |
+| 3.3.2 | RHEL/CentOS | [Link](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-el-6-x86_64.tar.gz) |
+| 3.3.2 | Windows | [Link](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2.msi) |
 
-http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-ubuntu-14.04-amd64.tar.gz
-
-http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-el-6-x86_64.tar.gz
-
-http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2.msi
-
+[PE 3.3.2 - Ubuntu](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-ubuntu-14.04-amd64.tar.gz)
+[PE 3.3.2 - RHEL/CentOS](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-el-6-x86_64.tar.gz)
+[PE 3.3.2 - Windows](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2.msi)
 
 # Troubleshooting
   * vagrant-hosts sometimes fails to insert the master's hostname into the /etc/hosts files on the agent VMs. One work-around is to run 'vagrant provision --provision-with hosts'

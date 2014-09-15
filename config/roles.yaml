@@ -24,7 +24,7 @@ roles:
       type: virtualbox
       gui: false
       customize:
-        - [modifyvm, !ruby/sym id, '--memory', 1024, '--cpus', 2, '--name', "centos"]
+        - [modifyvm, !ruby/sym id, '--memory', 1024, '--cpus', 2]
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
@@ -41,7 +41,7 @@ roles:
       type: virtualbox
       gui: true
       customize:
-        - [modifyvm, !ruby/sym id, '--memory', 2048, '--cpus', 2, '--name', "winders"]
+        - [modifyvm, !ruby/sym id, '--memory', 2048, '--cpus', 2]
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     forwarded_ports:

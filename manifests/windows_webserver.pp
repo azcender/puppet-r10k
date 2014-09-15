@@ -5,27 +5,5 @@ class profile::windows_webserver inherits profile {
   dism { 'IIS-WebServer': }
 
   $pools = hiera('profile::windows_webserver::pools')
-
-#  $sites = hiera('profile::windows_webserver::sites')
-#  $virtual_apps = hiera('profile::windows_webserver::virtual_apps')
-
-#  iis::manage_site {'www.mysite.com':
-#    site_path     => 'C:\inetpub\wwwroot\mysite',
-#    port          => '80',
-#    ip_address    => '*',
-#    host_header   => 'www.mysite.com',
-#    app_pool      => 'my_application_pool'
-#  } ->
-
-#  iis::manage_virtual_application {'application1':
-#    site_name     => 'www.mysite.com',
-#    site_path     => 'C:\inetpub\wwwroot\application1',
-#    app_pool      => 'my_application_pool'
-#  } -> 
-
-#  iis::manage_virtual_application {'application2':
-#    site_name     => 'www.mysite.com',
-#    site_path     => 'C:\inetpub\wwwroot\application2',
-#    app_pool      => 'my_application_pool'
-#  }
+  create_resources('::windows_webserver::pool', $pools)
 }

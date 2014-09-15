@@ -76,17 +76,17 @@ class profile {
   }
 
   # Create defined files
-  $files = hiera_hash('files')
+  #$files = hiera_hash('files')
 
-  create_resources(file, $files)
+  #create_resources(file, $files)
 
   # Create defined groups
-  $groups = hiera_hash('groups')
+  #$groups = hiera_hash('groups')
 
-  create_resources(group, $groups)
+  #create_resources(group, $groups)
 
   # Compile defined users and create
-  $users = hiera_hash('users')
+  #$users = hiera_hash('users')
 
-  create_resources(user, $users)
+  #create_resources(user, $users)
 }

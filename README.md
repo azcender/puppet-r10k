@@ -70,6 +70,7 @@ before doing a 'vagrant up' with the new release:
 
 >Check "Run command as login" checkbox in terminal profile. Exit and relaunch terminal application.
 
+
 ### OS X
 
 >Install [git 1.8.5.2 for OS X](http://sourceforge.net/projects/git-osx-installer/files/git-1.8.5.2-intel-universal-snow-leopard.dmg/download) with defaults (admin required). 
@@ -84,17 +85,21 @@ before doing a 'vagrant up' with the new release:
 >Install homebrew
 >ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"
 
+
 ### WINDOWS
 
 >Install [git 1.8.5.2 for Windows](http://git-scm.com/download/win) with defaults.
 
 >Install [ruby 1.9.3-p484 for Windows](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p484.exe?direct) - add to path.
 
+Install Ruby DevKit [DevKit-tdm-32-4.5.2-20111229-1559-sfx](https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe) - add to path
+
 >Install [VirtualBox 4.3.6 for Windows](http://download.virtualbox.org/virtualbox/4.3.6/VirtualBox-4.3.6-91406-Win.exe) with defaults (admin required).
 
 >Install [Vagrant 1.4.3 for Windows](https://dl.bintray.com/mitchellh/vagrant/Vagrant_1.4.3.msi) with defaults (admin required).
 
-### COMMON - Skip rvm steps on Windows, start at creating directories below
+
+### COMMON - Skip rvm steps on Windows, start "continue" below
 
 >Install RVM:
 
@@ -110,16 +115,17 @@ before doing a 'vagrant up' with the new release:
 
 exit terminal, run which ruby to make sure it's rvm
 
->gem install librarian-puppet
->gem install puppet
+Continue:
 
-Create directories:
+>gem install librarian-puppet
+
+>gem install puppet
 
 >cd ~/sandbox
 
->git clone git@bitbucket.org:prolixalias/puppet.git
+>git clone git@bitbucket.org:prolixalias/puppet-r10k.git
 
->cd pupet-r10k/puppet
+>cd puppet-r10k/puppet
 
 >librarian-puppet install --clean --verbose
 
@@ -129,7 +135,7 @@ Create directories:
 
 >DEPRECATED vagrant box add precise64 http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box
 
->vagrant up  # admin required on Windows for adding vbox network interface(s) and Windows firewall
+>vagrant up  # NOTE: be sure to launch Git bash as administrator on Windows for adding vbox network interface(s) and dealing with Windows firewall
 
 
 # Troubleshooting

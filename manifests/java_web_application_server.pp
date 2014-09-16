@@ -17,5 +17,5 @@ class profile::java_web_application_server inherits profile {
   # The instances to be configured on this node
   $instances = hiera('profile::java_web_application_server::instances')
 
-  create_resources('::java_web_application_server::instance', $instances)
+  create_resources('::java_web_application_server::instance', $instances, $instances_default)
 }

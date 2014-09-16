@@ -92,7 +92,13 @@ before doing a 'vagrant up' with the new release:
 
 >Install [ruby 1.9.3-p545 for Windows](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p545.exe?direct) - add to path. (admin required)
 
-Install Ruby DevKit [DevKit-tdm-32-4.5.2-20111229-1559-sfx](https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe) - add to path
+Install Ruby DevKit [DevKit-tdm-32-4.5.2-20111229-1559-sfx](https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe) - add to path (C:\Ruby193\DevKit\) followed by:
+
+>cd C:/Ruby192/DevKit
+
+>ruby dk.rb init
+
+>ruby dk.rb install
 
 >Install [VirtualBox 4.3.16 for Windows](http://download.virtualbox.org/virtualbox/4.3.16/VirtualBox-4.3.16-95972-Win.exe) with defaults (admin required).
 

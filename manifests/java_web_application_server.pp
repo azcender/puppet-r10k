@@ -9,6 +9,11 @@ class profile::java_web_application_server inherits profile {
   include ::java
   include ::tomcat
 
+  # Default tomcat home to catalina_home
+  $instances_default = {
+    instance_basedir => hiera('tomcat::catalina_home')
+  }
+
   # The instances to be configured on this node
   $instances = hiera('profile::java_web_application_server::instances')
 

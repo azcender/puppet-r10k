@@ -54,9 +54,9 @@ before doing a 'vagrant up' with the new release:
 # Supplemental PE downloads
 | Version | OS | Link |
 | ------------- |:-------------:|:-----:|
-| 3.3.2 | Ubuntu      | [Link](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-ubuntu-14.04-amd64.tar.gz) |
-| 3.3.2 | RHEL/CentOS | [Link](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-el-6-x86_64.tar.gz) |
-| 3.3.2 | Windows     | [Link](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2.msi) |
+| 3.3.2 | Ubuntu      | [Download](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-ubuntu-14.04-amd64.tar.gz) |
+| 3.3.2 | RHEL/CentOS | [Download](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-el-6-x86_64.tar.gz) |
+| 3.3.2 | Windows     | [Download](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2.msi) |
 
 # Steps
 

@@ -9,15 +9,6 @@ class profile::java_web_application_server inherits profile {
   include ::java
   include ::tomcat
 
-  # Ensure basedir is ready
-  file { '/srv':
-    ensure => directory,
-  }
-
-  file { '/srv/tomcat':
-    ensure => directory,
-  }
-
   # The instances to be configured on this node
   $instances = hiera('profile::java_web_application_server::instances')
 

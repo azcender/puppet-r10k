@@ -88,15 +88,15 @@ before doing a 'vagrant up' with the new release:
 
 ### WINDOWS
 
->Install [git 1.8.5.2 for Windows](http://git-scm.com/download/win) with defaults.
+>Install [git 1.9.4 for Windows](http://git-scm.com/download/win) with defaults. (admin required)
 
->Install [ruby 1.9.3-p484 for Windows](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p484.exe?direct) - add to path.
+>Install [ruby 1.9.3-p545 for Windows](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p545.exe?direct) - add to path. (admin required)
 
 Install Ruby DevKit [DevKit-tdm-32-4.5.2-20111229-1559-sfx](https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe) - add to path
 
->Install [VirtualBox 4.3.6 for Windows](http://download.virtualbox.org/virtualbox/4.3.6/VirtualBox-4.3.6-91406-Win.exe) with defaults (admin required).
+>Install [VirtualBox 4.3.16 for Windows](http://download.virtualbox.org/virtualbox/4.3.16/VirtualBox-4.3.16-95972-Win.exe) with defaults (admin required).
 
->Install [Vagrant 1.4.3 for Windows](https://dl.bintray.com/mitchellh/vagrant/Vagrant_1.4.3.msi) with defaults (admin required).
+>Install [Vagrant 1.6.5 for Windows](https://dl.bintray.com/mitchellh/vagrant/Vagrant_1.6.5.msi) with defaults (admin required).
 
 
 ### COMMON - Skip rvm steps on Windows, start "continue" below

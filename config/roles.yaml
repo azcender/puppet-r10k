@@ -6,7 +6,7 @@ roles:
     provider:
       type: virtualbox
       customize:
-        - [modifyvm, !ruby/sym id, '--memory', 4096, '--cpus', 4, '--name', "master"]
+        - [modifyvm, !ruby/sym id, '--memory', 4096, '--cpus', 4]
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     forwarded_ports:

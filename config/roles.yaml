@@ -34,6 +34,7 @@ roles:
       - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp, module_path: puppet/modules, options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
 
   pe-puppet-agent-windows:
+    communicator: winrm
     guest: windows
     vbguest:
       auto_update: false
@@ -46,6 +47,7 @@ roles:
       - {ip: '0.0.0.0', auto_network: true}
     forwarded_ports:
       - {guest: 5985, host: 5985, id: 'winrm', auto_correct: true}
+      - {guest: 3389, host: 3389, id: 'rdp', autocorrect: true}
     provisioners:
       - {type: hosts}
       - {type: pe_bootstrap}

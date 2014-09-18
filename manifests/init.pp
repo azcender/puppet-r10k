@@ -75,6 +75,15 @@ class profile {
     value    => true,
   }
 
+  # Enable pluginsync
+  ini_setting { 'enable pluginsync':
+    ensure   => present,
+    path     => $puppet_conf_path,
+    section  => 'main',
+    setting  => 'pluginsync',
+    value    => true,
+  }
+
   # Create defined files
   $files = hiera_hash('files', {})
 

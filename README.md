@@ -80,7 +80,7 @@ before doing a 'vagrant up' with the new release:
 
 >Install [VirtualBox 4.3.16 for OS X](http://download.virtualbox.org/virtualbox/4.3.16/VirtualBox-4.3.16-95972-OSX.dmg) with defaults (admin required).
 
->Install [Vagrant 1.6.3 for OS X](https://dl.bintray.com/mitchellh/vagrant/Vagrant-1.6.3.dmg) with defaults (admin required).
+>Install [Vagrant 1.6.3 for OS X](https://dl.bintray.com/mitchellh/vagrant/#vagrant_1.6.3.dmg) with defaults (admin required).
 
 >Install homebrew
 >ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"

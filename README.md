@@ -121,6 +121,16 @@ Install Ruby DevKit [DevKit-tdm-32-4.5.2-20111229-1559-sfx](https://github.com/d
 
 exit terminal, run which ruby to make sure it's rvm
 
+>gem install nokogiri -v '1.6.3.1'
+
+>cp ~/.rvm/gems/ruby-1.9.3-p???/specifications/nokogiri-1.6.3.1.gemspec ~/.vagrant.d/gems/specifications
+
+>cp -a ~/.rvm/gems/ruby-1.9.3-p???/gems/nokogiri-1.6.3.1 ~/.vagrant.d/gems/gems
+
+>cp ~/.rvm/gems/ruby-1.9.3-p???/cache/nokogiri-1.6.3.1.gem ~/.vagrant.d/gems/cache
+
+>cp -a ~/.rvm/gems/ruby-1.9.3-p???/doc/nokogiri-1.6.3.1 ~/.vagrant.d/gems/doc
+
 Continue:
 
 >gem install librarian-puppet

@@ -59,7 +59,7 @@ before doing a 'vagrant up' with the new release:
 | 3.3.2 | RHEL/CentOS | [Download](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2-el-6-x86_64.tar.gz) |
 | 3.3.2 | Windows     | [Download](http://s3.amazonaws.com/pe-builds/released/3.3.2/puppet-enterprise-3.3.2.msi) |
 
-# Steps
+# Installation steps
 
 ### UBUNTU - RARING/SAUCY
 
@@ -83,8 +83,14 @@ before doing a 'vagrant up' with the new release:
 
 >Install [Vagrant 1.6.3 for OS X](https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3.dmg) with defaults (admin required).
 
->Install homebrew
+>Install homebrew (if you don't have ports installed)
 >ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"
+
+>sudo port install libxml2 libxslt (only if using ports)
+
+>sudo brew install libxml2 libxslt (only if using homebrew)
+
+>sudo brew link libxml2 libxslt (only if using homebrew)
 
 
 ### WINDOWS

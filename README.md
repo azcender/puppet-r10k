@@ -105,7 +105,7 @@ Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyi
 
 >ruby dk.rb install
 
->gem update
+>gem update ('y' to update rake, rdoc, ri)
 
 >Install [VirtualBox 4.3.16 for Windows](http://download.virtualbox.org/virtualbox/4.3.16/VirtualBox-4.3.16-95972-Win.exe) with defaults (admin required).
 

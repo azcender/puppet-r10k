@@ -2,9 +2,4 @@
 class profile::chocolatey inherits profile {
   Package { provider => chocolatey }
 
-  Package {'git':
-    ensure => latest,
-    provider => chocolatey,
-  }
-
 }

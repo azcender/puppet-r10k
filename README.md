@@ -22,12 +22,13 @@ Supporting materials:
   * [Puppet Infrastructure with R10K](http://terrarum.net/administration/puppet-infrastructure-with-r10k.html)
 
 # Requirements
-  * rvm == 1.25.17
+  * rvm >= 1.25.17
   * VirtualBox == 4.3.16
-  * Vagrant >= 1.6.3
+  * Vagrant == 1.6.3
   * vagrant-oscar ( '$ vagrant plugin install oscar' )
   * vagrant-vbguest ( '$ vagrant plugin install vagrant-vbguest' )
-  * librarian-puppet ( '$ sudo gem install librarian-puppet' )
+  * librarian-puppet gem ( '$ sudo gem install librarian-puppet' )
+  * puppet gem ( '$ sudo gem install puppet' )
 
 # Upgrades
 This environment uses vagrant oscar plugin. Whenever oscar is updated, engineers will need to wipe out old VMs and settings
@@ -94,11 +95,17 @@ before doing a 'vagrant up' with the new release:
 
 Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyinstaller.org/archives/devkits/DevKit-mingw64-64-4.7.2-20130224-1432-sfx.exe) to C:\Ruby200-x64\DevKit (admin required as well as 7-Zip utility)
 
->cd C:\Ruby200-x64\DevKit
+>Launch git bash
+
+>cd /c/Ruby200-x64/devkit
 
 >ruby dk.rb init
 
+>add '- C:/Ruby200-x64' to bottom of config.yml
+
 >ruby dk.rb install
+
+>gem update
 
 >Install [VirtualBox 4.3.16 for Windows](http://download.virtualbox.org/virtualbox/4.3.16/VirtualBox-4.3.16-95972-Win.exe) with defaults (admin required).
 

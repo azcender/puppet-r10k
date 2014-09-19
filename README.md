@@ -113,25 +113,24 @@ Install Ruby DevKit [DevKit-tdm-32-4.5.2-20111229-1559-sfx](https://github.com/d
 
 >rvm get head
 
->rvm install 1.9.3
+>rvm install 2.2.1
 
 >rvm reload
 
->rvm --default use 1.9.3
+>rvm --default use 2.2.1
 
 exit terminal, run which ruby to make sure it's rvm
 
->gem install nokogiri -v '1.6.3.1'
+>POSSIBLE RED HERRING /Applications/Vagrant/embedded/bin/gem install nokogiri -- --use-system-libraries=true --with-xml2-include=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/include/libxml2
 
->cp ~/.rvm/gems/ruby-1.9.3-p???/specifications/nokogiri-1.6.3.1.gemspec ~/.vagrant.d/gems/specifications
+>sudo port install libxml2 libxslt
 
->cp -a ~/.rvm/gems/ruby-1.9.3-p???/gems/nokogiri-1.6.3.1 ~/.vagrant.d/gems/gems
-
->cp ~/.rvm/gems/ruby-1.9.3-p???/cache/nokogiri-1.6.3.1.gem ~/.vagrant.d/gems/cache
-
->cp -a ~/.rvm/gems/ruby-1.9.3-p???/doc/nokogiri-1.6.3.1 ~/.vagrant.d/gems/doc
 
 Continue:
+
+>vagrant plugin install oscar
+
+>vagrant plugin install vagrant-vbguest
 
 >gem install librarian-puppet
 

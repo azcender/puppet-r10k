@@ -90,11 +90,11 @@ before doing a 'vagrant up' with the new release:
 
 >Install [git 1.9.4 for Windows](http://git-scm.com/download/win) with defaults. (admin required)
 
->Install [ruby 1.9.3-p545 for Windows](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p545.exe?direct) - add to path. (admin required)
+>Install [ruby 2.2.0-p481 for 64-bit Windows](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p481-x64.exe?direct) - Tcl/Tk support, add to path, associate. (admin required)
 
-Install Ruby DevKit [DevKit-tdm-32-4.5.2-20111229-1559-sfx](https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe) - add to path (C:\Ruby193\DevKit\) followed by:
+Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyinstaller.org/archives/devkits/DevKit-mingw64-64-4.7.2-20130224-1432-sfx.exe) to C:\Ruby200-x64\DevKit (admin required as well as 7-Zip utility)
 
->cd C:/Ruby192/DevKit
+>cd C:\Ruby200-x64\DevKit
 
 >ruby dk.rb init
 

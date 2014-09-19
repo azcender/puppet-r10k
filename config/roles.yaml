@@ -48,7 +48,7 @@ roles:
       - {ip: '0.0.0.0', auto_network: true}
     forwarded_ports:
       - {guest: 5985, host: 5985, id: 'winrm', auto_correct: true}
-      - {guest: 3389, host: 3389, id: 'rdp', autocorrect: true}
+      - {guest: 3389, host: 8389, id: 'rdp', autocorrect: true}
     provisioners:
       - {type: hosts}
       - {type: pe_bootstrap}

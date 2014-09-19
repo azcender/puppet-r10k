@@ -102,7 +102,7 @@ Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyi
 
 >Install [VirtualBox 4.3.16 for Windows](http://download.virtualbox.org/virtualbox/4.3.16/VirtualBox-4.3.16-95972-Win.exe) with defaults (admin required).
 
->Install [Vagrant 1.6.5 for Windows](https://dl.bintray.com/mitchellh/vagrant/Vagrant_1.6.5.msi) with defaults (admin required).
+>Install [Vagrant 1.6.3 for Windows](https://dl.bintray.com/mitchellh/vagrant/Vagrant_1.6.3.msi) with defaults (admin required).
 
 
 ### COMMON - Skip rvm steps on Windows, start "continue" below

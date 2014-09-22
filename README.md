@@ -22,7 +22,7 @@ Supporting materials:
   * [Puppet Infrastructure with R10K](http://terrarum.net/administration/puppet-infrastructure-with-r10k.html)
 
 # Requirements
-  * rvm >= 1.25.17
+  * rvm >= 1.25.31
   * VirtualBox == 4.3.16
   * Vagrant == 1.6.3
   * vagrant-oscar ( '$ vagrant plugin install oscar' )
@@ -128,11 +128,11 @@ Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyi
 
     $ rvm get head
 
-    $ rvm install 2.1.3
+    $ rvm install 2.1.2
 
     $ rvm reload
 
-    $ rvm --default use 2.1.3
+    $ rvm --default use 2.1.2
 
 >exit terminal, launch again, run 'which ruby' to make sure it's rvm
 

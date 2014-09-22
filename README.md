@@ -63,11 +63,9 @@ before doing a 'vagrant up' with the new release:
 
 ### UBUNTU - RARING/SAUCY
 
->sudo apt-get install git
-
->sudo apt-get install curl
-
->sudo apt-get install vagrant
+    sudo apt-get install git
+    sudo apt-get install curl
+    sudo apt-get install vagrant
 
 >Check "Run command as login" checkbox in terminal profile. Exit and relaunch terminal application.
 
@@ -126,11 +124,11 @@ Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyi
 
 >rvm get head
 
->rvm install 2.2.1
+>rvm install 2.1.3
 
 >rvm reload
 
->rvm --default use 2.2.1
+>rvm --default use 2.1.3
 
 exit terminal, launch again, run 'which ruby' to make sure it's rvm
 

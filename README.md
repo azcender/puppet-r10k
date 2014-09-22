@@ -87,12 +87,12 @@ before doing a 'vagrant up' with the new release:
 
 >If you're using ports:
 
-    $ sudo port install libxml2 libxslt (only if using ports)
+    $ sudo port install libxml2 libxslt # (only if using ports)
 
 >If you're using homebrew
 
-    $ sudo brew install libxml2 libxslt (only if using homebrew)
-    $ sudo brew link libxml2 libxslt (only if using homebrew)
+    $ sudo brew install libxml2 libxslt # (only if using homebrew)
+    $ sudo brew link libxml2 libxslt # (only if using homebrew)
 
 
 ### WINDOWS
@@ -105,15 +105,15 @@ Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyi
 
 >Launch git bash
 
->cd /c/Ruby200-x64/devkit
+    $ cd /c/Ruby200-x64/devkit
 
->ruby dk.rb init
+    $ ruby dk.rb init
 
 >add '- C:/Ruby200-x64' to bottom of config.yml
 
->ruby dk.rb install
+    $ ruby dk.rb install
 
->gem update ('y' to update rake, rdoc, ri)
+    $ gem update # ('y' to update rake, rdoc, ri)
 
 >Install [VirtualBox 4.3.16 for Windows](http://download.virtualbox.org/virtualbox/4.3.16/VirtualBox-4.3.16-95972-Win.exe) with defaults (admin required).
 
@@ -124,48 +124,48 @@ Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyi
 
 >Install RVM:
 
->\curl -L https://get.rvm.io | bash -s stable --rails --autolibs=enabled
+    $ \curl -L https://get.rvm.io | bash -s stable --rails --autolibs=enabled
 
->rvm get head
+    $ rvm get head
 
->rvm install 2.1.3
+    $ rvm install 2.1.3
 
->rvm reload
+    $ rvm reload
 
->rvm --default use 2.1.3
+    $ rvm --default use 2.1.3
 
 exit terminal, launch again, run 'which ruby' to make sure it's rvm
 
 >POSSIBLE RED HERRING /Applications/Vagrant/embedded/bin/gem install nokogiri -- --use-system-libraries=true --with-xml2-include=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/include/libxml2
 
->sudo port install libxml2 libxslt
+    $ sudo port install libxml2 libxslt
 
 
 Continue:
 
->vagrant plugin install oscar
+    $ vagrant plugin install oscar
 
->vagrant plugin install vagrant-vbguest
+    $ vagrant plugin install vagrant-vbguest
 
->gem install librarian-puppet
+    $ gem install librarian-puppet
 
->gem install puppet
+    $ gem install puppet
 
->cd ~/sandbox
+    $ cd ~/sandbox
 
->git clone git@bitbucket.org:prolixalias/puppet-r10k.git
+    $ git clone git@bitbucket.org:prolixalias/puppet-r10k.git
 
->cd puppet-r10k/puppet
+    $ cd puppet-r10k/puppet
 
->librarian-puppet install --clean --verbose
+    $ librarian-puppet install --clean --verbose
 
->vagrant plugin update
+    $ vagrant plugin update
 
->DEPRECATED vagrant box add vagrant-raring64 https://bitbucket.org/prolixalias/puppet/downloads/vagrant-raring64.box
+    $ ### DEPRECATED vagrant box add vagrant-raring64 https://bitbucket.org/prolixalias/puppet/downloads/vagrant-raring64.box
 
->DEPRECATED vagrant box add precise64 http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box
+    $ ### DEPRECATED vagrant box add precise64 http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box
 
->vagrant up  # NOTE: be sure to launch Git bash as administrator on Windows for adding vbox network interface(s) and dealing with Windows firewall
+    $ vagrant up  # NOTE: be sure to launch Git bash as administrator on Windows for adding vbox network interface(s) and dealing with Windows firewall
 
 
 # Troubleshooting
@@ -173,3 +173,4 @@ Continue:
   * For diagnosing vagrant issues, the following command will be utterly useful:
 
     $ VAGRANT_LOG=DEBUG vagrant up 2>&1 | tee /tmp/puppet-r10k-vagrant.runlog
+

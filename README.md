@@ -84,8 +84,10 @@ before doing a 'vagrant up' with the new release:
 >Install homebrew (if you don't have ports installed)
     $ ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"
 
+>If you're using ports:
     $ sudo port install libxml2 libxslt (only if using ports)
 
+>If you're using homebrew
     $ sudo brew install libxml2 libxslt (only if using homebrew)
     $ sudo brew link libxml2 libxslt (only if using homebrew)
 

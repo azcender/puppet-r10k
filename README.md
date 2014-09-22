@@ -81,7 +81,8 @@ before doing a 'vagrant up' with the new release:
 
 >Install [Vagrant 1.6.3 for OS X](https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3.dmg) with defaults (admin required).
 
->Install homebrew (if you don't have ports installed)
+>Install homebrew (if you don't already have ports installed)
+
     $ ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"
 
 >If you're using ports:

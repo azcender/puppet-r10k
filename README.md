@@ -141,7 +141,7 @@ Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyi
     $ sudo port install libxml2 libxslt
 
 
-Continue:
+>Continue:
 
     $ vagrant plugin install oscar
 
@@ -173,6 +173,7 @@ Continue:
 
 
     $ vagrant provision --provision-with hosts
+
 
   * For diagnosing vagrant issues, the following command will be utterly useful:
 

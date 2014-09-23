@@ -170,9 +170,12 @@ Continue:
 
 # Troubleshooting
   * vagrant-hosts sometimes fails to insert the master's hostname into the /etc/hosts files on the agent VMs. One work-around is to run:
+
+
     $ vagrant provision --provision-with hosts
 
   * For diagnosing vagrant issues, the following command will be utterly useful:
+
 
     $ VAGRANT_LOG=DEBUG vagrant up 2>&1 | tee /tmp/puppet-r10k-vagrant.runlog
 

@@ -91,13 +91,13 @@ before doing a 'vagrant up' with the new release:
 
 >If you're using homebrew
 
-    $ sudo brew install libxml2 libxslt # (only if using homebrew)
-    $ sudo brew link libxml2 libxslt # (only if using homebrew)
+    $ brew install libxml2 libxslt # (only if using homebrew)
+    $ brew link libxml2 libxslt # (only if using homebrew)
 
 
 ### WINDOWS
 
->Install [git 1.9.4 for Windows](http://git-scm.com/download/win) with defaults. (admin required)
+>Install [git 1.9.4 for Windows](https://github.com/msysgit/msysgit/releases/download/Git-1.9.4-preview20140815/Git-1.9.4-preview20140815.exe) with defaults. (admin required)
 
 >Install [ruby 2.2.0-p481 for 64-bit Windows](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p481-x64.exe?direct) - Tcl/Tk support, add to path, associate. (admin required)
 
@@ -113,7 +113,7 @@ Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyi
 
     $ ruby dk.rb install
 
-    $ gem update # ('y' to update rake, rdoc, ri)
+    $ gem update # ('y' to update rake|rdoc|ri)
 
 >Install [VirtualBox 4.3.16 for Windows](http://download.virtualbox.org/virtualbox/4.3.16/VirtualBox-4.3.16-95972-Win.exe) with defaults (admin required).
 
@@ -173,4 +173,5 @@ Continue:
   * For diagnosing vagrant issues, the following command will be utterly useful:
 
     $ VAGRANT_LOG=DEBUG vagrant up 2>&1 | tee /tmp/puppet-r10k-vagrant.runlog
+
 

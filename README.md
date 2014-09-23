@@ -134,8 +134,6 @@ Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyi
 
     $ rvm --default use 2.1.2
 
->exit terminal, launch again, run 'which ruby' to make sure it's rvm
-
 
 >Continue:
 

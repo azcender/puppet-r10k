@@ -155,10 +155,6 @@ Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyi
 
     $ vagrant plugin update
 
-    $ ### DEPRECATED vagrant box add vagrant-raring64 https://bitbucket.org/prolixalias/puppet/downloads/vagrant-raring64.box
-
-    $ ### DEPRECATED vagrant box add precise64 http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box
-
     $ vagrant up  # NOTE: be sure to launch Git bash as administrator on Windows for adding vbox network interface(s) and dealing with Windows firewall
 
 

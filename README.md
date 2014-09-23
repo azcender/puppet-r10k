@@ -136,10 +136,6 @@ Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyi
 
 >exit terminal, launch again, run 'which ruby' to make sure it's rvm
 
->POSSIBLE RED HERRING /Applications/Vagrant/embedded/bin/gem install nokogiri -- --use-system-libraries=true --with-xml2-include=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/include/libxml2
-
-    $ sudo port install libxml2 libxslt
-
 
 >Continue:
 

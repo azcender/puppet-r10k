@@ -8,6 +8,7 @@ class profile::java_web_application_server inherits profile {
   # instances
   include ::java
   include ::tomcat
+  include ::apache
 
   # Default tomcat home to catalina_home
   $instances_default = {

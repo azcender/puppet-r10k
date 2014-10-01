@@ -25,10 +25,6 @@ class profile::java_web_application_server inherits profile {
   create_resources('::apache::vhost', $apache_vhosts)
 
   # TODO - Move to a new profile. Do not reused $apache_vhosts - SLOPPY
-  $apache_balancer_default = {
-    collect_exported => true,
-  }
-
   $apache_balancers = hiera('profile::java_web_application_server::balancers')
   create_resources('::apache::balancer', $apache_balancers, $apache_balancer_default)
 

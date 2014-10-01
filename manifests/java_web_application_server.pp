@@ -21,11 +21,14 @@ class profile::java_web_application_server inherits profile {
   }
 
   # Setup HTTPD balancer
-  $apache_vhosts = hiera('profile::java_web_application_server::balancers')
+  $apache_vhosts = hiera('profile::java_web_application_server::vhosts')
   create_resources('::apache::vhost', $apache_vhosts)
 
   # TODO - Move to a new profile. Do not reused $apache_vhosts - SLOPPY
-  $apache_balancer_default = hiera('profile::java_web_application_server::balancers')
+  $apache_balancer_default = {
+    collect_exported => true,
+  }
+
   create_resources('::apache::balancer', $apache_vhosts, $apache_balancer_default)
 
   # The instances to be configured on this node

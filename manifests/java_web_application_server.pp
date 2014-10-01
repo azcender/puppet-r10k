@@ -26,7 +26,7 @@ class profile::java_web_application_server inherits profile {
 
   # TODO - Move to a new profile. Do not reused $apache_vhosts - SLOPPY
   $apache_balancers = hiera('profile::java_web_application_server::balancers')
-  create_resources('::apache::balancer', $apache_balancers, $apache_balancer_default)
+  create_resources('::apache::balancer', $apache_balancers)
 
   # The instances to be configured on this node
   $instances = hiera('profile::java_web_application_server::instances')

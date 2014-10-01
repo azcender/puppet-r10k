@@ -86,7 +86,7 @@ class profile {
 
   host { 'localhost':
     ip => '127.0.0.1',
-    host_aliases => [ "${clientcert}", "${fqdn}" ],
+    host_aliases => [ "${hostname}", "${fqdn}" ],
   }
 
   # Create defined files

@@ -29,7 +29,8 @@ class profile::java_web_application_server inherits profile {
     collect_exported => true,
   }
 
-  create_resources('::apache::balancer', $apache_vhosts, $apache_balancer_default)
+  $apache_balancers = hiera('profile::java_web_application_server::balancers')
+  create_resources('::apache::balancer', $apache_balancers, $apache_balancer_default)
 
   # The instances to be configured on this node
   $instances = hiera('profile::java_web_application_server::instances')

@@ -84,6 +84,11 @@ class profile {
     value    => true,
   }
 
+  host { 'localhost':
+    ip => '127.0.0.1',
+    host_aliases => [ "${hostname}", "${fqdn}" ],
+  }
+
   # Create defined files
   $files = hiera_hash('files', {})
 

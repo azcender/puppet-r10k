@@ -1,6 +1,6 @@
 # A wrapper that contains all thr functionality needed for a standard java web
-# application.
-# Does not support JEE applications
+# application --- does not support JEE applications
+
 class profile::java_web_application_server inherits profile {
 
   # Java is needed to run the applications

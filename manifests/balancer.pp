@@ -6,8 +6,8 @@ class profile::balancer inherits profile {
   include ::apache
 
   # Apache submodules required for proxy
-  apache::mod { 'proxy_ajp': }¬
-  apache::mod { 'proxy_html': }¬
+  apache::mod { 'proxy_ajp': }
+  apache::mod { 'proxy_html': }
 
   # Get the vhost balancers to create
   $vhosts = hiera('profile::balancer::vhosts')

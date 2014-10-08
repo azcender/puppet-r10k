@@ -121,7 +121,7 @@ node /^master*$/ inherits base {
 :hierarchy:
   - "fqdn/%{::fqdn}"
   - "role/%{::role}"
-  - "role/%{::role}/%{::node_group}"
+  - "role/%{::role}/%{::role_group}"
   - "tier/%{::tier}"
   - common
 

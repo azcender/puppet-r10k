@@ -1,14 +1,6 @@
 # Does basic setup for all profiles
 # Puppet master DOES NOT inherit from this
 class profile {
-  # Allow run for all nodes
-  puppet_auth { 'Allow run on all nodes':
-    ensure        => present,
-    path          => '/run',
-    authenticated => 'any',
-    allow         => '*',
-  }
-
   # Puppet agent dev environment
   # Default: production
   $puppet_agent_environment =

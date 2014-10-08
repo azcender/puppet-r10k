@@ -2,12 +2,11 @@
 # Puppet master DOES NOT inherit from this
 class profile {
   # Allow run for all nodes
-  puppet_auth { 'Allow /facts before first denied rule':
+  puppet_auth { 'Allow run on all nodes':
     ensure        => present,
     path          => '/run',
     authenticated => 'any',
     allow         => '*',
-    method        => 'save',
   }
 
   # Puppet agent dev environment

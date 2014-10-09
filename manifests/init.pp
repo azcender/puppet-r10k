@@ -10,7 +10,7 @@ class profile {
 
   # Add puppet auth entry for run
   augeas { "auth.conf":
-    changes => [$run_path, $run_auth, $run_method, $run_allow, $remote_root],
+    changes => [$run_path, $run_auth, $run_method, $run_allow, $remove_root],
   }
 
   # Puppet agent dev environment

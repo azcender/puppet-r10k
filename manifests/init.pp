@@ -3,8 +3,8 @@
 class profile {
   $run_path   = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run'] /run"
   $run_auth   = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/auth any"
-  $run_method = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/method save"
-  $run_allow  = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/allow *"
+  $run_method = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/method/1 save"
+  $run_allow  = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/allow/1 *"
   
   # Add puppet auth entry for run
   augeas { "auth.conf":

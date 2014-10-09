@@ -1,6 +1,16 @@
 # Does basic setup for all profiles
 # Puppet master DOES NOT inherit from this
 class profile {
+  $run_path   = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run'] /run"
+  $run_auth   = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/auth any"
+  $run_method = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/method save"
+  $run_allow  = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/allow *"
+  
+  # Add puppet auth entry for run
+  augeas { "auth.conf":
+    changes => [$run_path, $run_auth, $run_method, $run_allow],
+  }
+
   # Puppet agent dev environment
   # Default: production
   $puppet_agent_environment =

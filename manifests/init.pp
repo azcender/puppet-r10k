@@ -5,10 +5,12 @@ class profile {
   $run_auth   = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/auth any"
   $run_method = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/method/1 save"
   $run_allow  = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/allow/1 *"
+
+  $remove_root = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/']"
   
   # Add puppet auth entry for run
   augeas { "auth.conf":
-    changes => [$run_path, $run_auth, $run_method, $run_allow],
+    changes => [$run_path, $run_auth, $run_method, $run_allow, $remote_root],
   }
 
   # Puppet agent dev environment

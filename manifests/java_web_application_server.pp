@@ -10,6 +10,11 @@ class profile::java_web_application_server inherits profile {
   include ::tomcat
   include ::apache
 
+  # Since this uses wget to obtain the war files make the cache directory
+  file { '/opt/cache/wget':
+    ensure => directory,
+  }
+
   # Default tomcat home to catalina_home
   $instances_default = {
     instance_basedir => hiera('tomcat::catalina_home'),

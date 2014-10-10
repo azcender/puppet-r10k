@@ -11,7 +11,7 @@ class profile::java_web_application_server inherits profile {
   include ::apache
 
   # Since this uses wget to obtain the war files make the cache directory
-  file { '/opt/cache/wget':
+  file { '/var/cache/wget':
     ensure => directory,
   }
 

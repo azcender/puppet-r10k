@@ -6,19 +6,19 @@ class profile::master {
     recurse => 'true'
   }
 
-  file {'/etc/puppetlabs/puppet/environments':
-    mode    => 'u+r',
-    owner   => 'pe-puppet',
-    group   => 'pe-puppet',
-    recurse => 'true'
-  }
+#  file {'/etc/puppetlabs/puppet/environments':
+#    mode    => 'u+r',
+#    owner   => 'pe-puppet',
+#    group   => 'pe-puppet',
+#    recurse => 'true'
+#  }
 
-  file {'/etc/puppetlabs/puppet/hiera':
-    mode    => 'u+r',
-    owner   => 'pe-puppet',
-    group   => 'pe-puppet',
-    recurse => 'true'
-  }->
+#  file {'/etc/puppetlabs/puppet/hiera':
+#    mode    => 'u+r',
+#    owner   => 'pe-puppet',
+#    group   => 'pe-puppet',
+#    recurse => 'true'
+#  }->
   file { '/etc/puppetlabs/puppet/hiera.yaml':
     ensure => 'file',
     owner  => 'root',

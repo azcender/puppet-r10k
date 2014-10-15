@@ -18,7 +18,7 @@
 
 # Define filebucket 'main':
 filebucket { 'main':
-  server => 'fsxopsx0012.wrk.fs.usda.gov',
+  server => 'master',
   path   => false,
 }
 

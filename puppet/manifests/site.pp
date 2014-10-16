@@ -152,7 +152,7 @@ prerun
   - yaml
 
 :hierarchy:
-  - "fqdn/%{::fqdn}"
+  - "domain/%{::domain}"
   - "role/%{::role}"
   - "role/%{::role}/%{::role_group}"
   - "tier/%{::tier}"

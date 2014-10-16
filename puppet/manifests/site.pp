@@ -26,7 +26,14 @@ filebucket { 'main':
 File { backup => 'main' }
 
 node 'base' {
-  include ntp
+  include '::ntp'
+
+  class { "::ntp":
+    servers    => [ '0.us.pool.ntp.org iburst','1.us.pool.ntp.org iburst','2.us.pool.ntp.org iburst','3.us.pool.ntp.org iburst'],
+    autoupdate => true,
+    restrict   => [],
+    enable     => true,
+  }
 
   @@host { $::hostname:
     ensure         => present,
@@ -99,18 +106,30 @@ node /^master*$/ inherits base {
 #
 # Pre-run command for r10k deployment and clean up
 #
-#
+
+# VARIABLES
+
+R10K=/usr/bin/r10k
+CHMOD=/bin/chmod
+CHOWN=/bin/chown
+
+# FUNCTIONS
 
 function prerun {
-  r10k deploy environment -pv
+  ${R10K} deploy environment -pv
 }
+
 function cleanup {
-  chown -R pe-puppet:pe-puppet /etc/puppetlabs/puppet/environments /etc/puppetlabs/puppet/hiera
-  chmod -R 750 /etc/puppetlabs/puppet/environments /etc/puppetlabs/puppet/hiera
+  ${CHOWN} -R pe-puppet:pe-puppet /etc/puppetlabs/puppet/environments /etc/puppetlabs/puppet/hiera
+  ${CHMOD} -R 750 /etc/puppetlabs/puppet/environments /etc/puppetlabs/puppet/hiera
 }
+
+# MAIN
 
 trap cleanup EXIT
 prerun
+
+# EOF
 ',
   } ->
 
@@ -140,7 +159,7 @@ prerun
 
   class { 'r10k::prerun_command':
     command => '/etc/puppetlabs/puppet/prerun.sh',
-  }
+  } ->
 
   file { '/etc/puppetlabs/puppet/hiera.yaml':
     ensure => 'file',
@@ -162,7 +181,12 @@ prerun
   :datadir: "/etc/puppetlabs/puppet/hiera/hiera_%{::environment}"
 ',
     notify => Service['pe-httpd'],
-  }
+  } ->
+
+  exec { "initial_prerun":
+    command => "/etc/puppetlabs/puppet/prerun.sh",
+    timeout => '900',
+  } ->
 
   service { 'pe-httpd': ensure => running, }
 }

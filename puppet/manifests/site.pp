@@ -184,7 +184,7 @@ prerun
 
   exec { "initial_prerun":
     command => "/etc/puppetlabs/puppet/prerun.sh",
-    timeout => '900',
+    timeout => '3600',
   } ->
 
   service { 'pe-httpd': ensure => running, }

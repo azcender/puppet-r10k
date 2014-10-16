@@ -10,7 +10,7 @@ class profile::balancer inherits profile {
   apache::mod { 'proxy_html': }
 
   # Get the vhost balancers to create
-  $vhosts = hiera('profile::balancer::balancers')
+  $vhosts = hiera('profile::balancer::balancers', {})
 
   create_resources('::balancer::vhost', $vhosts)
 }

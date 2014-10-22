@@ -89,13 +89,13 @@ node /^master*$/ inherits base {
   class { 'r10k':
     sources           => {
       'puppet' => {
-        'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-environments.git',
+        'remote'  => 'http://teamforge.fs.usda.gov/gerrit/p/puppet-r10k-environments.git',
         'basedir' => "${::settings::confdir}/environments",
         'prefix'  => false,
       },
 
       'hiera' => {
-        'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-hiera.git',
+        'remote'  => 'http://teamforge.fs.usda.gov/gerrit/p/puppet-r10k-hiera.git',
         'basedir' => "${::settings::confdir}/hiera",
         'prefix'  => true,
       }

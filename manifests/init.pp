@@ -96,13 +96,6 @@ class profile {
     value    => true,
   }
 
-  # causing all kinds of trouble in work area
-  host { 'localhost':
-    ip           => '127.0.0.1',
-    host_aliases => [ "${hostname}", "${fqdn}" ],
-    #host_aliases => [ "${hostname}" ],
-  }
-
   # Create defined files
   $files = hiera_hash('files', {})
 

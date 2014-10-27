@@ -9,7 +9,6 @@ class profile::java_web_application_server inherits profile {
   include ::java
   include ::tomcat
   include ::apache
-  include ::staging
 
   # Since this uses wget to obtain the war files make the cache directory
   file { '/var/cache/wget':

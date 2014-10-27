@@ -10,7 +10,6 @@ class profile::java_web_application_server inherits profile {
   include ::tomcat
   include ::apache
 
-  require ::staging::params
 
   # Since this uses wget to obtain the war files make the cache directory
   file { '/var/cache/wget':
@@ -33,6 +32,7 @@ class profile::java_web_application_server inherits profile {
     group   => $::staging::params::group,
     mode    => $::staging::params::mode,
     recurse => true,
+    require => Class['::Staging::Params']
     before  => Class['::Staging'],
   }
 

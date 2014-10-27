@@ -9,6 +9,7 @@ class profile::java_web_application_server inherits profile {
   include ::java
   include ::tomcat
   include ::apache
+  include ::staging
 
   # Since this uses wget to obtain the war files make the cache directory
   file { '/var/cache/wget':
@@ -19,6 +20,19 @@ class profile::java_web_application_server inherits profile {
   $instances_default = {
     instance_basedir => hiera('tomcat::catalina_home'),
     source_url       => hiera('profile:java_web_application_server::source_url'),
+  }
+
+  # The tomcat class relies on the staging class. The staging class uses a
+  # cache directory. The permissions on the cache directory must be loose
+  # enough to be read globally.
+  #
+  # We will create the staging directory here for more control.
+  file { $::staging::params::path:
+    owner   => $::staging::params::owner,
+    group   => $::staging::params::group,
+    mode    => $::staging::params::mode,
+    recurse => true,
+    before  => ::Tomcat::Instance,
   }
 
   # The instances to be configured on this node

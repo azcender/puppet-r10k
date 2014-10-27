@@ -27,12 +27,13 @@ class profile::java_web_application_server inherits profile {
   # enough to be read globally.
   #
   # We will create the staging directory here for more control.
-  file { $::staging::params::path:
+  #
+  # Should not use hard coded path name, but Puppet.
+  file { '/opt/staging':
     owner   => $::staging::params::owner,
     group   => $::staging::params::group,
     mode    => $::staging::params::mode,
     recurse => true,
-    require => Class['::Staging::Params'],
     before  => Class['::Staging'],
   }
 

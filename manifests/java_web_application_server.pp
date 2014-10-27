@@ -31,7 +31,8 @@ class profile::java_web_application_server inherits profile {
     group   => $::staging::params::group,
     mode    => $::staging::params::mode,
     recurse => true,
-    before  => [::Staging],
+    require => ::Staging::Params,
+    before  => ::Staging::Staging,
   }
 
   # The instances to be configured on this node

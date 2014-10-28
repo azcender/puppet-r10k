@@ -22,22 +22,6 @@ class profile::java_web_application_server inherits profile {
     source_url       => hiera('profile:java_web_application_server::source_url'),
   }
 
-  # The tomcat class relies on the staging class. The staging class uses a
-  # cache directory. The permissions on the cache directory must be loose
-  # enough to be read globally.
-  #
-  # We will create the staging directory here for more control.
-  #
-  # Should not use hard coded path name, but Puppet.
-  file { '/opt/staging':
-    ensure  => directory,
-    owner   => '0',
-    group   => '0',
-    mode    => '0755',
-    recurse => true,
-    before  => Class['::Staging'],
-  }
-
   # The instances to be configured on this node
   $instances = hiera('profile::java_web_application_server::instances')
 

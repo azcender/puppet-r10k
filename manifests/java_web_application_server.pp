@@ -10,13 +10,6 @@ class profile::java_web_application_server inherits profile {
   include ::apache
   include ::tomcat
 
-  # Ensure basedir is available
-  $_instance_basedir = hiera('tomcat::catalina_home')
-
-  file { $_instance_basedir:
-    ensure => directory,
-  }
-
   # Hard fix of staging dirs
   # TODO: Fix this
   file { '/opt/staging/tomcat':
@@ -39,7 +32,7 @@ class profile::java_web_application_server inherits profile {
 
   # Default tomcat home to catalina_home
   $instances_default = {
-    instance_basedir => $_instance_basedir,
+    instance_basedir => hiera('tomcat::catalina_home'),
     source_url       => hiera('profile:java_web_application_server::source_url'),
   }
 

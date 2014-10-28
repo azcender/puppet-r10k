@@ -31,11 +31,10 @@ class profile::java_web_application_server inherits profile {
   # Should not use hard coded path name, but Puppet.
   file { '/opt/staging':
     ensure  => directory,
-    owner   => $::staging::params::owner,
-    group   => $::staging::params::group,
-    mode    => $::staging::params::mode,
+    owner   => '0',
+    group   => '0',
+    mode    => '0755',
     recurse => true,
-    require => Class['::Staging::Params'],
     before  => Class['::Staging'],
   }
 

@@ -12,16 +12,16 @@ class profile::java_web_application_server inherits profile {
   # Hard fix of staging dirs
   # TODO: Fix this
   file { '/opt/staging/tomcat':
-    ensure => directory,
-    mode   => 'ug=rw,o=r',
-    before => ::Tomcat::Instance,
+    ensure  => directory,
+    mode    => 'ug=rw,o=r',
+    require => File['/opt/staging'],
+    before  => ::Staging::File['/opt/staging/tomcat/apache-tomcat-8.0.14.tar.gz'],
   }
 
   file { '/opt/staging/tomcat/apache-tomcat-8.0.14.tar.gz':
     ensure  => file,
     mode    => 'ug=rw,o=r',
-    require => ::Staging::File,
-    before  => ::Staging::Instance::Source,
+    require => ::Staging::File['/opt/staging/tomcat/apache-tomcat-8.0.14.tar.gz'],
   }
 
 

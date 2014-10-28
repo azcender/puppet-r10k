@@ -35,6 +35,7 @@ class profile::java_web_application_server inherits profile {
     group   => $::staging::params::group,
     mode    => $::staging::params::mode,
     recurse => true,
+    require => Class['::Staging::Params'],
     before  => Class['::Staging'],
   }
 

@@ -7,8 +7,22 @@ class profile::java_web_application_server inherits profile {
   # A standard tomcat instace needs to be instantiated before building separate
   # instances
   include ::java
-  include ::tomcat
   include ::apache
+  include ::staging::params
+
+  # Hard fix of staging dirs
+  # TODO: Fix this
+  file { '/opt/staging/tomcat':
+    ensure => directory,
+    mode   => 'ug=rw,o=r',
+    before => Class['::Tomcat::Instance'],
+  }
+
+  file { '/opt/staging/tomcat/apache-tomcat-8.0.14.tar.gz':
+    ensure  => file,
+    mode    => 'ug=rw,o=r',
+    require => Class['::Tomcat::Instance'],
+  }
 
 
   # Since this uses wget to obtain the war files make the cache directory

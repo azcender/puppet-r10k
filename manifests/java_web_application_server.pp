@@ -14,13 +14,13 @@ class profile::java_web_application_server inherits profile {
   # TODO: Fix this
   file { '/opt/staging/tomcat':
     ensure  => directory,
-    mode    => '777',
+    mode    => 'a=rx',
     require => File['/opt/staging'],
   }
 
   file { '/opt/staging/tomcat/apache-tomcat-8.0.14.tar.gz':
     ensure  => file,
-    mode    => '777',
+    mode    => 'ug=rw,o=r',
     require => ::Staging::File['apache-tomcat-8.0.14.tar.gz'],
   }
 

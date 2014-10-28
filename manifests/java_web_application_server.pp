@@ -14,8 +14,6 @@ class profile::java_web_application_server inherits profile {
 
   file { $_instance_basedir:
     ensure => directory,
-    owner  => 'tomcat',
-    group  => 'tomcat',
   }
 
   # Hard fix of staging dirs

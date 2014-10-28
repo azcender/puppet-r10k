@@ -8,6 +8,7 @@ class profile::java_web_application_server inherits profile {
   # instances
   include ::java
   include ::apache
+  include ::tomcat
 
   # Ensure basedir is available
   $_instance_basedir = hiera('tomcat::catalina_home')

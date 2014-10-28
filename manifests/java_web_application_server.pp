@@ -8,20 +8,20 @@ class profile::java_web_application_server inherits profile {
   # instances
   include ::java
   include ::apache
-  include ::staging::params
 
   # Hard fix of staging dirs
   # TODO: Fix this
   file { '/opt/staging/tomcat':
     ensure => directory,
     mode   => 'ug=rw,o=r',
-    before => Class['::Tomcat::Instance'],
+    before => ::Tomcat::Instance,
   }
 
   file { '/opt/staging/tomcat/apache-tomcat-8.0.14.tar.gz':
     ensure  => file,
     mode    => 'ug=rw,o=r',
-    require => Class['::Tomcat::Instance'],
+    require => ::Staging::File,
+    before  => ::Staging::Instance::Source,
   }
 
 

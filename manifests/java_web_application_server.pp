@@ -18,7 +18,7 @@ class profile::java_web_application_server inherits profile {
     require => File['/opt/staging'],
   }
 
-  file { '/opt/staging/tomcat/apache-tomcat-8.0.14.tar.gz':
+  file { '/apache-tomcat-8.0.14.tar.gz':
     ensure  => file,
     mode    => 'ug=rw,o=r',
     require => ::Staging::File['/opt/staging/tomcat/apache-tomcat-8.0.14.tar.gz'],

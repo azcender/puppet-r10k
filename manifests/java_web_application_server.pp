@@ -18,10 +18,14 @@ class profile::java_web_application_server inherits profile {
     require => File['/opt/staging'],
   }
 
-  file { '/opt/staging/tomcat/apache-tomcat-8.0.14.tar.gz':
+  $source_url = hiera('profile:java_web_application_server::source_url')
+
+  $apache_file = regsubst($source_url, '.*/(.*)', '\1')
+
+  file { "/opt/staging/tomcat/${apache_file}" :
     ensure  => file,
     mode    => 'ug=rw,o=r',
-    require => ::Staging::File['apache-tomcat-8.0.14.tar.gz'],
+    require => ::Staging::File[$apache_file],
   }
 
 
@@ -33,7 +37,7 @@ class profile::java_web_application_server inherits profile {
   # Default tomcat home to catalina_home
   $instances_default = {
     instance_basedir => hiera('tomcat::catalina_home'),
-    source_url       => hiera('profile:java_web_application_server::source_url'),
+    source_url       => $source_url,
   }
 
   # The instances to be configured on this node

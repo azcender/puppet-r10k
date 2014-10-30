@@ -6,6 +6,7 @@ class profile::balancer inherits profile {
   include ::apache
 
   # Apache submodules required for proxy
+  apache::mod { 'proxy': }
   apache::mod { 'proxy_ajp': }
   apache::mod { 'proxy_html': }
 

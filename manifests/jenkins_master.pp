@@ -8,11 +8,4 @@ class profile::jenkins_master {
   # Include standard jenkins class
   include ::jenkins
   include ::jenkins::master
-  # The instances to be configured on this node
-  $plugins = hiera('profile::jenkins_master::plugins')
-
-  # The plugin default
-  $plugin_default = {}
-
-  create_resources('::jenkins::plugin', $plugins, $plugin_default)
 }

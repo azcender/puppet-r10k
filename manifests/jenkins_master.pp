@@ -8,4 +8,7 @@ class profile::jenkins_master {
   # Include standard jenkins class
   include ::jenkins
   include ::jenkins::master
+
+  # The FS Jenkins requires a git executable
+  include ::git
 }

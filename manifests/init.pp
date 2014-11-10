@@ -1,15 +1,18 @@
 # Does basic setup for all profiles
 # Puppet master DOES NOT inherit from this
 class profile {
-  $run_path   = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run'] /run"
-  $run_auth   = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/auth any"
-  $run_method = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/method/1 save"
-  $run_allow  = "set /files/etc/puppetlabs/puppet/auth.conf/path[. = '/run']/allow/1 *"
+  $puppet_path = hiera('profile::puppet_path')
 
-  $remove_root = "rm /files/etc/puppetlabs/puppet/auth.conf/path[. = '/']"
+  $run_path   = "set /files${puppet_path}/auth.conf/path[. = '/run'] /run"
+  $run_auth   = "set /files${puppet_path}/auth.conf/path[. = '/run']/auth any"
+  $run_method =
+    "set /files${puppet_path}/auth.conf/path[. = '/run']/method/1 save"
+  $run_allow  = "set /files${puppet_path}/auth.conf/path[. = '/run']/allow/1 *"
+
+  $remove_root = "rm ${puppet_path}/auth.conf/path[. = '/']"
 
   # Add puppet auth entry for run
-  augeas { "auth.conf":
+  augeas { 'auth.conf':
     changes => [$run_path, $run_auth, $run_method, $run_allow, $remove_root],
   }
 
@@ -26,8 +29,7 @@ class profile {
 
   # Puppet intended agent polling interval
   # Default:  1800 (30 mins)
-  $puppet_agent_runinterval =
-    hiera('profile::puppet_agent_runinterval')
+  $puppet_agent_runinterval = hiera('profile::puppet_agent_runinterval')
 
   # Empty runintervals are not allowed
   $runinterval = $puppet_agent_runinterval? {
@@ -54,46 +56,46 @@ class profile {
   }
 
   ini_setting { 'remove bogus production env from main section if present':
-    ensure   => absent,
-    path     => $puppet_conf_path,
-    section  => 'main',
-    setting  => 'environment',
-    value    => 'production',
+    ensure  => absent,
+    path    => $puppet_conf_path,
+    section => 'main',
+    setting => 'environment',
+    value   => 'production',
   }
 
   ini_setting { 'set puppet development environment':
-    ensure   => present,
-    path     => $puppet_conf_path,
-    section  => 'agent',
-    setting  => 'environment',
-    value    => $agent_environment,
+    ensure  => present,
+    path    => $puppet_conf_path,
+    section => 'agent',
+    setting => 'environment',
+    value   => $agent_environment,
   }
 
   # Set agent polling interval
   ini_setting { 'set puppet agent polling interval':
-    ensure   => present,
-    path     => $puppet_conf_path,
-    section  => 'main',
-    setting  => 'runinterval',
-    value    => $runinterval,
+    ensure  => present,
+    path    => $puppet_conf_path,
+    section => 'main',
+    setting => 'runinterval',
+    value   => $runinterval,
   }
 
   # Set HTTP listener on
   ini_setting { 'set http api listener on':
-    ensure   => present,
-    path     => $puppet_conf_path,
-    section  => 'agent',
-    setting  => 'listen',
-    value    => true,
+    ensure  => present,
+    path    => $puppet_conf_path,
+    section => 'agent',
+    setting => 'listen',
+    value   => true,
   }
 
   # Enable pluginsync
   ini_setting { 'enable pluginsync':
-    ensure   => present,
-    path     => $puppet_conf_path,
-    section  => 'main',
-    setting  => 'pluginsync',
-    value    => true,
+    ensure  => present,
+    path    => $puppet_conf_path,
+    section => 'main',
+    setting => 'pluginsync',
+    value   => true,
   }
 
   # Create defined files

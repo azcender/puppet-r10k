@@ -4,14 +4,14 @@ class profile::master {
   # Set global file settings
   file {'/etc/puppetlabs/puppet/modules':
     mode    => 'a+r',
-    recurse => 'true'
+    recurse => true
   }
 
   file { '/etc/puppetlabs/puppet/hiera.yaml':
-    ensure => 'file',
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
     content => '---
 :backends:
   - yaml

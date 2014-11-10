@@ -2,7 +2,9 @@
 
 include registry
 
-class profile::windows_firewall inherits profile {
+class profile::windows_firewall {
+  include ::profile
+
   class{ '::windows_firewall':
     ensure => 'stopped',
   }

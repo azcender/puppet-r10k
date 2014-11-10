@@ -1,4 +1,6 @@
 # Installs the epel "Extra Packages" repository
-class profile::epel inherits profile {
+class profile::epel {
+  include ::profile
+
   class{ '::epel': }
 }

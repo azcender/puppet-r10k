@@ -1,7 +1,9 @@
 # A wrapper that contains all thr functionality needed for a standard java web
 # application.
 # Does not support JEE applications
-class profile::balancer inherits profile {
+class profile::balancer {
+  include ::profile
+
   # The load balancer runs from the puppet apache module
   include ::apache
 

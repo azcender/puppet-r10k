@@ -1,5 +1,7 @@
 # Disables node level firewall
-class profile::firewall inherits profile {
+class profile::firewall {
+  include ::profile
+
   class{ '::firewall':
     ensure => 'stopped'
   }

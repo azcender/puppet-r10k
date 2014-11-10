@@ -1,5 +1,7 @@
 # Setup IIS to host site(s)
-class profile::windows_webserver inherits profile {
+class profile::windows_webserver {
+  include ::profile
+
   Dism { ensure => present, }
   dism { 'IIS-WebServerRole': } ->
   dism { 'IIS-WebServer': }

@@ -1,5 +1,7 @@
 # Installs Avahi web daemon service
-class profile::avahi inherits profile {
+class profile::avahi {
+  include ::profile
+
   class{ '::avahi': }
 
   # Need to disallow other services

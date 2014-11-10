@@ -25,22 +25,24 @@ filebucket { 'main':
 # Make filebucket 'main' the default backup location for all File resources:
 File { backup => 'main' }
 
-node 'base' {
-  #include '::ntp'
-
-  class { "::ntp":
-    servers    => [ '0.us.pool.ntp.org iburst','1.us.pool.ntp.org iburst','2.us.pool.ntp.org iburst','3.us.pool.ntp.org iburst'],
+node /^master*$/ {
+  class { '::ntp':
+    servers    =>
+      [ '0.us.pool.ntp.org iburst',
+        '1.us.pool.ntp.org iburst',
+        '2.us.pool.ntp.org iburst',
+        '3.us.pool.ntp.org iburst'],
     autoupdate => true,
     restrict   => [],
   }
 
   @@host { $::hostname:
-    ensure         => present,
-    ip             => $::virtual ? {
+    ensure       => present,
+    ip           => $::virtual ? {
       'virtualbox' => $::ipaddress_eth1,
       default      => $::ipaddress_eth0,
     },
-    host_aliases   => $hostname,
+    host_aliases => $hostname,
   }
 
   host { 'localhost':
@@ -50,19 +52,29 @@ node 'base' {
   }
 
   Host <<||>>
-}
-
-node /^master*$/ inherits base {
+  
+  # Set r10k based on domain
+  # Hiera doesn't exist yet so programattically set values
+  if $::domain =~ /\.fs.usda.gov$/ {
+    $puppet_remote =
+      'http://teamforge.fs.usda.gov/gerrit/p/puppet-r10k-environments.git'
+    $hiera_remote = 'http://teamforge.fs.usda.gov/gerrit/p/puppet-r10k-hiera.git'
+  }
+  else {
+    $puppet_remote =
+      'https://bitbucket.org/prolixalias/puppet-r10k-environments.git'
+    $hiera_remote = 'https://bitbucket.org/prolixalias/puppet-r10k-hiera.git'
+  }
 
   if $::osfamily == 'redhat' {
     class { 'firewall': ensure => stopped, }
   }
 
   ini_setting { 'master manifest path':
-    ensure   => absent,
-    path     => '/etc/puppetlabs/puppet/puppet.conf',
-    section  => 'main',
-    setting  => 'manifest',
+    ensure  => absent,
+    path    => '/etc/puppetlabs/puppet/puppet.conf',
+    section => 'main',
+    setting => 'manifest',
   } ->
 
   ini_setting { 'environmentpath':
@@ -90,7 +102,7 @@ node /^master*$/ inherits base {
   } ->
 
   ini_setting { 'modulepath':
-    ensure => absent,
+    ensure  => absent,
     path    => '/etc/puppetlabs/puppet/puppet.conf',
     section => 'main',
     setting => 'modulepath',
@@ -142,13 +154,13 @@ prerun
     include_prerun_command => false,
     sources                => {
       'puppet' => {
-        'remote'  => 'http://teamforge.fs.usda.gov/gerrit/p/puppet-r10k-environments.git',
+        'remote'  => $puppet_remote,
         'basedir' => "${::settings::confdir}/environments",
         'prefix'  => false,
       },
 
       hiera                => {
-        'remote'  => 'https://bitbucket.org/prolixalias/puppet-r10k-hiera.git',
+        'remote'  => $hiera_remote,
         'basedir' => "${::settings::confdir}/hiera",
         'prefix'  => true,
       }
@@ -182,8 +194,8 @@ prerun
     notify => Service['pe-httpd'],
   } ->
 
-  exec { "initial_prerun":
-    command => "/etc/puppetlabs/puppet/prerun.sh",
+  exec { 'initial_prerun':
+    command => '/etc/puppetlabs/puppet/prerun.sh',
     timeout => '3600',
   } ->
 
@@ -200,7 +212,30 @@ prerun
 # will be included in every node's catalog, *in addition* to any classes
 # specified in the console for that node.
 
-node default inherits base {
+node default {
+  class { '::ntp':
+    servers    => [ '0.us.pool.ntp.org iburst','1.us.pool.ntp.org iburst','2.us.pool.ntp.org iburst','3.us.pool.ntp.org iburst'],
+    autoupdate => true,
+    restrict   => [],
+  }
+
+  @@host { $::hostname:
+    ensure         => present,
+    ip             => $::virtual ? {
+      'virtualbox' => $::ipaddress_eth1,
+      default      => $::ipaddress_eth0,
+    },
+    host_aliases   => $hostname,
+  }
+
+  host { 'localhost':
+    ensure       => present,
+    ip           => '127.0.0.1',
+    host_aliases => 'localhost.localdomain',
+  }
+
+  Host <<||>>
+  
   notify { "Node ${::hostname} received default classification on local dev. Something is WRONG!": }
   file { '/tmp/runpuppet.sh':
     ensure   => 'file',

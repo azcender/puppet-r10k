@@ -8,8 +8,16 @@ class profile::balancer {
   include ::apache
 
   # Apache submodules required for proxy
-  apache::mod { 'proxy_ajp': }
-  apache::mod { 'proxy_html': }
+
+  apache::mod { 'proxy': }
+
+  apache::mod { 'proxy_ajp':
+    require => Apache::Mod['proxy'],
+  }
+
+  apache::mod { 'proxy_html':
+    require => Apache::Mod['proxy'],
+  }
 
   # Get the vhost balancers to create
   $vhosts = hiera('profile::balancer::balancers', {})

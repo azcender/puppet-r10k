@@ -3,7 +3,7 @@
 
 class profile::weblogic {
   include ::profile
-  include ::java
+#  include ::java
   include ::orawls::weblogic
   include ::orautils
 
@@ -22,5 +22,6 @@ class profile::weblogic {
     require    => Group['dba'],
   }
 
-  Class['java'] -> Class['orawls::weblogic']
+#  Class['java'] -> Class['orawls::weblogic']
+  Class['orawls::weblogic']
 }

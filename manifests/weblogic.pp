@@ -23,5 +23,4 @@ class profile::weblogic {
   }
 
 #  Class['java'] -> Class['orawls::weblogic']
-  Class['orawls::weblogic']
 }

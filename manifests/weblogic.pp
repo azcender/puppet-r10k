@@ -3,7 +3,7 @@
 
 class profile::weblogic {
   include os
-#  include java
+  include java
   include orawls::weblogic, orautils
   include fmw
   include opatch

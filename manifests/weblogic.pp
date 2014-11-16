@@ -17,7 +17,7 @@ class profile::weblogic {
   include file_persistence
   include jms
 
-#  Class[java] -> Class[orawls::weblogic]
+  Class[java] -> Class[orawls::weblogic]
 
 # operating settings for Middleware
 class os {

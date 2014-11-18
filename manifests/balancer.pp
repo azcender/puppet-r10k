@@ -9,7 +9,8 @@ class profile::balancer {
 
   # Apache submodules required for proxy
 
-  apache::mod { 'proxy': }
+  # Remove the initial proxy mod. Should be handled by puppet module.
+#  apache::mod { 'proxy': }
 
   apache::mod { 'proxy_ajp':
     require => Apache::Mod['proxy'],

@@ -18,6 +18,8 @@ class profile::jenkins_master {
   file { '/var/lib/jenkins/.ssh':
     ensure  => directory,
     mode    => '0700',
+    owner   => 'jenkins',
+    group   => 'jenkins',
     require => User['jenkins'],
   }
 
@@ -25,6 +27,8 @@ class profile::jenkins_master {
   file { '/var/lib/jenkins/.ssh/id_rsa':
     ensure  => file,
     mode    => '0600',
+    owner   => 'jenkins',
+    group   => 'jenkins',
     require => File['/var/lib/jenkins/.ssh'],
   }
 
@@ -32,6 +36,8 @@ class profile::jenkins_master {
   file { '/var/lib/jenkins/.ssh/id_rsa.pub':
     ensure  => file,
     mode    => '0644',
+    owner   => 'jenkins',
+    group   => 'jenkins',
     require => File['/var/lib/jenkins/.ssh'],
   }
 }

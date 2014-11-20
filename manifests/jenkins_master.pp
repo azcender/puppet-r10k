@@ -11,4 +11,27 @@ class profile::jenkins_master {
 
   # The FS Jenkins requires a git executable
   include ::git
+
+  # Ensure the private and public key are installed in home
+
+  # Jenkins SSH directory
+  file { '/var/lib/jenkins/.ssh':
+    ensure  => directory,
+    mode    => '0700',
+    require => User['jenkins'],
+  }
+
+  # Jenkins RSA private key
+  file { '/var/lib/jenkins/.ssh/id_rsa':
+    ensure  => file,
+    mode    => '0600',
+    require => File['/var/lib/jenkins/.ssh'],
+  }
+
+  # Jenkins RSA public key
+  file { '/var/lib/jenkins/.ssh/id_rsa.pub':
+    ensure  => file,
+    mode    => '0644',
+    require => File['/var/lib/jenkins/.ssh'],
+  }
 }

@@ -1,6 +1,13 @@
 # Profile for standard LAMP (Linux Apache MySQL PHP) server.
 class profile::lamp {
-  include ::profile
 
-  include ::lamp
+   include ::profile
+   include ::lamp
+
+   firewall { '100 allow http and https access':
+     port   => [80, 443],
+     proto  => tcp,
+     action => accept,
+   }
+
 }

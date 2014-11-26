@@ -15,6 +15,9 @@ roles:
       - {type: hosts}
       - {type: pe_bootstrap, role: !ruby/sym master}
       - {type: shell, inline: 'ln -s -f /opt/puppet/bin/puppet /usr/bin/puppet'}
+      - {type: shell, inline: '/opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production node:variables["master","role=master"]'}
+      - {type: shell, inline: '/opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production node:addclass[master,pe_repo::platform::el_7_x86_64]'}
+      - {type: shell, inline: '/opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production node:addclass[master,pe_repo::platform::ubuntu_1404_amd64]'}
       - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp, module_path: puppet/modules, options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
 
   pe-puppet-agent-linux:

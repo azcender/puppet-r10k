@@ -34,6 +34,7 @@ roles:
     provisioners:
       - {type: hosts}
 #     - {type: pe_bootstrap}
+      - {type: shell, inline: 'curl -k https://master:8140/packages/current/install.bash | sudo bash'}
       - {type: shell, inline: 'ln -s -f /opt/puppet/bin/puppet /usr/bin/puppet'}
       - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp, module_path: puppet/modules, options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
 

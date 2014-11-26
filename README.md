@@ -23,12 +23,14 @@ Supporting materials:
 
 # Requirements
   * rvm >= 1.25.31
-  * VirtualBox == 4.3.16
-  * Vagrant == 1.6.3
+  * VirtualBox == 4.3.20
+  * Vagrant == 1.6.5
   * vagrant-oscar ( '$ vagrant plugin install oscar' )
   * vagrant-vbguest ( '$ vagrant plugin install vagrant-vbguest' )
   * librarian-puppet gem ( '$ gem install librarian-puppet' )
-  * puppet gem ( '$ gem install puppet' )
+  * nokogiri gem ( $ gem install --install-dir ~/.vagrant.d/gems nokogiri -v '1.6.4.1' )
+  * vagrant-centos7_fix ( $ vagrant plugin install vagrant-centos7_fix )
+  * puppet gem ( $ gem install puppet )
 
 # Upgrades
 This environment uses vagrant oscar plugin. Whenever oscar is updated, engineers will need to wipe out old VMs and settings
@@ -77,9 +79,9 @@ before doing a 'vagrant up' with the new release:
 >Install Xcode (and command-line tools) for your version of OS X (admin required). Run it once.
 >xcode-select --install
 
->Install [VirtualBox 4.3.16 for OS X](http://download.virtualbox.org/virtualbox/4.3.16/VirtualBox-4.3.16-95972-OSX.dmg) with defaults (admin required).
+>Install [VirtualBox 4.3.20 for OS X](http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3.20-96996-OSX.dmg) with defaults (admin required).
 
->Install [Vagrant 1.6.3 for OS X](https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3.dmg) with defaults (admin required).
+>Install [Vagrant 1.6.5 for OS X](https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5.dmg) with defaults (admin required).
 
 >Install homebrew (if you don't already have ports installed)
 
@@ -115,9 +117,9 @@ Extract Ruby DevKit [DevKit-mingw64-64-4.7.2-20130224-1432-sfx](http://cdn.rubyi
 
     $ gem update # ('y' to update rake|rdoc|ri)
 
->Install [VirtualBox 4.3.16 for Windows](http://download.virtualbox.org/virtualbox/4.3.16/VirtualBox-4.3.16-95972-Win.exe) with defaults (admin required).
+>Install [VirtualBox 4.3.20 for Windows](http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3.20-96997-Win.exe) with defaults (admin required).
 
->Install [Vagrant 1.6.3 for Windows](https://dl.bintray.com/mitchellh/vagrant/Vagrant_1.6.3.msi) with defaults (admin required).
+>Install [Vagrant 1.6.5 for Windows](https://dl.bintray.com/mitchellh/vagrant/Vagrant_1.6.5.msi) with defaults (admin required).
 
 
 ### COMMON - Skip rvm steps on Windows, start "continue" below

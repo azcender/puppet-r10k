@@ -6,6 +6,11 @@ vms:
     roles:
       - pe-puppet-master
 
+  - name: centos0wayne
+    box: fs_centos-65-x64-vbox4316-nocm
+    roles:
+      - pe-puppet-agent-linux
+
   - name: centos0
     box: fs_centos-7-x64-vbox4320-nocm
     roles:

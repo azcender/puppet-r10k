@@ -2,17 +2,19 @@
 vms:
   - name: master
 #   box: fs_centos-65-x64-vbox4316-nocm
-#   box: fs_ubuntu-server-14041-x64-vbox4316-nocm
-    box: fs_ubuntu-server-14041-x64-vbox4320-nocm
+    box: fs_ubuntu-server-14041-x64-vbox4316-nocm
+#   box: fs_ubuntu-server-14041-x64-vbox4320-nocm
     roles:
       - pe-puppet-master
 
   - name: centos0paul
-    box: fs_centos-65-x64-vbox4320-nocm
+#   box: fs_centos-65-x64-vbox4320-nocm
+    box: fs_centos-65-x64-vbox4316-nocm
     roles:
       - pe-puppet-agent-linux
 
   - name: centos0wayne
+#   box: fs_centos-65-x64-vbox4320-nocm
     box: fs_centos-65-x64-vbox4316-nocm
     roles:
       - pe-puppet-agent-linux

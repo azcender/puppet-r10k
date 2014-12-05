@@ -55,16 +55,9 @@ node /^master*$/ {
   
   # Set r10k based on domain
   # Hiera doesn't exist yet so programattically set values
-  if $::domain =~ /\.fs.usda.gov$/ {
-    $puppet_remote =
-      'http://teamforge.fs.usda.gov/gerrit/p/puppet-r10k-environments.git'
-    $hiera_remote = 'http://teamforge.fs.usda.gov/gerrit/p/puppet-r10k-hiera.git'
-  }
-  else {
-    $puppet_remote =
-      'https://bitbucket.org/prolixalias/puppet-r10k-environments.git'
-    $hiera_remote = 'https://bitbucket.org/prolixalias/puppet-r10k-hiera.git'
-  }
+  $puppet_remote =
+    'https://bitbucket.org/prolixalias/puppet-r10k-environments.git'
+  $hiera_remote = 'https://bitbucket.org/prolixalias/puppet-r10k-hiera.git'
 
   if $::osfamily == 'redhat' {
     class { 'firewall': ensure => stopped, }

@@ -1,7 +1,7 @@
 {
   "name": "azcender-profile",
   "version": "0.0.1",
-  "author": "Bryan Belanger",
+  "author": "Bryan Belanger", "Paul Talbot"
   "summary": "A collection of profiles for a sample data center",
   "license": "Apache License, Version 2.0",
   "source": "https://github.com/azcender/profile",

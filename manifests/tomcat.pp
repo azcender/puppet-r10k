@@ -1,7 +1,11 @@
 # A wrapper that contains all thr functionality needed for a standard java web
 # application --- does not support JEE applications
 
-class profile::tomcat {
+class profile::tomcat (
+  $groupid,
+  $artifactid,
+  $version
+) {
   include ::profile
 
   # Java is needed to run the applications
@@ -9,13 +13,6 @@ class profile::tomcat {
   # instances
   include ::java
   include ::tomcat
-
-  if ! $::groupid {
-    $_groupid = 'gov.fed.us'
-  } else {
-    $_groupid = $::groupid
-  }
-
 
   # Hard fix of staging dirs
   # TODO: Fix this
@@ -49,9 +46,9 @@ class profile::tomcat {
   ::java_web_application_server::maven { $name:
     ensure        => present,
     war_name      => "${::application}.war",
-    groupid       => $_groupid,
-    artifactid    => $::application,
-    version       => $::version,
+    groupid       => $groupid,
+    artifactid    => $application,
+    version       => $version,
     maven_repo    => 'http://artifactory.azcender.com/artifactory/ext-release-local',
     catalina_base => '/opt/tomcat',
     packaging     => 'war',

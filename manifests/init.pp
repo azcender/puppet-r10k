@@ -37,22 +37,24 @@ class profile {
     default => $puppet_agent_runinterval
   }
 
-  # Initialization value for puppet environment:
-  #    production
-  #    staging
-  #    dev
-  #    other (Often names for user id)
-  case $::operatingsystem {
-    windows: {
-      $puppet_conf_path = 'C:/ProgramData/PuppetLabs/puppet/etc/puppet.conf'
+  # Allow puppet_conf override. If no override assume puppet enterprise and
+  # assign accordingly
+  if ! $::puppet_path {
+    case $::operatingsystem {
+      windows: {
+        $puppet_conf_path = 'C:/ProgramData/PuppetLabs/puppet/etc/puppet.conf'
+      }
+      Ubuntu, RedHat, CentOS: {
+        # Set "environment"
+        $puppet_conf_path = '/etc/puppetlabs/puppet/puppet.conf'
+      }
+      default: {
+        fail("Unsupported operating system detected: ${::operatingsystem}")
+      }
     }
-    Ubuntu, RedHat, CentOS: {
-      # Set "environment"
-      $puppet_conf_path = '/etc/puppetlabs/puppet/puppet.conf'
-    }
-    default: {
-      fail("Unsupported operating system detected: ${::operatingsystem}")
-    }
+  }
+  else {
+    $puppet_conf_path = "${::puppet_path}/puppet.conf"
   }
 
   ini_setting { 'remove bogus production env from main section if present':

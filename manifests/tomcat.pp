@@ -4,7 +4,14 @@
 class profile::tomcat (
   $groupid,
   $artifactid,
-  $version
+  $version,
+  $default_resource_auth,
+  $default_resource_type,
+  $default_resource_driverClassName,
+  $default_resource_maxTotal,
+  $default_resource_maxIdle,
+  $default_resource_maxWaitMillis,
+  $tomcat_resources = {}
 ) {
   include ::profile
 
@@ -14,6 +21,27 @@ class profile::tomcat (
   include ::java
   include ::tomcat
 
+  # Setup context resources
+  $tomcat_resources_defaults = {
+    catalina_base   => '/opt/tomcat',
+    auth            => $default_resource_auth,
+    type            => $default_resource_type,
+    driverClassName => $default_resource_driverClassName,
+    maxTotal        => $default_resource_maxTotal,
+    maxIdle         => $default_resource_maxIdle,
+    maxWaitMillis   => $default_resource_maxWaitMillis,
+    require         => ::Tomcat::Config::Context[$name],
+    notify          => ::Tomcat::Service[$name],
+  }
+
+  # A the database driver
+  file { '/opt/tomcat/lib':
+    ensure  => file,
+    source  => 'puppet:///modules/profile/ojdbc7.jar',
+    require => ::Tomcat::Instance[$name],
+    notify  => ::Tomcat::Service[$name],
+  }
+
   # Hard fix of staging dirs
   # TODO: Fix this
   file { '/opt/staging/tomcat':
@@ -22,7 +50,7 @@ class profile::tomcat (
     require => File['/opt/staging'],
   }
 
-  $source_url = hiera('profile::tomcat::source_url')
+  $source_url = hiera('source_url')
 
   $apache_file = regsubst($source_url, '.*/(.*)', '\1')
 
@@ -45,20 +73,28 @@ class profile::tomcat (
 
   ::java_web_application_server::maven { $name:
     ensure        => present,
-    war_name      => "${::application}.war",
+    war_name      => "${::artifactid}.war",
     groupid       => $groupid,
-    artifactid    => $application,
+    artifactid    => $artifactid,
     version       => $version,
     maven_repo    => 'http://artifactory.azcender.com/artifactory/ext-release-local',
     catalina_base => '/opt/tomcat',
     packaging     => 'war',
-    require       => [::Tomcat::Instance[$name]],
+    require       => ::Tomcat::Instance[$name],
   }
 
   ::tomcat::service { $name:
     service_name  => $name,
     catalina_home => '/opt/tomcat',
     catalina_base => '/opt/tomcat',
-    require       => [::Java_web_application_server::Maven[$name]],
+    require       => ::Java_web_application_server::Maven[$name],
   }
+
+  ::tomcat::config::context { $name:
+    catalina_base => '/opt/tomcat',
+    require       => ::Tomcat::Instance[$name],
+  }
+
+  create_resources('::tomcat::config::context::resource', $tomcat_resources,
+  $tomcat_resources_defaults)
 }

@@ -5,6 +5,7 @@ class profile::tomcat (
   $groupid,
   $artifactid,
   $version,
+  $source_url,
   $default_resource_auth,
   $default_resource_type,
   $default_resource_driverClassName,
@@ -49,8 +50,6 @@ class profile::tomcat (
     mode    => 'a=rx',
     require => File['/opt/staging'],
   }
-
-  $source_url = hiera('source_url')
 
   $apache_file = regsubst($source_url, '.*/(.*)', '\1')
 

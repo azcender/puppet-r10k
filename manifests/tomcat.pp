@@ -53,6 +53,8 @@ class profile::tomcat (
 
   $apache_file = regsubst($source_url, '.*/(.*)', '\1')
 
+  notify("Apache file: ${apache_file}")
+
   file { "/opt/staging/tomcat/${apache_file}" :
     ensure  => file,
     mode    => 'ug=rw,o=r',

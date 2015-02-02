@@ -19,13 +19,7 @@ class profile::docker {
     ports             => '8080',
   }
 
-  notice($::candy)
-
   create_resources('::haproxy::balancermember', $::candy)
-
-  file { '/usr/lib/ruby/candy.rb':
-    source => 'puppet:///modules/profile/candy.rb',
-  }
 
   # Pull images
   $images = hiera('profile::docker::images')

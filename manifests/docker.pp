@@ -7,7 +7,8 @@ class profile::docker {
   include ::haproxy
 
   ::haproxy::listen { 'puppet00':
-    #ipaddress => $::ipaddress,
+    #ipaddres => $::ipaddress,
+    mode      => 'http',
     ipaddress => '*',
     ports     => '8140',
   }

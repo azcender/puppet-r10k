@@ -32,19 +32,22 @@ class profile::docker {
   }
 
   # Pull images
-  $images_defaults = {
-    before => Class['::haproxy::balancermember'],
-  }
+  #  $images_defaults = {
+  #  before => Class['::haproxy::balancermember'],
+  #}
+
+  ::Docker::Image <<||>> -> ::Haproxy::Balancermember <<||>>
+  ::Docker::Run <<||>> -> ::Haproxy::Balancermember <<||>>
 
   $images = hiera('profile::docker::images')
 
-  create_resources('::docker::image', $images, $images_defaults)
+  create_resources('::docker::image', $images)
 
-  $runs_defaults = {
-    before => Class['::haproxy::balancermember'],
-  }
+  #  $runs_defaults = {
+  #  before => Class['::haproxy::balancermember'],
+  #}
 
   $runs = hiera('profile::docker::runs')
 
-  create_resources('::docker::run', $runs, $runs_defaults)
+  create_resources('::docker::run', $runs)
 }

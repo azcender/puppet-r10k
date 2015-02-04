@@ -22,17 +22,26 @@ class profile::docker {
 
   $balancermember_defaults = {
     listening_service => 'puppet00',
+    require           => Class['::docker'],
   }
 
   create_resources('::haproxy::balancermember', $::candy,
   $balancermember_defaults)
 
   # Pull images
+  $images_defaults = {
+    before => Class['::haproxy::balancermember'],
+  }
+
   $images = hiera('profile::docker::images')
 
-  create_resources('::docker::image', $images)
+  create_resources('::docker::image', $images, $images_defaults)
+
+  $runs_defaults = {
+    before => Class['::haproxy::balancermember'],
+  }
 
   $runs = hiera('profile::docker::runs')
 
-  create_resources('::docker::run', $runs)
+  create_resources('::docker::run', $runs, $runs_defaults)
 }

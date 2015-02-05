@@ -1,6 +1,14 @@
 # Does basic setup for all profiles
 # Puppet master DOES NOT inherit from this
 class profile {
+  # Add Forest Service yum repo
+  yumrepo { 'fs-yum':
+    descr    => 'Forest Service Packages for RHE',
+    baseurl  => "http://fsxopsx0057.fdc.fs.usda.gov:8081/artifactory/yum-local/${::operatingsystemmajrelease}/os/${::architecture}",
+    enabled  => 1,
+    gpgcheck => 0,
+  }
+
   $run_path   = "set /files${::confdir}/auth.conf/path[. = '/run'] /run"
   $run_auth   = "set /files${::confdir}/auth.conf/path[. = '/run']/auth any"
   $run_method =

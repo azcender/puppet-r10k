@@ -8,24 +8,11 @@ class profile::master {
   }
 
   file { '/etc/puppetlabs/puppet/hiera.yaml':
-    ensure  => 'file',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0755',
-    content => '---
-:backends:
-  - yaml
-
-:hierarchy:
-  - "domain/%{::domain}"
-  - "role/%{::role}"
-  - "role/%{::role}/%{::role_group}"
-  - "tier/%{::tier}"
-  - common
-
-:yaml:
-  :datadir: "/etc/puppetlabs/puppet/hiera/hiera_%{::environment}"
-',
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    source => 'puppet:///modules/profile/hiera.yaml',
     notify => Service['pe-httpd'],
   }
 
@@ -33,7 +20,7 @@ class profile::master {
   ->
 
   ini_setting { 'modulepath':
-    ensure => absent,
+    ensure  => absent,
     path    => '/etc/puppetlabs/puppet/puppet.conf',
     section => 'main',
     setting => 'modulepath',

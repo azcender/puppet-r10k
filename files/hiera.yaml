@@ -2,7 +2,7 @@
 :backends: yaml
 
 :yaml:
-  :datadir: /vagrant/puppet-r10k-hiera
+  :datadir: "/etc/puppetlabs/puppet/hiera/hiera_%{::environment}"
 
 :hierarchy:
   - "role/%{::role}/%{::role_group}"

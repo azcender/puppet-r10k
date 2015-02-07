@@ -14,6 +14,7 @@ class profile::tomcat (
   $default_resource_maxTotal,
   $default_resource_maxIdle,
   $default_resource_maxWaitMillis,
+  $catalina_base = '/opt/tomcat',
 ) {
   include ::profile
 
@@ -53,7 +54,7 @@ class profile::tomcat (
   }
 
   ::tomcat::instance { $name:
-    catalina_base => '/opt/tomcat',
+    catalina_base => $catalina_base,
     source_url    => $source_url,
   }
 
@@ -88,26 +89,26 @@ class profile::tomcat (
     artifactid    => $artifactid,
     version       => $version,
     maven_repo    => $snapshot_repo,
-    catalina_base => '/opt/tomcat',
+    catalina_base => $catalina_base,
     packaging     => 'war',
     require       => ::Tomcat::Instance[$name],
   }
 
   ::tomcat::service { $name:
     service_name  => $name,
-    catalina_home => '/opt/tomcat',
-    catalina_base => '/opt/tomcat',
+    catalina_home => $catalina_base,
+    catalina_base => $catalina_base,
     require       => ::Java_web_application_server::Maven[$name],
   }
 
   ::tomcat::config::context { $name:
-    catalina_base => '/opt/tomcat',
+    catalina_base => $catalina_base,
     require       => ::Tomcat::Instance[$name],
   }
 
   # Setup context resources
   $tomcat_resources_defaults = {
-    catalina_base   => '/opt/tomcat',
+    catalina_base   => $catalina_base,
     auth            => $default_resource_auth,
     type            => $default_resource_type,
     driverClassName => $default_resource_driverClassName,

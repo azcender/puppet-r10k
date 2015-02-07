@@ -1,0 +1,13 @@
+---
+:backends:
+  - yaml
+
+:hierarchy:
+  - "role/%{::role}/%{::role_group}"
+  - "role/application/%{::application}"
+  - "role/%{::role}"
+  - "tier/%{::tier}"
+  - common
+
+:yaml:
+  :datadir: "/etc/puppetlabs/puppet/hiera/hiera_%{::environment}"

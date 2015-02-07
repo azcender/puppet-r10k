@@ -75,11 +75,12 @@ class profile::tomcat (
   }
 
   ::tomcat::setenv::entry { $name:
-    param      => 'JAVA_OPTS',
-    value      => '-Dmyoracle.username=$MYORACLE_USERNAME -Dmyoracle.password=$MYORACLE_PASSWORD',
-    quote_char => '"',
-    notify     => ::Tomcat::Service[$name],
-    require    => ::Tomcat::Instance[$name],
+    config_file => "${catalina_base}/bin/setenv.sh",
+    param       => 'JAVA_OPTS',
+    value       => '-Dmyoracle.username=$MYORACLE_USERNAME -Dmyoracle.password=$MYORACLE_PASSWORD',
+    quote_char  => '"',
+    notify      => ::Tomcat::Service[$name],
+    require     => ::Tomcat::Instance[$name],
   }
 
   ::java_web_application_server::maven { $name:

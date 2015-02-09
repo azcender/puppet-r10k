@@ -14,6 +14,7 @@ class profile::tomcat (
   $default_resource_maxTotal,
   $default_resource_maxIdle,
   $default_resource_maxWaitMillis,
+  $catalina_base = '/opt/tomcat',
 ) {
   include ::profile
 
@@ -53,33 +54,35 @@ class profile::tomcat (
   }
 
   ::tomcat::instance { $name:
-    catalina_base => '/opt/tomcat',
+    catalina_base => $catalina_base,
     source_url    => $source_url,
   }
 
-  shellvar { 'test username':
-    ensure   => present,
-    target   => '/etc/environment',
-    variable => 'MYORACLE_USERNAME',
-    value    => 'system',
-    notify   => ::Tomcat::Service[$name],
-  }
+  #shellvar { 'test username':
+  #  ensure   => present,
+  #  target   => '/etc/environment',
+  #  variable => 'MYORACLE_USERNAME',
+  #  value    => 'system',
+  #  notify   => ::Tomcat::Service[$name],
+  #}
 
-  shellvar { 'test password':
-    ensure   => present,
-    target   => '/etc/environment',
-    variable => 'MYORACLE_PASSWORD',
-    value    => 'oracle',
-    notify   => ::Tomcat::Service[$name],
-  }
+  #shellvar { 'test password':
+  #  ensure   => present,
+  #  target   => '/etc/environment',
+  #  variable => 'MYORACLE_PASSWORD',
+  #  value    => 'oracle',
+  #  notify   => ::Tomcat::Service[$name],
+  #}
 
-  ::tomcat::setenv::entry { $name:
-    param      => 'JAVA_OPTS',
-    value      => '-Dmyoracle.username=$MYORACLE_USERNAME -Dmyoracle.password=$MYORACLE_PASSWORD',
-    quote_char => '"',
-    notify     => ::Tomcat::Service[$name],
-    require    => ::Tomcat::Instance[$name],
-  }
+  #::tomcat::setenv::entry { $name:
+  #  config_file => "${catalina_base}/bin/setenv.sh",
+  #  param       => 'JAVA_OPTS',
+  #  value       => '-Dmyoracle.username=$MYORACLE_USERNAME
+  # -Dmyoracle.password=$MYORACLE_PASSWORD',
+  #  quote_char  => '"',
+  #  notify      => ::Tomcat::Service[$name],
+  #  require     => ::Tomcat::Instance[$name],
+  #}
 
   ::java_web_application_server::maven { $name:
     ensure        => present,
@@ -88,26 +91,26 @@ class profile::tomcat (
     artifactid    => $artifactid,
     version       => $version,
     maven_repo    => $snapshot_repo,
-    catalina_base => '/opt/tomcat',
+    catalina_base => $catalina_base,
     packaging     => 'war',
     require       => ::Tomcat::Instance[$name],
   }
 
   ::tomcat::service { $name:
     service_name  => $name,
-    catalina_home => '/opt/tomcat',
-    catalina_base => '/opt/tomcat',
+    catalina_home => $catalina_base,
+    catalina_base => $catalina_base,
     require       => ::Java_web_application_server::Maven[$name],
   }
 
   ::tomcat::config::context { $name:
-    catalina_base => '/opt/tomcat',
+    catalina_base => $catalina_base,
     require       => ::Tomcat::Instance[$name],
   }
 
   # Setup context resources
   $tomcat_resources_defaults = {
-    catalina_base   => '/opt/tomcat',
+    catalina_base   => $catalina_base,
     auth            => $default_resource_auth,
     type            => $default_resource_type,
     driverClassName => $default_resource_driverClassName,

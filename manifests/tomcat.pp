@@ -28,6 +28,8 @@ class profile::tomcat (
   file { '/opt/tomcat/lib/ojdbc7.jar':
     ensure  => file,
     source  => 'puppet:///modules/profile/ojdbc7.jar',
+    owner   => 'tomcat',
+    group   => 'tomcat',
     require => ::Tomcat::Instance[$name],
     notify  => ::Tomcat::Service[$name],
   }

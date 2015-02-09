@@ -14,6 +14,7 @@ class profile::tomcat (
   $default_resource_maxTotal,
   $default_resource_maxIdle,
   $default_resource_maxWaitMillis,
+  $default_resource_factory,
   $catalina_base = '/opt/tomcat',
 ) {
   include ::profile
@@ -119,6 +120,7 @@ class profile::tomcat (
     maxTotal        => $default_resource_maxTotal,
     maxIdle         => $default_resource_maxIdle,
     maxWaitMillis   => $default_resource_maxWaitMillis,
+    factory         => $default_resource_factory,
     require         => ::Tomcat::Config::Context[$name],
     notify          => ::Tomcat::Service[$name],
   }

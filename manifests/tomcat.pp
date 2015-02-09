@@ -58,30 +58,31 @@ class profile::tomcat (
     source_url    => $source_url,
   }
 
-  shellvar { 'test username':
-    ensure   => present,
-    target   => '/etc/environment',
-    variable => 'MYORACLE_USERNAME',
-    value    => 'system',
-    notify   => ::Tomcat::Service[$name],
-  }
+  #shellvar { 'test username':
+  #  ensure   => present,
+  #  target   => '/etc/environment',
+  #  variable => 'MYORACLE_USERNAME',
+  #  value    => 'system',
+  #  notify   => ::Tomcat::Service[$name],
+  #}
 
-  shellvar { 'test password':
-    ensure   => present,
-    target   => '/etc/environment',
-    variable => 'MYORACLE_PASSWORD',
-    value    => 'oracle',
-    notify   => ::Tomcat::Service[$name],
-  }
+  #shellvar { 'test password':
+  #  ensure   => present,
+  #  target   => '/etc/environment',
+  #  variable => 'MYORACLE_PASSWORD',
+  #  value    => 'oracle',
+  #  notify   => ::Tomcat::Service[$name],
+  #}
 
-  ::tomcat::setenv::entry { $name:
-    config_file => "${catalina_base}/bin/setenv.sh",
-    param       => 'JAVA_OPTS',
-    value       => '-Dmyoracle.username=$MYORACLE_USERNAME -Dmyoracle.password=$MYORACLE_PASSWORD',
-    quote_char  => '"',
-    notify      => ::Tomcat::Service[$name],
-    require     => ::Tomcat::Instance[$name],
-  }
+  #::tomcat::setenv::entry { $name:
+  #  config_file => "${catalina_base}/bin/setenv.sh",
+  #  param       => 'JAVA_OPTS',
+  #  value       => '-Dmyoracle.username=$MYORACLE_USERNAME
+  # -Dmyoracle.password=$MYORACLE_PASSWORD',
+  #  quote_char  => '"',
+  #  notify      => ::Tomcat::Service[$name],
+  #  require     => ::Tomcat::Instance[$name],
+  #}
 
   ::java_web_application_server::maven { $name:
     ensure        => present,

@@ -14,8 +14,7 @@ class profile::tomcat (
   $default_resource_maxTotal,
   $default_resource_maxIdle,
   $default_resource_maxWaitMillis,
-  $default_resource_factory = '',
-  $catalina_base            = '/opt/tomcat',
+  $catalina_base = '/opt/tomcat',
 ) {
   include ::profile
 
@@ -25,53 +24,18 @@ class profile::tomcat (
   include ::java
   include ::tomcat
 
+  # Use the corret repo based on version
+  if grep([$version], '.+SNAPSHOT$') {
+    $_repo = $snapshot_repo
+  }
+  else {
+    $_repo = $release_repo
+  }
+
   # A the database driver
-  file { '/opt/tomcat/lib/ojdbc6dms.jar':
+  file { '/opt/tomcat/lib/ojdbc7.jar':
     ensure  => file,
-    source  => 'puppet:///modules/profile/ojdbc6dms.jar',
-    owner   => 'tomcat',
-    group   => 'tomcat',
-    mode    => '0600',
-    require => ::Tomcat::Instance[$name],
-    notify  => ::Tomcat::Service[$name],
-  }
-
-  file { '/opt/tomcat/lib/dms.jar':
-    ensure  => file,
-    source  => 'puppet:///modules/profile/dms.jar',
-    owner   => 'tomcat',
-    group   => 'tomcat',
-    mode    => '0600',
-    require => ::Tomcat::Instance[$name],
-    notify  => ::Tomcat::Service[$name],
-  }
-
-  file { '/opt/tomcat/lib/ojdl.jar':
-    ensure  => file,
-    source  => 'puppet:///modules/profile/ojdl.jar',
-    owner   => 'tomcat',
-    group   => 'tomcat',
-    mode    => '0600',
-    require => ::Tomcat::Instance[$name],
-    notify  => ::Tomcat::Service[$name],
-  }
-
-  file { '/opt/tomcat/lib/ojdl2.jar':
-    ensure  => file,
-    source  => 'puppet:///modules/profile/ojdl2.jar',
-    owner   => 'tomcat',
-    group   => 'tomcat',
-    mode    => '0600',
-    require => ::Tomcat::Instance[$name],
-    notify  => ::Tomcat::Service[$name],
-  }
-
-  file { '/opt/tomcat/lib/odl-12.1.2-0-0.jar':
-    ensure  => file,
-    source  => 'puppet:///modules/profile/odl-12.1.2-0-0.jar',
-    owner   => 'tomcat',
-    group   => 'tomcat',
-    mode    => '0600',
+    source  => 'puppet:///modules/profile/ojdbc7.jar',
     require => ::Tomcat::Instance[$name],
     notify  => ::Tomcat::Service[$name],
   }
@@ -102,13 +66,39 @@ class profile::tomcat (
     source_url    => $source_url,
   }
 
+  #shellvar { 'test username':
+  #  ensure   => present,
+  #  target   => '/etc/environment',
+  #  variable => 'MYORACLE_USERNAME',
+  #  value    => 'system',
+  #  notify   => ::Tomcat::Service[$name],
+  #}
+
+  #shellvar { 'test password':
+  #  ensure   => present,
+  #  target   => '/etc/environment',
+  #  variable => 'MYORACLE_PASSWORD',
+  #  value    => 'oracle',
+  #  notify   => ::Tomcat::Service[$name],
+  #}
+
+  #::tomcat::setenv::entry { $name:
+  #  config_file => "${catalina_base}/bin/setenv.sh",
+  #  param       => 'JAVA_OPTS',
+  #  value       => '-Dmyoracle.username=$MYORACLE_USERNAME
+  # -Dmyoracle.password=$MYORACLE_PASSWORD',
+  #  quote_char  => '"',
+  #  notify      => ::Tomcat::Service[$name],
+  #  require     => ::Tomcat::Instance[$name],
+  #}
+
   ::java_web_application_server::maven { $name:
     ensure        => present,
     war_name      => "${artifactid}.war",
     groupid       => $groupid,
     artifactid    => $artifactid,
     version       => $version,
-    maven_repo    => $release_repo,
+    maven_repo    => $_repo,
     catalina_base => $catalina_base,
     packaging     => 'war',
     require       => ::Tomcat::Instance[$name],
@@ -135,7 +125,6 @@ class profile::tomcat (
     maxTotal        => $default_resource_maxTotal,
     maxIdle         => $default_resource_maxIdle,
     maxWaitMillis   => $default_resource_maxWaitMillis,
-    factory         => $default_resource_factory,
     require         => ::Tomcat::Config::Context[$name],
     notify          => ::Tomcat::Service[$name],
   }
@@ -145,16 +134,4 @@ class profile::tomcat (
 
   create_resources('::tomcat::config::context::resource', $tomcat_resources,
   $tomcat_resources_defaults)
-
-  # Add resource links to context file
-  $tomcat_resourcelinks = hiera_hash('tomcat_resourcelinks', {})
-
-  create_resources('::tomcat::config::context::resourcelink',
-  $tomcat_resourcelinks)
-
-  # Add global resoure to server.xml
-  $tomcat_global_resources = hiera_hash('tomcat_global_resources', {})
-
-  create_resources('::tomcat::config::server::globalnamingresources',
-  $tomcat_global_resources, $tomcat_resources_defaults)
 }

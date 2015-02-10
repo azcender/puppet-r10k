@@ -108,7 +108,7 @@ class profile::tomcat (
     groupid       => $groupid,
     artifactid    => $artifactid,
     version       => $version,
-    maven_repo    => $snapshot_repo,
+    maven_repo    => $release_repo,
     catalina_base => $catalina_base,
     packaging     => 'war',
     require       => ::Tomcat::Instance[$name],

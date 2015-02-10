@@ -31,6 +31,34 @@ class profile::tomcat (
     source  => 'puppet:///modules/profile/ojdbc7.jar',
     owner   => 'tomcat',
     group   => 'tomcat',
+    mode    => '0600',
+    require => ::Tomcat::Instance[$name],
+    notify  => ::Tomcat::Service[$name],
+  }
+  file { '/opt/tomcat/lib/dms.jar':
+    ensure  => file,
+    source  => 'puppet:///modules/profile/dms.jar',
+    owner   => 'tomcat',
+    group   => 'tomcat',
+    mode    => '0600',
+    require => ::Tomcat::Instance[$name],
+    notify  => ::Tomcat::Service[$name],
+  }
+  file { '/opt/tomcat/lib/ojdl.jar':
+    ensure  => file,
+    source  => 'puppet:///modules/profile/ojdl.jar',
+    owner   => 'tomcat',
+    group   => 'tomcat',
+    mode    => '0600',
+    require => ::Tomcat::Instance[$name],
+    notify  => ::Tomcat::Service[$name],
+  }
+  file { '/opt/tomcat/lib/ojdl2.jar':
+    ensure  => file,
+    source  => 'puppet:///modules/profile/ojdl2.jar',
+    owner   => 'tomcat',
+    group   => 'tomcat',
+    mode    => '0600',
     require => ::Tomcat::Instance[$name],
     notify  => ::Tomcat::Service[$name],
   }

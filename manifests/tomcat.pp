@@ -26,9 +26,9 @@ class profile::tomcat (
   include ::tomcat
 
   # A the database driver
-  file { '/opt/tomcat/lib/ojdbc7.jar':
+  file { '/opt/tomcat/lib/ojdbc6dms.jar':
     ensure  => file,
-    source  => 'puppet:///modules/profile/ojdbc7.jar',
+    source  => 'puppet:///modules/profile/ojdbc6dms.jar',
     owner   => 'tomcat',
     group   => 'tomcat',
     mode    => '0600',

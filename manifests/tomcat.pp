@@ -151,4 +151,10 @@ class profile::tomcat (
 
   create_resources('::tomcat::config::context::resourcelink',
   $tomcat_resourcelinks)
+
+  # Add global resoure to server.xml
+  $tomcat_global_resources = hiera_hash('tomcat_global_resources', {})
+
+  create_resources('::tomcat::config::server::globalnamingresources',
+  $tomcat_global_resources, $tomcat_resources_defaults)
 }

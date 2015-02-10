@@ -62,6 +62,15 @@ class profile::tomcat (
     require => ::Tomcat::Instance[$name],
     notify  => ::Tomcat::Service[$name],
   }
+  file { '/opt/tomcat/lib/odl-12.1.2-0-0.jar':
+    ensure  => file,
+    source  => 'puppet:///modules/profile/odl-12.1.2-0-0.jar',
+    owner   => 'tomcat',
+    group   => 'tomcat',
+    mode    => '0600',
+    require => ::Tomcat::Instance[$name],
+    notify  => ::Tomcat::Service[$name],
+  }
 
   # Hard fix of staging dirs
   # TODO: Fix this

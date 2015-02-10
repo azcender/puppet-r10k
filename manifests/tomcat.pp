@@ -35,6 +35,7 @@ class profile::tomcat (
     require => ::Tomcat::Instance[$name],
     notify  => ::Tomcat::Service[$name],
   }
+
   file { '/opt/tomcat/lib/dms.jar':
     ensure  => file,
     source  => 'puppet:///modules/profile/dms.jar',
@@ -44,6 +45,7 @@ class profile::tomcat (
     require => ::Tomcat::Instance[$name],
     notify  => ::Tomcat::Service[$name],
   }
+
   file { '/opt/tomcat/lib/ojdl.jar':
     ensure  => file,
     source  => 'puppet:///modules/profile/ojdl.jar',
@@ -53,6 +55,7 @@ class profile::tomcat (
     require => ::Tomcat::Instance[$name],
     notify  => ::Tomcat::Service[$name],
   }
+
   file { '/opt/tomcat/lib/ojdl2.jar':
     ensure  => file,
     source  => 'puppet:///modules/profile/ojdl2.jar',
@@ -62,6 +65,7 @@ class profile::tomcat (
     require => ::Tomcat::Instance[$name],
     notify  => ::Tomcat::Service[$name],
   }
+
   file { '/opt/tomcat/lib/odl-12.1.2-0-0.jar':
     ensure  => file,
     source  => 'puppet:///modules/profile/odl-12.1.2-0-0.jar',
@@ -97,32 +101,6 @@ class profile::tomcat (
     catalina_base => $catalina_base,
     source_url    => $source_url,
   }
-
-  #shellvar { 'test username':
-  #  ensure   => present,
-  #  target   => '/etc/environment',
-  #  variable => 'MYORACLE_USERNAME',
-  #  value    => 'system',
-  #  notify   => ::Tomcat::Service[$name],
-  #}
-
-  #shellvar { 'test password':
-  #  ensure   => present,
-  #  target   => '/etc/environment',
-  #  variable => 'MYORACLE_PASSWORD',
-  #  value    => 'oracle',
-  #  notify   => ::Tomcat::Service[$name],
-  #}
-
-  #::tomcat::setenv::entry { $name:
-  #  config_file => "${catalina_base}/bin/setenv.sh",
-  #  param       => 'JAVA_OPTS',
-  #  value       => '-Dmyoracle.username=$MYORACLE_USERNAME
-  # -Dmyoracle.password=$MYORACLE_PASSWORD',
-  #  quote_char  => '"',
-  #  notify      => ::Tomcat::Service[$name],
-  #  require     => ::Tomcat::Instance[$name],
-  #}
 
   ::java_web_application_server::maven { $name:
     ensure        => present,
@@ -167,4 +145,10 @@ class profile::tomcat (
 
   create_resources('::tomcat::config::context::resource', $tomcat_resources,
   $tomcat_resources_defaults)
+
+  # Add resource links to context file
+  $tomcat_resourcelinks = hiera_hash('tomcat_resourcelinks', {})
+
+  create_resources('::tomcat::config::context::resourcelink',
+  $tomcat_resourcelinks)
 }

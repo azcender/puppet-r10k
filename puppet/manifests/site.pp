@@ -28,20 +28,22 @@ File { backup => 'main' }
 node /^master*$/ {
   class { '::ntp':
     servers    =>
-      [ '0.us.pool.ntp.org iburst',
-        '1.us.pool.ntp.org iburst',
-        '2.us.pool.ntp.org iburst',
-        '3.us.pool.ntp.org iburst'],
+    [ '0.us.pool.ntp.org iburst',
+    '1.us.pool.ntp.org iburst',
+    '2.us.pool.ntp.org iburst',
+    '3.us.pool.ntp.org iburst'],
     autoupdate => true,
     restrict   => [],
   }
 
+  $ip = $::virtual ? {
+    'virtualbox' => $::ipaddress_eth1,
+    default      => $::ipaddress_eth0,
+  }
+
   @@host { $::hostname:
     ensure       => present,
-    ip           => $::virtual ? {
-      'virtualbox' => $::ipaddress_eth1,
-      default      => $::ipaddress_eth0,
-    },
+    ip           => $ip,
     host_aliases => $hostname,
   }
 
@@ -52,11 +54,11 @@ node /^master*$/ {
   }
 
   Host <<||>>
-  
+
   # Set r10k based on domain
   # Hiera doesn't exist yet so programattically set values
   $puppet_remote =
-    'https://github.com/azcender/puppet-r10k-environment.git'
+  'https://github.com/azcender/puppet-r10k-environment.git'
   $hiera_remote = 'https://github.com/azcender/puppet-r10k-hiera.git'
 
   if $::osfamily == 'redhat' {
@@ -101,46 +103,10 @@ node /^master*$/ {
     setting => 'modulepath',
   } ->
 
-  file { '/etc/puppetlabs/puppet/prerun.sh':
-    ensure  => file,
-    mode    => 'ug+x,o-x',
-    owner   => 'root',
-    group   => 'root',
-    content => '#!/bin/bash
-#
-# Pre-run command for r10k deployment and clean up
-#
-
-# VARIABLES
-
-R10K=/usr/bin/r10k
-CHMOD=/bin/chmod
-CHOWN=/bin/chown
-
-# FUNCTIONS
-
-function prerun {
-  ${R10K} deploy environment -pv
-}
-
-function cleanup {
-  ${CHOWN} -R pe-puppet:pe-puppet /etc/puppetlabs/puppet/environments /etc/puppetlabs/puppet/hiera
-  ${CHMOD} -R 750 /etc/puppetlabs/puppet/environments /etc/puppetlabs/puppet/hiera
-}
-
-# MAIN
-
-trap cleanup EXIT
-prerun
-
-# EOF
-',
-  } ->
-
   file { 'ruby spec directory':
     path    => '/opt/puppet/lib/ruby/gems/1.9.1/specifications',
     mode    => 'a+r',
-    recurse  => true,
+    recurse => true,
   } ->
 
   class { 'r10k':
@@ -152,7 +118,7 @@ prerun
         'prefix'  => false,
       },
 
-      hiera                => {
+      hiera    => {
         'remote'  => $hiera_remote,
         'basedir' => "${::settings::confdir}/hiera",
         'prefix'  => true,
@@ -162,29 +128,15 @@ prerun
   } ->
 
   class { 'r10k::prerun_command':
-    command => '/etc/puppetlabs/puppet/prerun.sh',
   } ->
 
   file { '/etc/puppetlabs/puppet/hiera.yaml':
-    ensure => 'file',
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
-    content => '---
-:backends:
-  - yaml
-
-:hierarchy:
-  - "domain/%{::domain}"
-  - "role/%{::role}"
-  - "role/%{::role}/%{::role_group}"
-  - "tier/%{::tier}"
-  - common
-
-:yaml:
-  :datadir: "/etc/puppetlabs/puppet/hiera/hiera_%{::environment}"
-',
-    notify => Service['pe-httpd'],
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    source  => '/vagrant/hiera.yaml',
+    notify  => Service['pe-httpd'],
   } ->
 
   exec { 'initial_prerun':
@@ -207,18 +159,22 @@ prerun
 
 node default {
   class { '::ntp':
-    servers    => [ '0.us.pool.ntp.org iburst','1.us.pool.ntp.org iburst','2.us.pool.ntp.org iburst','3.us.pool.ntp.org iburst'],
+    servers    => [ '0.us.pool.ntp.org iburst','1.us.pool.ntp.org iburst',
+    '2.us.pool.ntp.org iburst', '3.us.pool.ntp.org iburst'],
     autoupdate => true,
     restrict   => [],
   }
 
+  $ip = $::virtual ? {
+    'virtualbox' => $::ipaddress_eth1,
+    default      => $::ipaddress_eth0,
+  }
+
+
   @@host { $::hostname:
-    ensure         => present,
-    ip             => $::virtual ? {
-      'virtualbox' => $::ipaddress_eth1,
-      default      => $::ipaddress_eth0,
-    },
-    host_aliases   => $hostname,
+    ensure       => present,
+    ip           => $ip,
+    host_aliases => $hostname,
   }
 
   host { 'localhost':
@@ -228,15 +184,21 @@ node default {
   }
 
   Host <<||>>
-  
-  notify { "Node ${::hostname} received default classification on local dev. Something is WRONG!": }
+
+  notify {
+    "Node ${::hostname} received default classification on local dev.\
+    Something is WRONG!":
+  }
+
   file { '/tmp/runpuppet.sh':
-    ensure   => 'file',
-    mode     => '0755',
-    owner    => 'root',
-    group    => 'root',
-    content  => "#!/bin/bash\npuppet agent -t",
-  } -> exec { 'at now + 1 min -f /tmp/runpuppet.sh':
+    ensure  => 'file',
+    mode    => '0755',
+    owner   => 'root',
+    group   => 'root',
+    content => "#!/bin/bash\npuppet agent -t",
+    } ->
+    
+  exec { 'at now + 1 min -f /tmp/runpuppet.sh':
     path     => ['/bin', '/sbin', '/usr/bin', '/usr/sbin', '/opt/puppet/bin'],
   }
   case $::operatingsystem {

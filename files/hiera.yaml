@@ -5,8 +5,11 @@
   :datadir: "/etc/puppetlabs/puppet/hiera/hiera_%{::environment}"
 
 :hierarchy:
+  - defaults
   - "role/%{::role}/%{::role_group}"
   - "role/application/%{::application}"
   - "role/%{::role}"
   - "tier/%{::tier}"
+  - "%{clientcert}"
+  - "%{environment}"
   - common

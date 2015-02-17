@@ -14,8 +14,7 @@ class profile::tomcat (
   $default_resource_maxTotal,
   $default_resource_maxIdle,
   $default_resource_maxWaitMillis,
-  $default_resource_factory = '',
-  $catalina_base            = '/opt/tomcat',
+  $catalina_base = '/opt/tomcat',
 ) {
   include ::profile
 
@@ -57,26 +56,6 @@ class profile::tomcat (
   file { '/opt/tomcat/lib/ojdl.jar':
     ensure  => file,
     source  => 'puppet:///modules/profile/ojdl.jar',
-    owner   => 'tomcat',
-    group   => 'tomcat',
-    mode    => '0600',
-    require => ::Tomcat::Instance[$name],
-    notify  => ::Tomcat::Service[$name],
-  }
-
-  file { '/opt/tomcat/lib/ojdl2.jar':
-    ensure  => file,
-    source  => 'puppet:///modules/profile/ojdl2.jar',
-    owner   => 'tomcat',
-    group   => 'tomcat',
-    mode    => '0600',
-    require => ::Tomcat::Instance[$name],
-    notify  => ::Tomcat::Service[$name],
-  }
-
-  file { '/opt/tomcat/lib/odl-12.1.2-0-0.jar':
-    ensure  => file,
-    source  => 'puppet:///modules/profile/odl-12.1.2-0-0.jar',
     owner   => 'tomcat',
     group   => 'tomcat',
     mode    => '0600',
@@ -143,7 +122,6 @@ class profile::tomcat (
     maxTotal        => $default_resource_maxTotal,
     maxIdle         => $default_resource_maxIdle,
     maxWaitMillis   => $default_resource_maxWaitMillis,
-    factory         => $default_resource_factory,
     require         => ::Tomcat::Config::Context[$name],
     notify          => ::Tomcat::Service[$name],
   }
@@ -153,16 +131,4 @@ class profile::tomcat (
 
   create_resources('::tomcat::config::context::resource', $tomcat_resources,
   $tomcat_resources_defaults)
-
-  # Add resource links to context file
-  $tomcat_resourcelinks = hiera_hash('tomcat_resourcelinks', {})
-
-  create_resources('::tomcat::config::context::resourcelink',
-  $tomcat_resourcelinks)
-
-  # Add global resoure to server.xml
-  $tomcat_global_resources = hiera_hash('tomcat_global_resources', {})
-
-  create_resources('::tomcat::config::server::globalnamingresources',
-  $tomcat_global_resources, $tomcat_resources_defaults)
 }

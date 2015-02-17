@@ -1,6 +1,6 @@
 # hardware_platform.rb
 require 'json'
-
+ 
 Facter.add('containers') do
   setcode do
     containers  = []

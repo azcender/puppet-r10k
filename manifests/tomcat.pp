@@ -25,6 +25,14 @@ class profile::tomcat (
   include ::java
   include ::tomcat
 
+  # Use the corret repo based on version
+  if grep([$version], '.+SNAPSHOT$') {
+    $_repo = $snapshot_repo
+  }
+  else {
+    $_repo = $release_repo
+  }
+
   # A the database driver
   file { '/opt/tomcat/lib/ojdbc6dms.jar':
     ensure  => file,
@@ -108,7 +116,7 @@ class profile::tomcat (
     groupid       => $groupid,
     artifactid    => $artifactid,
     version       => $version,
-    maven_repo    => $snapshot_repo,
+    maven_repo    => $_repo,
     catalina_base => $catalina_base,
     packaging     => 'war',
     require       => ::Tomcat::Instance[$name],

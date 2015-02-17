@@ -10,6 +10,6 @@
   - "role/application/%{::application}"
   - "role/%{::role}"
   - "tier/%{::tier}"
-  - "%{clientcert}"
+  - "clientcert/%{clientcert}"
   - "%{environment}"
   - common

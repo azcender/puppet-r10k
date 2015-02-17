@@ -25,15 +25,12 @@ class profile::tomcat (
   include ::tomcat
 
   # Use the corret repo based on version
-  if grep([$version], '.+SNAPSHOT$') {
-    $_repo = $snapshot_repo
-  }
-  else {
+  if empty(grep([$version], '.+SNAPSHOT$')) {
     $_repo = $release_repo
   }
-
-  notice("Version: $version")
-  notice("Repo: $_repo")
+  else {
+    $_repo = $snapshot_repo
+  }
 
 
   # A the database driver

@@ -135,7 +135,7 @@ class profile::tomcat (
     service_name  => $name,
     catalina_home => $catalina_base,
     catalina_base => $catalina_base,
-    require       => ::Maven::Maven[$name],
+    require       => ::Tomcat::Maven[$name],
   }
 
   ::tomcat::config::context { $name:

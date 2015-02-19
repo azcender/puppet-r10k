@@ -3,10 +3,12 @@
   - yaml
 
 :hierarchy:
+  - defaults
   - "role/%{::role}/%{::role_group}"
   - "role/application/%{::application}"
   - "role/%{::role}"
   - "tier/%{::tier}"
+  - "clientcert/%{::clientcert}"
   - common
 
 :yaml:

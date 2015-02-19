@@ -17,7 +17,7 @@ class profile {
   # Puppet agent dev environment
   # Default: production
   $puppet_agent_environment =
-    hiera('profile::puppet_agent_environment')
+    hiera('profile::puppet_agent_environment', 'production')
 
   # Puppet agent environment should default to production
   $agent_environment = $puppet_agent_environment? {

@@ -8,13 +8,15 @@ class profile::tomcat (
   $source_url,
   $snapshot_repo,
   $release_repo,
+  $production_repo,
   $default_resource_auth,
   $default_resource_type,
   $default_resource_driverClassName,
   $default_resource_maxTotal,
   $default_resource_maxIdle,
   $default_resource_maxWaitMillis,
-  $catalina_base = '/opt/tomcat',
+  $catalina_base    = '/opt/tomcat',
+  $application_name = undef,
 ) {
   include ::profile
 
@@ -24,7 +26,7 @@ class profile::tomcat (
   include ::java
   include ::tomcat
 
-  # Use the corret repo based on version
+  # Use the correct repo based on version
   if empty(grep([$version], '.+SNAPSHOT$')) {
     $_repo = $release_repo
   }
@@ -32,6 +34,13 @@ class profile::tomcat (
     $_repo = $snapshot_repo
   }
 
+  # If war name is empty use artifact id
+  if $application_name {
+    $_war_name = "${application_name}.war"
+  }
+  else {
+    $_war_name = "${artifactid}.war"
+  }
 
   # A the database driver
   file { '/opt/tomcat/lib/ojdbc6dms.jar':
@@ -110,9 +119,9 @@ class profile::tomcat (
     source_url    => $source_url,
   }
 
-  ::java_web_application_server::maven { $name:
+  ::tomcat::maven { $name:
     ensure        => present,
-    war_name      => "${artifactid}.war",
+    war_name      => "${_war_name}.war",
     groupid       => $groupid,
     artifactid    => $artifactid,
     version       => $version,

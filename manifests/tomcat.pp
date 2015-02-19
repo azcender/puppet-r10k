@@ -121,7 +121,7 @@ class profile::tomcat (
 
   ::tomcat::maven { $name:
     ensure        => present,
-    war_name      => "${_war_name}.war",
+    war_name      => $_war_name,
     groupid       => $groupid,
     artifactid    => $artifactid,
     version       => $version,

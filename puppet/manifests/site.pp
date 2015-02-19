@@ -110,7 +110,7 @@ node /^master*$/ {
   } ->
 
   class { 'r10k':
-    include_prerun_command => false,
+    include_prerun_command => true,
     sources                => {
       'puppet' => {
         'remote'  => $puppet_remote,
@@ -127,21 +127,13 @@ node /^master*$/ {
     purgedirs              => ["${::settings::confdir}/environments"],
   } ->
 
-  class { 'r10k::prerun_command':
-  } ->
-
   file { '/etc/puppetlabs/puppet/hiera.yaml':
-    ensure  => 'file',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0755',
-    source  => '/vagrant/hiera.yaml',
-    notify  => Service['pe-httpd'],
-  } ->
-
-  exec { 'initial_prerun':
-    command => '/etc/puppetlabs/puppet/prerun.sh',
-    timeout => '3600',
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    source => '/vagrant/puppet/hiera.yaml',
+    notify => Service['pe-httpd'],
   } ->
 
   service { 'pe-httpd': ensure => running, }

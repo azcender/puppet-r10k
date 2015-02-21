@@ -26,7 +26,7 @@ class profile::docker {
   }
 
   # Create balance members if containers exist
-  create_resources('::haproxy::balancermember', $::candy,
+  create_resources('::haproxy::balancermember', $::containers,
   $balancermember_defaults)
 
   # Pull images

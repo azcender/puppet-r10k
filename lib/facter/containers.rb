@@ -7,7 +7,7 @@ Facter.add('containers') do
     inspections = {}
 
     # Check to see if docker-io is installed
-    unless `rpm -qa | grep docker-io`.empty?
+    unless `rpm -qa | grep docker`.empty?
       
       interfaces  = `docker ps`
 

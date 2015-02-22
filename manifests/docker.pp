@@ -12,13 +12,13 @@ class profile::docker {
 
   file { '/etc/puppetlabs/facter/facts.d':
     ensure  => directory,
-    require => '/etc/puppetlabs/facter',
+    require => File['/etc/puppetlabs/facter'],
   }
 
   file {'/etc/puppetlabs/facter/facts.d/containers.rb':
     ensure  => file,
     source  => 'puppet:///modules/profile/containers.rb',
-    require => '/etc/puppetlabs/facter/facts.d',
+    require => File['/etc/puppetlabs/facter/facts.d'],
   }
 
   ::haproxy::listen { 'puppet00':

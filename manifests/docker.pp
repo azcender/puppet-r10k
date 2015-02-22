@@ -6,6 +6,21 @@ class profile::docker {
   include ::docker
   include ::haproxy
 
+  file { '/etc/puppetlabs/facter':
+    ensure => directory,
+  }
+
+  file { '/etc/puppetlabs/facter/facts.d':
+    ensure   => directory,
+    requires => '/etc/puppetlabs/facter',
+  }
+
+  file {'/etc/puppetlabs/facter/facts.d/containers.rb':
+    ensure   => file,
+    source   => 'puppet:///modules/profile/containers.rb',
+    requires => '/etc/puppetlabs/facter/facts.d',
+  }
+
   ::haproxy::listen { 'puppet00':
     #ipaddres => $::ipaddress,
     mode      => 'http',
@@ -22,7 +37,7 @@ class profile::docker {
 
   $balancermember_defaults = {
     listening_service => 'puppet00',
-    require           => Class['::docker'],
+    require           => [Class['::docker'], File['/etc/puppetlabs/facter/facts.d/containers.rb']],
   }
 
   # Create balance members if containers exist

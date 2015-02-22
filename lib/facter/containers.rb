@@ -39,6 +39,7 @@ if Facter::Util::Resolution.which('docker')
         inspections[inspection["server_names"]] = inspection
       end
 
-    inspections
+      inspections
+    end
   end
 end

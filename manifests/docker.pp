@@ -11,14 +11,14 @@ class profile::docker {
   }
 
   file { '/etc/puppetlabs/facter/facts.d':
-    ensure   => directory,
-    requires => '/etc/puppetlabs/facter',
+    ensure  => directory,
+    require => '/etc/puppetlabs/facter',
   }
 
   file {'/etc/puppetlabs/facter/facts.d/containers.rb':
-    ensure   => file,
-    source   => 'puppet:///modules/profile/containers.rb',
-    requires => '/etc/puppetlabs/facter/facts.d',
+    ensure  => file,
+    source  => 'puppet:///modules/profile/containers.rb',
+    require => '/etc/puppetlabs/facter/facts.d',
   }
 
   ::haproxy::listen { 'puppet00':

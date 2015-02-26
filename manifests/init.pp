@@ -1,6 +1,9 @@
 # Does basic setup for all profiles
 # Puppet master DOES NOT inherit from this
 class profile {
+
+  include ::sanity
+
   $run_path   = "set /files${::confdir}/auth.conf/path[. = '/run'] /run"
   $run_auth   = "set /files${::confdir}/auth.conf/path[. = '/run']/auth any"
   $run_method =
@@ -80,4 +83,5 @@ class profile {
   $users = hiera_hash('users', {})
 
   create_resources(user, $users)
+
 }

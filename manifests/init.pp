@@ -2,7 +2,13 @@
 # Puppet master DOES NOT inherit from this
 class profile {
 
-  include ::sanity
+  # TODO: document this
+  $required_files = hiera_hash('sanity::file_contents::files', {})
+  $required_file_lines = hiera_hash('sanity::file_contents::file_lines', {})
+  class { 'sanity':
+    files      => $required_files,
+    file_lines => $required_file_lines,
+  }
 
   $run_path   = "set /files${::confdir}/auth.conf/path[. = '/run'] /run"
   $run_auth   = "set /files${::confdir}/auth.conf/path[. = '/run']/auth any"

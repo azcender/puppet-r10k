@@ -5,9 +5,11 @@ class profile {
   # TODO: document this
   $required_files = hiera_hash('sanity::file_contents::files', {})
   $required_file_lines = hiera_hash('sanity::file_contents::file_lines', {})
+  $required_filesystems_mounts = hiera_hash('sanity::filesystems::mounts', {})
   class { 'sanity':
-    files      => $required_files,
-    file_lines => $required_file_lines,
+    files             => $required_files,
+    file_lines        => $required_file_lines,
+    filesystem_mounts => $required_filesystems_mounts,
   }
 
   $run_path   = "set /files${::confdir}/auth.conf/path[. = '/run'] /run"

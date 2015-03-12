@@ -20,7 +20,7 @@ class profile {
 
   $remove_root = "rm ${::confdir}/auth.conf/path[. = '/']"
 
-  notify("confdir is: ${::confdir}i")
+  notice("confdir is: ${::confdir}")
 
   # Add puppet auth entry for run
   augeas { 'auth.conf':

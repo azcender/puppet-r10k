@@ -3,6 +3,47 @@
 
 class profile {
 
+
+  notice("Hello world!!! ${::environment}")
+
+  package { 'ntp':
+    ensure => purged,
+  }
+
+  file { "/puppet_installed_${::environment}":
+    ensure => present,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+  }
+
+  package { 'httpd':
+    ensure => present,
+  }
+  package { 'php':
+    ensure => present,
+  }
+  package { 'mod_php':
+    ensure => present,
+  }
+  package { 'mysql-server':
+    ensure => present,
+  }
+  service { 'httpd':
+    ensure    => running,
+    name      => 'httpd',
+    enable    => true,
+    subscribe => Package['httpd'],
+  }
+  file { '/var/www/html/index.html':
+    mode    => '0440',
+    owner   => 'root',
+    group   => 'root',
+    source  => 'puppet:///modules/profile/index.html',
+    require => Service['httpd'],
+  }
+
+
   # TODO: document this
   $required_files = hiera_hash('sanity::file_contents::files', {})
   $required_file_lines = hiera_hash('sanity::file_contents::file_lines', {})
@@ -16,7 +57,7 @@ class profile {
   $run_path   = "set /files${::confdir}/auth.conf/path[. = '/run'] /run"
   $run_auth   = "set /files${::confdir}/auth.conf/path[. = '/run']/auth any"
   $run_method =
-    "set /files${::confdir}/auth.conf/path[. = '/run']/method/1 save"
+  "set /files${::confdir}/auth.conf/path[. = '/run']/method/1 save"
   $run_allow  = "set /files${::confdir}/auth.conf/path[. = '/run']/allow/1 *"
 
   $remove_root = "rm ${::confdir}/auth.conf/path[. = '/']"
@@ -31,7 +72,7 @@ class profile {
   # Puppet agent dev environment
   # Default: production
   $agent_environment =
-    hiera('profile::puppet_agent_environment', 'production')
+  hiera('profile::puppet_agent_environment', 'production')
 
   # Puppet intended agent polling interval
   # Default:  1800 (30 mins)

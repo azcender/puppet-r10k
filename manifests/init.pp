@@ -37,10 +37,11 @@ class profile {
   }
   file { '/var/www/html/index.html':
     mode    => '0440',
-    owner   => 'root',
-    group   => 'root',
+    owner   => 'apache',
+    group   => 'apache',
     source  => 'puppet:///modules/profile/index.html',
-    require => Service['httpd'],
+    #require => Service['httpd'],
+    notify  => Service['httpd'],
   }
 
 

@@ -1,5 +1,7 @@
+#
 # Does basic setup for all profiles
 # Puppet master DOES NOT inherit from this
+#
 
 class profile {
 

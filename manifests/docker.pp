@@ -26,7 +26,7 @@ class profile::docker {
   }
 
   # Create balance members if containers exist
-  create_resources('::haproxy::balancermember', $::candy,
+  create_resources('::haproxy::balancermember', $::containers,
   $balancermember_defaults)
 
   # Pull images
@@ -37,7 +37,7 @@ class profile::docker {
   ::Docker::Image <<||>> -> ::Haproxy::Balancermember <<||>>
   ::Docker::Run <<||>> -> ::Haproxy::Balancermember <<||>>
 
-  $images = hiera('profile::docker::images')
+  $images = hiera('profile::docker::images', {})
 
   create_resources('::docker::image', $images)
 
@@ -45,7 +45,7 @@ class profile::docker {
   #  before => Class['::haproxy::balancermember'],
   #}
 
-  $runs = hiera('profile::docker::runs')
+  $runs = hiera('profile::docker::runs', {})
 
   create_resources('::docker::run', $runs)
 }

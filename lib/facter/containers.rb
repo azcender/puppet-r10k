@@ -1,14 +1,12 @@
 # hardware_platform.rb
 require 'json'
- 
-Facter.add('containers') do
-  setcode do
-    containers  = []
-    inspections = {}
 
-    # Check to see if docker-io is installed
-    unless `rpm -qa | grep docker-io`.empty?
-      
+if Facter::Util::Resolution.which('docker')
+  Facter.add('containers') do
+    setcode do
+      containers  = []
+      inspections = {}
+
       interfaces  = `docker ps`
 
       # the 'interfaces' fact returns a single comma-delimited string, e.g., "lo0,eth0,eth1"
@@ -40,8 +38,8 @@ Facter.add('containers') do
 
         inspections[inspection["server_names"]] = inspection
       end
-    end
 
-    inspections
+      inspections
+    end
   end
 end

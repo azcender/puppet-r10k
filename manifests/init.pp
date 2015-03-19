@@ -1,13 +1,16 @@
 # Does basic setup for all profiles
 # Puppet master DOES NOT inherit from this
 class profile {
-  # Add Forest Service yum repo
-  yumrepo { 'fs-yum':
-    descr    => 'Forest Service Packages for RHE',
-    baseurl  => "http://fsxopsx0057.fdc.fs.usda.gov:8081/artifactory/yum-local/${::operatingsystemmajrelease}/os/${::architecture}",
-    enabled  => 1,
-    gpgcheck => 0,
-  }
+
+  # TODO: document this
+  $required_files = hiera_hash('sanity::file_contents::files', {})
+  $required_file_lines = hiera_hash('sanity::file_contents::file_lines', {})
+  $required_filesystems_mounts = hiera_hash('sanity::filesystems::mounts', {})
+  #class { 'sanity':
+  #  files             => $required_files,
+  #  file_lines        => $required_file_lines,
+  #  filesystem_mounts => $required_filesystems_mounts,
+  #}
 
   $run_path   = "set /files${::confdir}/auth.conf/path[. = '/run'] /run"
   $run_auth   = "set /files${::confdir}/auth.conf/path[. = '/run']/auth any"
@@ -17,6 +20,8 @@ class profile {
 
   $remove_root = "rm ${::confdir}/auth.conf/path[. = '/']"
 
+  notice("confdir is: ${::confdir}")
+
   # Add puppet auth entry for run
   augeas { 'auth.conf':
     changes => [$run_path, $run_auth, $run_method, $run_allow, $remove_root],
@@ -24,24 +29,12 @@ class profile {
 
   # Puppet agent dev environment
   # Default: production
-  $puppet_agent_environment =
-    hiera('profile::puppet_agent_environment')
-
-  # Puppet agent environment should default to production
-  $agent_environment = $puppet_agent_environment? {
-    ''      => 'production',
-    default => $puppet_agent_environment
-  }
+  $agent_environment =
+    hiera('profile::puppet_agent_environment', 'production')
 
   # Puppet intended agent polling interval
   # Default:  1800 (30 mins)
-  $puppet_agent_runinterval = hiera('profile::puppet_agent_runinterval')
-
-  # Empty runintervals are not allowed
-  $runinterval = $puppet_agent_runinterval? {
-    ''      => '1800',
-    default => $puppet_agent_runinterval
-  }
+  $runinterval = hiera('profile::puppet_agent_runinterval', '1800')
 
   ini_setting { 'remove bogus production env from main section if present':
     ensure  => absent,
@@ -100,4 +93,5 @@ class profile {
   $users = hiera_hash('users', {})
 
   create_resources(user, $users)
+
 }

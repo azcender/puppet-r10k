@@ -1,13 +1,10 @@
 # A wrapper class that installs an icinga server
 #
-class profile::icinga_server(
-  $icinga::db_user = undef,
-  $icinga::db_password  = undef,
-) {
+class profile::icinga_server {
   # Include base class
   include ::profile
 
-  include icinga_rpm
+  #include icinga_rpm
   #include epel
   #include '::mysql::server'
   include '::postgresql::server'

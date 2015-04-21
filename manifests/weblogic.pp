@@ -1,10 +1,16 @@
-# A wrapper that contains all thr functionality needed for a standard java web
-# application --- does not support JEE applications
+# test
+#
+# one machine setup with weblogic 10.3.6 with BSU
+# needs jdk7, orawls, orautils, fiddyspence-sysctl, erwbgy-limits puppet modules
+#
 
 class profile::weblogic {
+
   include os
-  include java
+  include ssh
+  include java, orawls::urandomfix
   include orawls::weblogic, orautils
+  include bsu
   include fmw
   include opatch
   include domains
@@ -16,11 +22,43 @@ class profile::weblogic {
   include workmanagers
   include file_persistence
   include jms
+  include pack_domain
+  include deployments
 
   Class[java] -> Class[orawls::weblogic]
+}
 
 # operating settings for Middleware
 class os {
+
+  $default_params = {}
+  $host_instances = hiera('hosts', {})
+  create_resources('host',$host_instances, $default_params)
+
+  # exec { "create swap file":
+  #   command => "/bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=8192",
+  #   creates => "/var/swap.1",
+  # }
+
+  # exec { "attach swap file":
+  #   command => "/sbin/mkswap /var/swap.1 && /sbin/swapon /var/swap.1",
+  #   require => Exec["create swap file"],
+  #   unless => "/sbin/swapon -s | grep /var/swap.1",
+  # }
+
+  # #add swap file entry to fstab
+  # exec {"add swapfile entry to fstab":
+  #   command => "/bin/echo >>/etc/fstab /var/swap.1 swap swap defaults 0 0",
+  #   require => Exec["attach swap file"],
+  #   user => root,
+  #   unless => "/bin/grep '^/var/swap.1' /etc/fstab 2>/dev/null",
+  # }
+
+  service { iptables:
+        enable    => false,
+        ensure    => false,
+        hasstatus => true,
+  }
 
   group { 'dba' :
     ensure => present,
@@ -28,12 +66,12 @@ class os {
 
   # http://raftaman.net/?p=1311 for generating password
   # password = oracle
-  user { 'oracle' :
+  user { 'wls' :
     ensure     => present,
     groups     => 'dba',
     shell      => '/bin/bash',
     password   => '$1$DSJ51vh6$4XzzwyIOk6Bi/54kglGk3.',
-    home       => "/home/oracle",
+    home       => "/home/wls",
     comment    => 'wls user created by Puppet',
     managehome => true,
     require    => Group['dba'],
@@ -41,10 +79,80 @@ class os {
 
   $install = [ 'binutils.x86_64','unzip.x86_64']
 
+
   package { $install:
     ensure  => present,
   }
 
+  class { 'limits':
+    config => {
+               '*'       => {  'nofile'  => { soft => '2048'   , hard => '8192',   },},
+               'wls'     => {  'nofile'  => { soft => '65536'  , hard => '65536',  },
+                               'nproc'   => { soft => '2048'   , hard => '16384',   },
+                               'memlock' => { soft => '1048576', hard => '1048576',},
+                               'stack'   => { soft => '10240'  ,},},
+               },
+    use_hiera => false,
+  }
+
+  sysctl { 'kernel.msgmnb':                 ensure => 'present', permanent => 'yes', value => '65536',}
+  sysctl { 'kernel.msgmax':                 ensure => 'present', permanent => 'yes', value => '65536',}
+  sysctl { 'kernel.shmmax':                 ensure => 'present', permanent => 'yes', value => '2588483584',}
+  sysctl { 'kernel.shmall':                 ensure => 'present', permanent => 'yes', value => '2097152',}
+  sysctl { 'fs.file-max':                   ensure => 'present', permanent => 'yes', value => '6815744',}
+  sysctl { 'net.ipv4.tcp_keepalive_time':   ensure => 'present', permanent => 'yes', value => '1800',}
+  sysctl { 'net.ipv4.tcp_keepalive_intvl':  ensure => 'present', permanent => 'yes', value => '30',}
+  sysctl { 'net.ipv4.tcp_keepalive_probes': ensure => 'present', permanent => 'yes', value => '5',}
+  sysctl { 'net.ipv4.tcp_fin_timeout':      ensure => 'present', permanent => 'yes', value => '30',}
+  sysctl { 'kernel.shmmni':                 ensure => 'present', permanent => 'yes', value => '4096', }
+  sysctl { 'fs.aio-max-nr':                 ensure => 'present', permanent => 'yes', value => '1048576',}
+  sysctl { 'kernel.sem':                    ensure => 'present', permanent => 'yes', value => '250 32000 100 128',}
+  sysctl { 'net.ipv4.ip_local_port_range':  ensure => 'present', permanent => 'yes', value => '9000 65500',}
+  sysctl { 'net.core.rmem_default':         ensure => 'present', permanent => 'yes', value => '262144',}
+  sysctl { 'net.core.rmem_max':             ensure => 'present', permanent => 'yes', value => '4194304', }
+  sysctl { 'net.core.wmem_default':         ensure => 'present', permanent => 'yes', value => '262144',}
+  sysctl { 'net.core.wmem_max':             ensure => 'present', permanent => 'yes', value => '1048576',}
+
+}
+
+class ssh {
+  require os
+
+
+  file { "/home/wls/.ssh/":
+    owner  => "wls",
+    group  => "dba",
+    mode   => "700",
+    ensure => "directory",
+    alias  => "wls-ssh-dir",
+  }
+
+  file { "/home/wls/.ssh/id_rsa.pub":
+    ensure  => present,
+    owner   => "wls",
+    group   => "dba",
+    mode    => "644",
+    source  => "/vagrant/ssh/id_rsa.pub",
+    require => File["wls-ssh-dir"],
+  }
+
+  file { "/home/wls/.ssh/id_rsa":
+    ensure  => present,
+    owner   => "wls",
+    group   => "dba",
+    mode    => "600",
+    source  => "/vagrant/ssh/id_rsa",
+    require => File["wls-ssh-dir"],
+  }
+
+  file { "/home/wls/.ssh/authorized_keys":
+    ensure  => present,
+    owner   => "wls",
+    group   => "dba",
+    mode    => "644",
+    source  => "/vagrant/ssh/id_rsa.pub",
+    require => File["wls-ssh-dir"],
+  }
 }
 
 class java {
@@ -58,27 +166,63 @@ class java {
 
   include jdk7
 
-  jdk7::install7{ 'jdk1.7.0_71':
-      version                   => "7u71" ,
-      fullVersion               => "jdk1.7.0_71",
+  # $javas = ["/usr/java/jdk1.7.0_55/jre/bin/java", "/usr/java/jdk1.7.0_55/bin/java"]
+  # $LOG_DIR='/tmp/log_puppet_weblogic'
+
+  jdk7::install7{ 'jdk1.7.0_55':
+      version                   => "7u55" ,
+      fullVersion               => "jdk1.7.0_55",
       alternativesPriority      => 18000,
       x64                       => true,
       downloadDir               => "/var/tmp/install",
       urandomJavaFix            => true,
       rsakeySizeFix             => true,
+      cryptographyExtensionFile => "UnlimitedJCEPolicyJDK7.zip",
       sourcePath                => "/software",
+  }
+  # ->
+  # file { $LOG_DIR:
+  #   ensure  => directory,
+  #   mode    => '0777',
+  # }
+  # ->
+  # file { "$LOG_DIR/log.txt":
+  #   ensure  => file,
+  #   mode    => '0666'
+  # }
+  # ->
+  # javaexec_debug {$javas: }
+  # ->
+  # exec { 'java_debug start provisioning':
+  #   command => "${javas[0]} -version '+++ start provisioning +++'"
+  # }
+}
+
+# log all java executions:
+define javaexec_debug() {
+  exec { "patch java to log all executions on $title":
+    command => "/bin/mv ${title} ${title}_ && /bin/cp /vagrant/puppet/files/java_debug ${title} && /bin/chmod +x ${title}",
+    unless  => "/usr/bin/test -f ${title}_",
   }
 }
 
 
+class bsu{
+  require orawls::weblogic
+  $default_params = {}
+  $bsu_instances = hiera('bsu_instances', {})
+  create_resources('orawls::bsu',$bsu_instances, $default_params)
+}
+
 class fmw{
+  require bsu
   $default_params = {}
   $fmw_installations = hiera('fmw_installations', {})
   create_resources('orawls::fmw',$fmw_installations, $default_params)
 }
 
 class opatch{
-  require fmw,orawls::weblogic
+  require fmw,bsu,orawls::weblogic
   $default_params = {}
   $opatch_instances = hiera('opatch_instances', {})
   create_resources('orawls::opatch',$opatch_instances, $default_params)
@@ -91,6 +235,9 @@ class domains{
   $domain_instances = hiera('domain_instances', {})
   create_resources('orawls::domain',$domain_instances, $default_params)
 
+  $file_domain_libs = hiera('file_domain_libs', {})
+  create_resources('file',$file_domain_libs, $default_params)
+
   $wls_setting_instances = hiera('wls_setting_instances', {})
   create_resources('wls_setting',$wls_setting_instances, $default_params)
 
@@ -102,6 +249,19 @@ class nodemanager {
   $default_params = {}
   $nodemanager_instances = hiera('nodemanager_instances', {})
   create_resources('orawls::nodemanager',$nodemanager_instances, $default_params)
+
+  $version = hiera('wls_version')
+
+  orautils::nodemanagerautostart{"autostart weblogic 11g":
+    version                 => "${version}",
+    wlHome                  => hiera('wls_weblogic_home_dir'),
+    user                    => hiera('wls_os_user'),
+    jsseEnabled             => hiera('wls_jsse_enabled'             ,false),
+    customTrust             => hiera('wls_custom_trust'             ,false),
+    trustKeystoreFile       => hiera('wls_trust_keystore_file'      ,undef),
+    trustKeystorePassphrase => hiera('wls_trust_keystore_passphrase',undef),
+  }
+
 }
 
 class startwls {
@@ -119,7 +279,6 @@ class userconfig{
   create_resources('orawls::storeuserconfig',$userconfig_instances, $default_params)
 }
 
-
 class security{
   require userconfig
   $default_params = {}
@@ -131,6 +290,10 @@ class security{
 
   $authentication_provider_instances = hiera('authentication_provider_instances', {})
   create_resources('wls_authentication_provider',$authentication_provider_instances, $default_params)
+
+  $identity_asserter_instances = hiera('identity_asserter_instances', {})
+  create_resources('wls_identity_asserter',$identity_asserter_instances, $default_params)
+
 }
 
 class basic_config{
@@ -140,15 +303,19 @@ class basic_config{
   $wls_domain_instances = hiera('wls_domain_instances', {})
   create_resources('wls_domain',$wls_domain_instances, $default_params)
 
-  # subscribe on changes
-  $wls_adminserver_instances = hiera('wls_adminserver_instances', {})
-  create_resources('wls_adminserver',$wls_adminserver_instances, $default_params)
+  # subscribe on domain changes
+  $wls_adminserver_instances_domain = hiera('wls_adminserver_instances_domain', {})
+  create_resources('wls_adminserver',$wls_adminserver_instances_domain, $default_params)
 
   $machines_instances = hiera('machines_instances', {})
   create_resources('wls_machine',$machines_instances, $default_params)
 
   $server_instances = hiera('server_instances', {})
   create_resources('wls_server',$server_instances, $default_params)
+
+  # subscribe on server changes
+  $wls_adminserver_instances_server = hiera('wls_adminserver_instances_server', {})
+  create_resources('wls_adminserver',$wls_adminserver_instances_server, $default_params)
 
   $server_channel_instances = hiera('server_channel_instances', {})
   create_resources('wls_server_channel',$server_channel_instances, $default_params)
@@ -162,8 +329,8 @@ class basic_config{
   $server_template_instances = hiera('server_template_instances', {})
   create_resources('wls_server_template',$server_template_instances, $default_params)
 
-  $dynamic_cluster_instances = hiera('dynamic_cluster_instances', {})
-  create_resources('wls_dynamic_cluster',$dynamic_cluster_instances, $default_params)
+  $mail_session_instances = hiera('mail_session_instances', {})
+  create_resources('wls_mail_session',$mail_session_instances, $default_params)
 
 }
 
@@ -172,6 +339,10 @@ class datasources{
   $default_params = {}
   $datasource_instances = hiera('datasource_instances', {})
   create_resources('wls_datasource',$datasource_instances, $default_params)
+
+  $multi_datasource_instances = hiera('multi_datasource_instances', {})
+  create_resources('wls_multi_datasource',$multi_datasource_instances, $default_params)
+
 }
 
 
@@ -251,4 +422,20 @@ class jms{
   $saf_imported_destination_object_instances = hiera('saf_imported_destination_object_instances', {})
   create_resources('wls_saf_imported_destination_object',$saf_imported_destination_object_instances, $default_params)
 }
+
+class pack_domain{
+  require jms
+
+  $default_params = {}
+  $pack_domain_instances = hiera('pack_domain_instances', $default_params)
+  create_resources('orawls::packdomain',$pack_domain_instances, $default_params)
 }
+
+class deployments{
+  require pack_domain
+
+  $default_params = {}
+  $deployment_instances = hiera('deployment_instances', $default_params)
+  create_resources('wls_deployment',$deployment_instances, $default_params)
+}
+

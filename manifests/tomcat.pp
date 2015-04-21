@@ -8,13 +8,15 @@ class profile::tomcat (
   $source_url,
   $snapshot_repo,
   $release_repo,
+  $production_repo,
   $default_resource_auth,
   $default_resource_type,
   $default_resource_driverClassName,
   $default_resource_maxTotal,
   $default_resource_maxIdle,
   $default_resource_maxWaitMillis,
-  $catalina_base = '/opt/tomcat',
+  $catalina_base    = '/opt/tomcat',
+  $application_name = undef,
 ) {
   include ::profile
 
@@ -24,18 +26,69 @@ class profile::tomcat (
   include ::java
   include ::tomcat
 
-  # Use the corret repo based on version
-  if grep([$version], '.+SNAPSHOT$') {
-    $_repo = $snapshot_repo
+  # Use the correct repo based on version
+  if empty(grep([$version], '.+SNAPSHOT$')) {
+    $_repo = $release_repo
   }
   else {
-    $_repo = $release_repo
+    $_repo = $snapshot_repo
+  }
+
+  # If war name is empty use artifact id
+  if $application_name {
+    $_war_name = "${application_name}.war"
+  }
+  else {
+    $_war_name = "${artifactid}.war"
   }
 
   # A the database driver
-  file { '/opt/tomcat/lib/ojdbc7.jar':
+  file { '/opt/tomcat/lib/ojdbc6dms.jar':
     ensure  => file,
-    source  => 'puppet:///modules/profile/ojdbc7.jar',
+    source  => 'puppet:///modules/profile/ojdbc6dms.jar',
+    owner   => 'tomcat',
+    group   => 'tomcat',
+    mode    => '0600',
+    require => ::Tomcat::Instance[$name],
+    notify  => ::Tomcat::Service[$name],
+  }
+
+  file { '/opt/tomcat/lib/dms.jar':
+    ensure  => file,
+    source  => 'puppet:///modules/profile/dms.jar',
+    owner   => 'tomcat',
+    group   => 'tomcat',
+    mode    => '0600',
+    require => ::Tomcat::Instance[$name],
+    notify  => ::Tomcat::Service[$name],
+  }
+
+  file { '/opt/tomcat/lib/ojdl.jar':
+    ensure  => file,
+    source  => 'puppet:///modules/profile/ojdl.jar',
+    owner   => 'tomcat',
+    group   => 'tomcat',
+    mode    => '0600',
+    require => ::Tomcat::Instance[$name],
+    notify  => ::Tomcat::Service[$name],
+  }
+
+  file { '/opt/tomcat/lib/ojdl2.jar':
+    ensure  => file,
+    source  => 'puppet:///modules/profile/ojdl2.jar',
+    owner   => 'tomcat',
+    group   => 'tomcat',
+    mode    => '0600',
+    require => ::Tomcat::Instance[$name],
+    notify  => ::Tomcat::Service[$name],
+  }
+
+  file { '/opt/tomcat/lib/odl-12.1.2-0-0.jar':
+    ensure  => file,
+    source  => 'puppet:///modules/profile/odl-12.1.2-0-0.jar',
+    owner   => 'tomcat',
+    group   => 'tomcat',
+    mode    => '0600',
     require => ::Tomcat::Instance[$name],
     notify  => ::Tomcat::Service[$name],
   }
@@ -66,35 +119,9 @@ class profile::tomcat (
     source_url    => $source_url,
   }
 
-  #shellvar { 'test username':
-  #  ensure   => present,
-  #  target   => '/etc/environment',
-  #  variable => 'MYORACLE_USERNAME',
-  #  value    => 'system',
-  #  notify   => ::Tomcat::Service[$name],
-  #}
-
-  #shellvar { 'test password':
-  #  ensure   => present,
-  #  target   => '/etc/environment',
-  #  variable => 'MYORACLE_PASSWORD',
-  #  value    => 'oracle',
-  #  notify   => ::Tomcat::Service[$name],
-  #}
-
-  #::tomcat::setenv::entry { $name:
-  #  config_file => "${catalina_base}/bin/setenv.sh",
-  #  param       => 'JAVA_OPTS',
-  #  value       => '-Dmyoracle.username=$MYORACLE_USERNAME
-  # -Dmyoracle.password=$MYORACLE_PASSWORD',
-  #  quote_char  => '"',
-  #  notify      => ::Tomcat::Service[$name],
-  #  require     => ::Tomcat::Instance[$name],
-  #}
-
-  ::java_web_application_server::maven { $name:
+  ::tomcat::maven { $name:
     ensure        => present,
-    war_name      => "${artifactid}.war",
+    war_name      => $_war_name,
     groupid       => $groupid,
     artifactid    => $artifactid,
     version       => $version,
@@ -108,7 +135,7 @@ class profile::tomcat (
     service_name  => $name,
     catalina_home => $catalina_base,
     catalina_base => $catalina_base,
-    require       => ::Java_web_application_server::Maven[$name],
+    require       => ::Tomcat::Maven[$name],
   }
 
   ::tomcat::config::context { $name:
@@ -134,4 +161,16 @@ class profile::tomcat (
 
   create_resources('::tomcat::config::context::resource', $tomcat_resources,
   $tomcat_resources_defaults)
+
+  # Add resource links to context file
+  $tomcat_resourcelinks = hiera_hash('tomcat_resourcelinks', {})
+
+  create_resources('::tomcat::config::context::resourcelink',
+  $tomcat_resourcelinks)
+
+  # Add global resoure to server.xml
+  $tomcat_global_resources = hiera_hash('tomcat_global_resources', {})
+
+  create_resources('::tomcat::config::server::globalnamingresources',
+  $tomcat_global_resources, $tomcat_resources_defaults)
 }

@@ -1,6 +1,8 @@
 ---
-:backends:
-  - yaml
+:backends: yaml
+
+:yaml:
+  :datadir: "/etc/puppetlabs/puppet/hiera/hiera_%{::environment}"
 
 :hierarchy:
   - defaults
@@ -8,8 +10,6 @@
   - "role/application/%{::application}"
   - "role/%{::role}"
   - "tier/%{::tier}"
+  - "%{::environment}"
   - "clientcert/%{::clientcert}"
   - common
-
-:yaml:
-  :datadir: "/etc/puppetlabs/puppet/hiera/hiera_%{::environment}"

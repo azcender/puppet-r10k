@@ -35,31 +35,6 @@ class os {
   $host_instances = hiera('hosts', {})
   create_resources('host',$host_instances, $default_params)
 
-  # exec { "create swap file":
-  #   command => "/bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=8192",
-  #   creates => "/var/swap.1",
-  # }
-
-  # exec { "attach swap file":
-  #   command => "/sbin/mkswap /var/swap.1 && /sbin/swapon /var/swap.1",
-  #   require => Exec["create swap file"],
-  #   unless => "/sbin/swapon -s | grep /var/swap.1",
-  # }
-
-  # #add swap file entry to fstab
-  # exec {"add swapfile entry to fstab":
-  #   command => "/bin/echo >>/etc/fstab /var/swap.1 swap swap defaults 0 0",
-  #   require => Exec["attach swap file"],
-  #   user => root,
-  #   unless => "/bin/grep '^/var/swap.1' /etc/fstab 2>/dev/null",
-  # }
-
-  service { iptables:
-        enable    => false,
-        ensure    => false,
-        hasstatus => true,
-  }
-
   group { 'dba' :
     ensure => present,
   }
@@ -86,12 +61,12 @@ class os {
 
   class { 'limits':
     config => {
-               '*'       => {  'nofile'  => { soft => '2048'   , hard => '8192',   },},
-               'wls'     => {  'nofile'  => { soft => '65536'  , hard => '65536',  },
-                               'nproc'   => { soft => '2048'   , hard => '16384',   },
-                               'memlock' => { soft => '1048576', hard => '1048576',},
-                               'stack'   => { soft => '10240'  ,},},
-               },
+      '*'       => {  'nofile'  => { soft => '2048'   , hard => '8192',   },},
+      'wls'     => {  'nofile'  => { soft => '65536'  , hard => '65536',  },
+      'nproc'   => { soft => '2048'   , hard => '16384',   },
+      'memlock' => { soft => '1048576', hard => '1048576',},
+      'stack'   => { soft => '10240'  ,},},
+    },
     use_hiera => false,
   }
 
@@ -157,6 +132,31 @@ class ssh {
 
 class java {
   require os
+  require wget
+
+  file { '/software':
+    ensure => directory,
+  }
+
+  wget::fetch { 'UnlimitedJCEPolicyJDK7':
+    source      => 'http://artifactory.azcender.com/artifactory/application-deploys/com/oracle/UnlimitedJCEPolicyJDK7/7.0.0/UnlimitedJCEPolicyJDK7-7.0.0.zip',
+    destination => '/software/UnlimitedJCEPolicyJDK7.zip',
+    require     => File['/software'],
+  }
+
+  wget::fetch { 'JDK7':
+    source      => 'http://artifactory.azcender.com/artifactory/application-deploys/com/oracle/jdk/7u55/jdk-7u55-linux-x64.tar.gz',
+    destination => '/software/jdk-7u55-linux-x64.tar.gz',
+    require     => File['/software'],
+  }
+
+
+  wget::fetch { 'wls1036_generic.jar':
+    source      => 'http://artifactory.azcender.com/artifactory/ext-release-local/com/oracle/wls1036_generic/10.3.6/wls1036_generic-10.3.6.jar',
+    destination => '/software/wls1036_generic.jar',
+    require     => File['/software'],
+  }
+
 
   $remove = [ "java-1.7.0-openjdk.x86_64", "java-1.6.0-openjdk.x86_64" ]
 
@@ -170,32 +170,17 @@ class java {
   # $LOG_DIR='/tmp/log_puppet_weblogic'
 
   jdk7::install7{ 'jdk1.7.0_55':
-      version                   => "7u55" ,
-      fullVersion               => "jdk1.7.0_55",
-      alternativesPriority      => 18000,
-      x64                       => true,
-      downloadDir               => "/var/tmp/install",
-      urandomJavaFix            => true,
-      rsakeySizeFix             => true,
-      cryptographyExtensionFile => "UnlimitedJCEPolicyJDK7.zip",
-      sourcePath                => "/software",
+    version                   => "7u55" ,
+    fullVersion               => "jdk1.7.0_55",
+    alternativesPriority      => 18000,
+    x64                       => true,
+    downloadDir               => "/var/tmp/install",
+    urandomJavaFix            => true,
+    rsakeySizeFix             => true,
+    cryptographyExtensionFile => "UnlimitedJCEPolicyJDK7.zip",
+    sourcePath                => "/software",
+    require                   => Class['wget']
   }
-  # ->
-  # file { $LOG_DIR:
-  #   ensure  => directory,
-  #   mode    => '0777',
-  # }
-  # ->
-  # file { "$LOG_DIR/log.txt":
-  #   ensure  => file,
-  #   mode    => '0666'
-  # }
-  # ->
-  # javaexec_debug {$javas: }
-  # ->
-  # exec { 'java_debug start provisioning':
-  #   command => "${javas[0]} -version '+++ start provisioning +++'"
-  # }
 }
 
 # log all java executions:

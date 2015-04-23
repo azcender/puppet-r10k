@@ -529,7 +529,7 @@ class profile::weblogic {
   }
   
   $deployment_instances =
-    hiera('deployment_instances', $default_deployments_params)
+    hiera('deployment_instances', {})
   create_resources('wls_deployment', $deployment_instances,
     $default_deployments_params)
 }

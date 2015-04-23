@@ -328,46 +328,51 @@ class profile::weblogic {
   create_resources('wls_identity_asserter', $identity_asserter_instances,
     $default_security_params)
     
-  $default_params = {}
+  $default_basic_config_params = {}
 
   $wls_domain_instances = hiera('wls_domain_instances', {})
-  create_resources('wls_domain', $wls_domain_instances, $default_params)
+  create_resources('wls_domain', $wls_domain_instances,
+    $default_basic_config_params)
 
   # subscribe on domain changes
   $wls_adminserver_instances_domain =
     hiera('wls_adminserver_instances_domain', {})
   create_resources('wls_adminserver', $wls_adminserver_instances_domain,
-    $default_params)
+    $default_basic_config_params)
 
   $machines_instances = hiera('machines_instances', {})
-  create_resources('wls_machine', $machines_instances, $default_params)
+  create_resources('wls_machine', $machines_instances,
+    $default_basic_config_params)
 
   $server_instances = hiera('server_instances', {})
-  create_resources('wls_server', $server_instances, $default_params)
+  create_resources('wls_server', $server_instances,
+    $default_basic_config_params)
 
   # subscribe on server changes
   $wls_adminserver_instances_server =
     hiera('wls_adminserver_instances_server', {})
   create_resources('wls_adminserver', $wls_adminserver_instances_server,
-    $default_params)
+    $default_basic_config_params)
 
   $server_channel_instances = hiera('server_channel_instances', {})
   create_resources('wls_server_channel', $server_channel_instances,
-    $default_params)
+    $default_basic_config_params)
 
   $cluster_instances = hiera('cluster_instances', {})
-  create_resources('wls_cluster', $cluster_instances, $default_params)
+  create_resources('wls_cluster', $cluster_instances,
+    $default_basic_config_params)
 
   $coherence_cluster_instances = hiera('coherence_cluster_instances', {})
   create_resources('wls_coherence_cluster', $coherence_cluster_instances,
-    $default_params)
+    $default_basic_config_params)
 
   $server_template_instances = hiera('server_template_instances', {})
   create_resources('wls_server_template', $server_template_instances,
     $default_params)
 
   $mail_session_instances = hiera('mail_session_instances', {})
-  create_resources('wls_mail_session', $mail_session_instances, $default_params)
+  create_resources('wls_mail_session', $mail_session_instances,
+    $default_basic_config_params)
   
   $default_datasource_params = {
     require => [

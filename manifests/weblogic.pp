@@ -285,7 +285,7 @@ class profile::weblogic {
   $version = hiera('wls_version')
 
   orautils::nodemanagerautostart{'autostart weblogic 11g':
-    version                 => $version,
+    version                 => "${version}",
     wlHome                  => hiera('wls_weblogic_home_dir'),
     user                    => hiera('wls_os_user'),
     jsseEnabled             => hiera('wls_jsse_enabled'             ,false),

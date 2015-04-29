@@ -6,10 +6,10 @@
 
 :hierarchy:
   - defaults
+  - "fqdn/%{::fqdn}"
   - "role/%{::role}/%{::role_group}"
   - "role/application/%{::application}"
   - "role/%{::role}"
   - "tier/%{::tier}"
-  - "fqdn/%{::fqdn}"
   - "%{::environment}"
   - common

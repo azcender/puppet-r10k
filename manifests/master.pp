@@ -15,12 +15,4 @@ class profile::master {
     source => 'puppet:///modules/profile/hiera.yaml',
     notify => Service['pe-httpd'],
   }
-
-  ini_setting { 'modulepath':
-    ensure  => absent,
-    path    => '/etc/puppetlabs/puppet/puppet.conf',
-    section => 'main',
-    setting => 'modulepath',
-  }
-
 }

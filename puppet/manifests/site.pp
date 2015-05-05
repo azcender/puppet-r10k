@@ -55,12 +55,6 @@ node /^master*$/ {
 
   Host <<||>>
 
-  # Set r10k based on domain
-  # Hiera doesn't exist yet so programattically set values
-  $puppet_remote =
-  'https://github.com/azcender/puppet-r10k-environment.git'
-  $hiera_remote = 'https://github.com/azcender/puppet-r10k-hiera.git'
-
   if $::osfamily == 'redhat' {
     class { 'firewall': ensure => stopped, }
   }
@@ -107,24 +101,6 @@ node /^master*$/ {
     path    => '/opt/puppet/lib/ruby/gems/1.9.1/specifications',
     mode    => 'a+r',
     recurse => true,
-  } ->
-
-  class { 'r10k':
-    include_prerun_command => true,
-    sources                => {
-      'puppet' => {
-        'remote'  => $puppet_remote,
-        'basedir' => "${::settings::confdir}/environments",
-        'prefix'  => false,
-      },
-
-      hiera    => {
-        'remote'  => $hiera_remote,
-        'basedir' => "${::settings::confdir}/hiera",
-        'prefix'  => true,
-      }
-    },
-    purgedirs              => ["${::settings::confdir}/environments"],
   } ->
 
   file { '/etc/puppetlabs/puppet/hiera.yaml':

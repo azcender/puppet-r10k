@@ -15,4 +15,13 @@ class profile::master {
     source => 'puppet:///modules/profile/hiera.yaml',
     notify => Service['pe-httpd'],
   }
+
+  file { '/etc/puppetlabs/r10k/r10k.yaml':
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    source => '/vagrant/puppet/r10k.yaml',
+    notify => Service['pe-httpd'],
+  }
 }

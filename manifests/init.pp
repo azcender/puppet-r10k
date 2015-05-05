@@ -6,7 +6,7 @@
 class profile {
 
 
-  notice("Hello world!!! ${::environment}")
+  notice("Hello world!!! ${::role}")
 
   package { 'ntp':
     ensure => purged,

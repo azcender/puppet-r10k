@@ -6,11 +6,12 @@ roles:
     provider:
       type: virtualbox
       customize:
-        - [modifyvm, !ruby/sym id, '--memory', 4096, '--cpus', 4]
+        - [modifyvm, !ruby/sym id, '--memory', 8192, '--cpus', 4]
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     forwarded_ports:
-      - {guest: 443, host: 8443}
+      - {guest: 443,  host: 8443}
+      - {guest: 8140, host: 8140}
     provisioners:
       - {type: hosts}
       - {type: pe_bootstrap, role: !ruby/sym master}

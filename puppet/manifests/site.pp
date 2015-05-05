@@ -87,7 +87,7 @@ node /^master*$/ {
     path    => '/opt/puppet/lib/ruby/gems/1.9.1/specifications',
     mode    => 'a+r',
     recurse => true,
-  } ->
+  }
 
   file { '/etc/puppetlabs/puppet/hiera.yaml':
     ensure => 'file',
@@ -96,7 +96,17 @@ node /^master*$/ {
     mode   => '0755',
     source => '/vagrant/puppet/hiera.yaml',
     notify => Service['pe-httpd'],
-  } ->
+  }
+
+  file { '/etc/puppetlabs/r10k/r10k.yaml':
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    source => '/vagrant/puppet/r10k.yaml',
+    notify => Service['pe-httpd'],
+  }
+
 
   service { 'pe-httpd': ensure => running, }
 }

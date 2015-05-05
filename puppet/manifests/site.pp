@@ -59,29 +59,29 @@ node /^master*$/ {
     class { 'firewall': ensure => stopped, }
   }
 
-  ini_setting { 'environmentpath':
-    ensure  => present,
-    path    => '/etc/puppetlabs/puppet/puppet.conf',
-    section => 'main',
-    setting => 'environmentpath',
-    value   => '$confdir/environments',
-  } ->
-
-  ini_setting { 'default_manifest':
-    ensure  => present,
-    path    => '/etc/puppetlabs/puppet/puppet.conf',
-    section => 'main',
-    setting => 'default_manifest',
-    value   => '$confdir/manifests',
-  } ->
-
-  ini_setting { 'basemodulepath':
-    ensure  => present,
-    path    => '/etc/puppetlabs/puppet/puppet.conf',
-    section => 'main',
-    setting => 'basemodulepath',
-    value   => '$confdir/modules:/opt/puppet/share/puppet/modules',
-  } ->
+  #  ini_setting { 'environmentpath':
+  #  ensure  => present,
+  #  path    => '/etc/puppetlabs/puppet/puppet.conf',
+  #  section => 'main',
+  #  setting => 'environmentpath',
+  #  value   => '$confdir/environments',
+  #} ->
+  #
+  #ini_setting { 'default_manifest':
+  #  ensure  => present,
+  #  path    => '/etc/puppetlabs/puppet/puppet.conf',
+  #  section => 'main',
+  #  setting => 'default_manifest',
+  #  value   => '$confdir/manifests',
+  #} ->
+  #
+  #ini_setting { 'basemodulepath':
+  #  ensure  => present,
+  #  path    => '/etc/puppetlabs/puppet/puppet.conf',
+  #  section => 'main',
+  #  setting => 'basemodulepath',
+  #  value   => '$confdir/modules:/opt/puppet/share/puppet/modules',
+  #} ->
 
   file { 'ruby spec directory':
     path    => '/opt/puppet/lib/ruby/gems/1.9.1/specifications',
@@ -136,8 +136,6 @@ node default {
     ip           => '127.0.0.1',
     host_aliases => 'localhost.localdomain',
   }
-
-  Host <<||>>
 
   notify {
     "Node ${::hostname} received default classification on local dev.\

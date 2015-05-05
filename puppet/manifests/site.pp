@@ -59,13 +59,6 @@ node /^master*$/ {
     class { 'firewall': ensure => stopped, }
   }
 
-  ini_setting { 'master manifest path':
-    ensure  => absent,
-    path    => '/etc/puppetlabs/puppet/puppet.conf',
-    section => 'main',
-    setting => 'manifest',
-  } ->
-
   ini_setting { 'environmentpath':
     ensure  => present,
     path    => '/etc/puppetlabs/puppet/puppet.conf',
@@ -88,13 +81,6 @@ node /^master*$/ {
     section => 'main',
     setting => 'basemodulepath',
     value   => '$confdir/modules:/opt/puppet/share/puppet/modules',
-  } ->
-
-  ini_setting { 'modulepath':
-    ensure  => absent,
-    path    => '/etc/puppetlabs/puppet/puppet.conf',
-    section => 'main',
-    setting => 'modulepath',
   } ->
 
   file { 'ruby spec directory':

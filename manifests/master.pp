@@ -16,9 +16,6 @@ class profile::master {
     notify => Service['pe-httpd'],
   }
 
-  class { '::r10k': }
-  ->
-
   ini_setting { 'modulepath':
     ensure  => absent,
     path    => '/etc/puppetlabs/puppet/puppet.conf',

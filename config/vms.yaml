@@ -1,37 +1,37 @@
 ---
 vms:
   - name: master
-    box:  fs_centos-7-x64-vbox4320-nocm
+    box:  puppetlabs/centos-7.0-64-nocm
     roles:
       - pe-puppet-master
 
   - name: jenkins0
-    box: fs_centos-7-x64-vbox4320-nocm
+    box:  puppetlabs/centos-7.0-64-nocm
     roles:
       - pe-puppet-agent-linux
 
   - name: jenkins1
-    box: fs_centos-7-x64-vbox4320-nocm 
+    box:  puppetlabs/centos-7.0-64-nocm 
     roles:
       - pe-puppet-agent-linux
 
   - name: docker0
-    box: fs_centos-7-x64-vbox4320-nocm
+    box:  puppetlabs/centos-7.0-64-nocm
     roles:
       - pe-puppet-agent-linux
 
   - name: docker1
-    box: fs_centos-7-x64-vbox4320-nocm
+    box:  puppetlabs/centos-7.0-64-nocm
     roles:
       - pe-puppet-agent-linux
 
   - name: tomcat0
-    box: fs_centos-7-x64-vbox4320-nocm
+    box:  puppetlabs/centos-7.0-64-nocm
     roles:
       - pe-puppet-agent-linux
 
   - name: tomcat1
-    box: fs_centos-7-x64-vbox4320-nocm
+    box:  puppetlabs/centos-7.0-64-nocm
     roles:
       - pe-puppet-agent-linux
 

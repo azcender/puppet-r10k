@@ -4,7 +4,7 @@ roles:
     vbguest:
       auto_update: true
     provider:
-      type: virtualbox
+      type: vmware_fusion
       customize:
         - [modifyvm, !ruby/sym id, '--memory', 6144, '--cpus', 4]
     private_networks:

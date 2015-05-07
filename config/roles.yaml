@@ -5,11 +5,13 @@ roles:
 #      auto_update: true
     provider:
       type: vmware_fusion
+#      gui: true
+      gui: false
 #      customize:
 #        - [modifyvm, !ruby/sym id, '--memory', 6144, '--cpus', 4]
       vmx:
-        memsize:  6144
-        numvcpus: 4
+        memsize:  5120
+        numvcpus: 2
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
 #    forwarded_ports:
@@ -18,6 +20,7 @@ roles:
     provisioners:
       - {type: hosts}
       - {type: pe_bootstrap, role: !ruby/sym master}
+      - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/sbin/service NetworkManager restart'}
 #      - {type: shell, inline: 'ln -s -f /opt/puppet/bin/puppet /usr/bin/puppet'}
 #      - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp,
 #         module_path: puppet/modules,

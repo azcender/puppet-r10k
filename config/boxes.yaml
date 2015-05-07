@@ -1,8 +1,13 @@
 ---
 # Boxes
-# Updated: 2014-12-03 --- PT
-boxes:
+# Updated: 2015-05-07 --- PT
+#
 
+boxes:
+  puppetlabs/centos-6.5-64-nocm:
+    'https://atlas.hashicorp.com/puppetlabs/boxes/centos-6.5-64-nocm'
+  puppetlabs/centos-6.6-64-nocm:
+    'https://atlas.hashicorp.com/puppetlabs/boxes/centos-6.6-64-nocm'
   puppetlabs/centos-7.0-64-nocm:
     'https://atlas.hashicorp.com/puppetlabs/boxes/centos-7.0-64-nocm'
   fs_ubuntu-server-14041-x64-vbox4320-nocm:

@@ -4,6 +4,7 @@ class profile::docker {
   include ::profile
 
   include ::docker
+  include ::docker::run_instance
 
   #  file { '/etc/puppetlabs/facter':
   #  ensure => directory,

@@ -1,25 +1,28 @@
 ---
 roles:
   pe-puppet-master:
-    vbguest:
-      auto_update: true
+#    vbguest:
+#      auto_update: true
     provider:
       type: vmware_fusion
-      customize:
-        - [modifyvm, !ruby/sym id, '--memory', 6144, '--cpus', 4]
+#      customize:
+#        - [modifyvm, !ruby/sym id, '--memory', 6144, '--cpus', 4]
+      vmx:
+        memsize:  6144
+        numvcpus: 4
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
-    forwarded_ports:
-      - {guest: 443,  host: 8443}
-      - {guest: 8140, host: 8140}
+#    forwarded_ports:
+#      - {guest: 443,  host: 8443}
+#      - {guest: 8140, host: 8140}
     provisioners:
       - {type: hosts}
       - {type: pe_bootstrap, role: !ruby/sym master}
-      - {type: shell, inline: 'ln -s -f /opt/puppet/bin/puppet /usr/bin/puppet'}
-      - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp,
-         module_path: puppet/modules,
-         options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
-      - {type: shell, inline: '/usr/local/bin/puppet agent -t'}
+#      - {type: shell, inline: 'ln -s -f /opt/puppet/bin/puppet /usr/bin/puppet'}
+#      - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp,
+#         module_path: puppet/modules,
+#         options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
+#      - {type: shell, inline: '/usr/local/bin/puppet agent -t'}
 #      - {type: shell,
 #         inline: '/opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production node:variables["master","role=master"]'}
 
@@ -27,17 +30,21 @@ roles:
     vbguest:
       auto-update: true
     provider:
-      type: virtualbox
-      gui: false
-      customize:
-        - [modifyvm, !ruby/sym id, '--memory', 1024, '--cpus', 1]
+#      type: virtualbox
+#      gui: false
+#      customize:
+#        - [modifyvm, !ruby/sym id, '--memory', 1024, '--cpus', 1]
+      type: vmware_fusion
+      vmx:
+        memsize: 1024
+        numvcpus: 1
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
       - {type: hosts}
       - {type: shell,
          inline: 'curl -k https://master:8140/packages/current/install.bash | sudo bash'}
-      - {type: shell, inline: 'ln -s -f /opt/puppet/bin/puppet /usr/bin/puppet'}
+#      - {type: shell, inline: 'ln -s -f /opt/puppet/bin/puppet /usr/bin/puppet'}
 #      - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp,
 #         module_path: puppet/modules,
 #         options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}

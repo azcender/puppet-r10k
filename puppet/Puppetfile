@@ -3,9 +3,8 @@ forge 'https://forgeapi.puppetlabs.com'
 mod 'mhuffnagle/make',
   :git => 'https://github.com/Element84/puppet-make.git'
 
-mod 'puppetlabs/ntp',      '3.3.0'
-mod 'puppetlabs/vcsrepo',  '1.2.0'
-mod 'puppetlabs/inifile',  '1.2.0'
-mod 'puppetlabs/firewall', '1.2.0'
-
-mod 'zack/r10k'
+mod 'puppetlabs/ntp'
+mod 'puppetlabs/vcsrepo'
+mod 'puppetlabs/inifile'
+mod 'puppetlabs/firewall'
+mod 'puppetlabs/stdlib'

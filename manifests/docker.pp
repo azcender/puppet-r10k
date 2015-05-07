@@ -4,7 +4,11 @@ class profile::docker {
   include ::profile
 
   include ::docker
-  include ::docker::run_instance
+
+  # Docker runs in docker yaml
+  $runs = hiera('profile::docker::runs')
+
+  create_resources('::docker::run', $runs)
 
   #  file { '/etc/puppetlabs/facter':
   #  ensure => directory,

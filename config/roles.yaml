@@ -24,7 +24,7 @@ roles:
       - {type: shell, inline: 'r10k deploy environment production --puppetfile'}
       - {type: shell, inline: 'r10k deploy environment hiera_production'}
       - {type: shell, inline: 'puppet agent -t'}
-      - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/sbin/service NetworkManager restart'}
+      - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y;#/usr/sbin/service NetworkManager restart'}
 
   pe-puppet-agent-linux:
     vbguest:

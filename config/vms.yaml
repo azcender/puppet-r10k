@@ -25,6 +25,11 @@ vms:
     roles:
       - pe-puppet-agent-linux
 
+  - name: haproxy
+    box:  puppetlabs/centos-7.0-64-nocm
+    roles:
+      - pe-puppet-agent-linux
+
   - name: tomcat0
     box:  puppetlabs/centos-7.0-64-nocm
     roles:

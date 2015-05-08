@@ -1,8 +1,5 @@
 forge 'https://forgeapi.puppetlabs.com'
 
-mod 'mhuffnagle/make',
-  :git => 'https://github.com/Element84/puppet-make.git'
-
 mod 'puppetlabs/ntp'
 mod 'puppetlabs/vcsrepo'
 mod 'puppetlabs/inifile'

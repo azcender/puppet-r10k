@@ -41,11 +41,11 @@ node /^master*$/ {
     default      => $::ipaddress_eth0,
   }
 
-  @@host { $::hostname:
-    ensure       => present,
-    ip           => $ip,
-    host_aliases => $hostname,
-  }
+  #  @@host { $::hostname:
+  #    ensure       => present,
+  #    ip           => $ip,
+  #    host_aliases => $hostname,
+  #  }
 
   host { 'localhost':
     ensure       => present,
@@ -53,7 +53,7 @@ node /^master*$/ {
     host_aliases => 'localhost.localdomain',
   }
 
-  Host <<||>>
+  #Host <<||>>
 
   if $::osfamily == 'redhat' {
     class { 'firewall': ensure => stopped, }
@@ -135,11 +135,11 @@ node default {
   }
 
 
-  @@host { $::hostname:
-    ensure       => present,
-    ip           => $ip,
-    host_aliases => $hostname,
-  }
+  #@@host { $::hostname:
+  #  ensure       => present,
+  #  ip           => $ip,
+  #  host_aliases => $hostname,
+  #}
 
   host { 'localhost':
     ensure       => present,

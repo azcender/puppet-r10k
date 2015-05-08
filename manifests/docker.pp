@@ -10,10 +10,10 @@ class profile::docker {
 
   create_resources('::docker::run', $runs)
 
-  @@::haproxy::balancermember { $::ipaddress :
+  @@::haproxy::balancermember { $::ipaddress_ens33 :
     listening_service => 'docker',
     server_names      => $::hostname,
-    ipaddresses       => $::ipaddress,
+    ipaddresses       => $::ipaddress_ens33,
     ports             => '8888',
   }
 }

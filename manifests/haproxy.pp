@@ -6,7 +6,7 @@ class profile::haproxy {
   include ::haproxy
 
   ::haproxy::listen { 'docker':
-    ipaddress => $::ipaddress,
+    ipaddress => $::ipaddress_ens33,
     mode      => 'http',
     ports     => '8140',
   }

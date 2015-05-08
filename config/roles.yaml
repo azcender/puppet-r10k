@@ -1,20 +1,18 @@
 ---
 roles:
   pe-puppet-master:
-#    vbguest:
-#      auto_update: true
     provider:
       type: vmware_fusion
+      gui: false
+# Customize is for virtual box... have switched to vmware
+#      type: virtualbox
 #      customize:
 #        - [modifyvm, !ruby/sym id, '--memory', 6144, '--cpus', 4]
       vmx:
-        memsize:  6144
-        numvcpus: 4
+        memsize:  5120
+        numvcpus: 2
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
-#    forwarded_ports:
-#      - {guest: 443,  host: 8443}
-#      - {guest: 8140, host: 8140}
     provisioners:
       - {type: hosts}
       - {type: pe_bootstrap, role: !ruby/sym master}
@@ -26,13 +24,13 @@ roles:
       - {type: shell, inline: 'r10k deploy environment production --puppetfile'}
       - {type: shell, inline: 'r10k deploy environment hiera_production'}
       - {type: shell, inline: 'puppet agent -t'}
-#      - {type: shell,
-#         inline: '/opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production node:variables["master","role=master"]'}
+      - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/sbin/service NetworkManager restart'}
 
   pe-puppet-agent-linux:
     vbguest:
       auto-update: true
     provider:
+# The code below is for the original virtualbox implementaiton
 #      type: virtualbox
 #      gui: false
 #      customize:
@@ -47,10 +45,7 @@ roles:
       - {type: hosts}
       - {type: shell,
          inline: 'curl -k https://master:8140/packages/current/install.bash | sudo bash'}
-#      - {type: shell, inline: 'ln -s -f /opt/puppet/bin/puppet /usr/bin/puppet'}
-#      - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp,
-#         module_path: puppet/modules,
-#         options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
+      - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/sbin/service NetworkManager restart'}
 
   pe-puppet-agent-windows:
     hostname: #{name}

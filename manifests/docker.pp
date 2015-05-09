@@ -13,7 +13,7 @@ class profile::docker {
   $concat_name = "${name}-${::ipaddress_ens33}"
 
   @@::haproxy::balancermember { $concat_name:
-    listening_service => $concat_name,
+    listening_service => 'docker',
     server_names      => $::hostname,
     ipaddresses       => $::ipaddress_ens33,
     ports             => '8888',

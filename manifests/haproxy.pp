@@ -11,6 +11,17 @@ class profile::haproxy {
     ports     => '8140',
   }
 
+  ::haproxy::frontend { 'http-in':
+    bind   => {
+      '*:80' => []
+    },
+
+    option => {
+      'acl' => 'has_special_uri path_beg /special'
+    }
+  }
+
+
   #  ::haproxy::balancermember { '70b223b40eab':
   #  listening_service => 'puppet00',
   #  server_names      => '70b223b40eab',

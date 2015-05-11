@@ -14,14 +14,30 @@ class profile::haproxy {
 
   ::haproxy::frontend { 'http-in':
     bind    => {
-      '*:80' => []
+      '*:80'  => [],
+      '*:443' => ['ssl', '/etc/ssl/thishost.crt', 'no-sslv3'],
     },
 
     options => {
-      'acl'             => 'has_special_uri path_beg /special',
-      'use_backend'     => 'special_server if has_special_uri',
-      'default_backend' => 'webfarm',
+      'acl'             => 'uri_frts path_beg /frts',
+      'use_backend'     => 'server_frts if uri_frts',
+      'default_backend' => 'default',
     }
+  }
+
+  ::haproxy::backend { 'server_frts':
+    options => {
+      'option'  => [
+        'tcplog',
+        'ssl-hello-chk',
+        'httpchk HEAD /check.txt HTTP/1.0',
+        'httpclose',
+        'forwardfor',
+      ],
+      'balance' => 'roundrobin',
+      'cookie'  => 'SERVERID insert',
+      'server'  => 'docker0 10.0.0.1:8888 cookie docker0 check'
+    },
   }
 
   #  ::haproxy::balancermember { '70b223b40eab':

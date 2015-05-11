@@ -30,7 +30,7 @@ class profile::haproxy {
       'option'  => [
         'tcplog',
         'ssl-hello-chk',
-        'httpchk HEAD /check.txt HTTP/1.0',
+        #'httpchk HEAD /check.txt HTTP/1.0',
         'httpclose',
         'forwardfor',
       ],

@@ -13,15 +13,16 @@ class profile::haproxy {
   }
 
   ::haproxy::frontend { 'http-in':
-    bind   => {
+    bind    => {
       '*:80' => []
     },
 
-    option => {
-      'acl' => 'has_special_uri path_beg /special'
+    options => {
+      'acl'             => 'has_special_uri path_beg /special',
+      'use_backend'     => 'special_server if has_special_uri',
+      'default_backend' => 'webfarm',
     }
   }
-
 
   #  ::haproxy::balancermember { '70b223b40eab':
   #  listening_service => 'puppet00',
@@ -54,4 +55,4 @@ class profile::haproxy {
   #  $runs_defaults = {
   #  before => Class['::haproxy::balancermember'],
   #}
-}
+  }

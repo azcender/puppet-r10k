@@ -14,7 +14,7 @@ class profile::master {
     group  => 'root',
     mode   => '0755',
     source => 'puppet:///modules/profile/hiera.yaml',
-    notify => Service['pe-httpd'],
+    notify => Service['pe-puppetserver'],
   }
 
   class { '::r10k': }

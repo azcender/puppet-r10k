@@ -5,7 +5,6 @@
 
 class profile {
 
-
   notice("Hello world!!! ${::role}")
 
   package { 'ntp':
@@ -38,12 +37,11 @@ class profile {
     subscribe => Package['httpd'],
   }
   file { '/var/www/html/index.html':
-    mode    => '0440',
-    owner   => 'apache',
-    group   => 'apache',
-    source  => 'puppet:///modules/profile/index.html',
-    #require => Service['httpd'],
-    notify  => Service['httpd'],
+    mode   => '0440',
+    owner  => 'apache',
+    group  => 'apache',
+    source => 'puppet:///modules/profile/index.html',
+    notify => Service['httpd'],
   }
 
 

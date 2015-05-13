@@ -16,6 +16,7 @@ class profile::master {
     notify => Service['pe-httpd'],
   }
 
+  class { '::avahi': }
   class { '::r10k': }
   ->
 

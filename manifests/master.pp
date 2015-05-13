@@ -26,12 +26,13 @@ class profile::master {
     notify => Service['pe-httpd'],
   }
 
-  file { '/etc/puppetlabs/r10k/r10k.yaml':
-    ensure => 'file',
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
-    source => '/vagrant/puppet/r10k.yaml',
-    notify => Service['pe-httpd'],
+  class { '::r10k': }
+  ->
+
+  ini_setting { 'modulepath':
+    ensure  => absent,
+    path    => '/etc/puppetlabs/puppet/puppet.conf',
+    section => 'main',
+    setting => 'modulepath',
   }
 }

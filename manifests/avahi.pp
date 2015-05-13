@@ -1,4 +1,6 @@
 # Installs Avahi web daemon service
+#
+
 class profile::avahi {
   include ::profile
 

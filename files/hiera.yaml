@@ -12,4 +12,4 @@
   - "tier/%{::tier}"
   - "%{::environment}"
   - "clientcert/%{::clientcert}"
-  - common
+  - global

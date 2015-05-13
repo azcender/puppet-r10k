@@ -5,46 +5,6 @@
 
 class profile {
 
-  notice("Hello world!!! ${::role}")
-
-  package { 'ntp':
-    ensure => purged,
-  }
-
-  file { "/puppet_installed_${::environment}":
-    ensure => present,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
-  }
-
-  package { 'httpd':
-    ensure => present,
-  }
-  package { 'php':
-    ensure => present,
-  }
-  package { 'mod_php':
-    ensure => present,
-  }
-  package { 'mysql-server':
-    ensure => present,
-  }
-  service { 'httpd':
-    ensure    => running,
-    name      => 'httpd',
-    enable    => true,
-    subscribe => Package['httpd'],
-  }
-  file { '/var/www/html/index.html':
-    mode   => '0440',
-    owner  => 'apache',
-    group  => 'apache',
-    source => 'puppet:///modules/profile/index.html',
-    notify => Service['httpd'],
-  }
-
-
   # TODO: document this
   $required_files = hiera_hash('sanity::file_contents::files', {})
   $required_file_lines = hiera_hash('sanity::file_contents::file_lines', {})

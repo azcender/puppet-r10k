@@ -15,8 +15,6 @@ class profile {
   #  filesystem_mounts => $required_filesystems_mounts,
   #}
 
-  include ::avahi
-
   $run_path   = "set /files${::confdir}/auth.conf/path[. = '/run'] /run"
   $run_auth   = "set /files${::confdir}/auth.conf/path[. = '/run']/auth any"
   $run_method =

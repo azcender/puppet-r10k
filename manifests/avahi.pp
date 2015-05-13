@@ -1,10 +1,9 @@
-# Installs Avahi web daemon service
+# Installs Avahi service
 #
 
 class profile::avahi {
   include ::profile
-
-  class{ '::avahi': }
+  include avahi
 
   # Need to disallow other services
   file_line {'disallow_other_stacks_in_avahi':

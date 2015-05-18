@@ -60,13 +60,13 @@ node /^master*$/ {
   }
 
   # Time to start using the future parser
-  ini_setting { 'parser':
-    ensure => present,
-    path   => '/etc/puppetlabs/puppet/puppet.conf',
-    section => 'main',
-    setting => 'parser',
-    value   => 'future',
-  }
+  #ini_setting { 'parser':
+  #  ensure => present,
+  #  path   => '/etc/puppetlabs/puppet/puppet.conf',
+  #  section => 'main',
+  #  setting => 'parser',
+  #  value   => 'future',
+  #}
 
   #  ini_setting { 'environmentpath':
   #  ensure  => present,

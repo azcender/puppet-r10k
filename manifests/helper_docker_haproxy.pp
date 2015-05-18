@@ -54,8 +54,9 @@ define profile::helper_docker_haproxy(
   $hostentries = [],
   $restart = undef,
 ) {
-  # Only really worried about ports
+  # Only really worried about ports and running
   validate_array($ports)
+  validate_bool($running)
 
   ::profile::helper_docker_haproxy_port { $ports:
     ports   => $ports,

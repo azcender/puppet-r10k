@@ -13,6 +13,8 @@ class profile::docker {
   $runs.each |$run| {
     $concat_name = "${name}-${::ipaddress}"
 
+    notice($run)
+
     @@::haproxy::balancermember { $concat_name:
       listening_service => 'docker',
       server_names      => $::hostname,

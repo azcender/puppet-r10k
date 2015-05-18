@@ -58,6 +58,7 @@ define profile::helper_docker_haproxy(
   validate_array($ports)
 
   ::profile::helper_docker_haproxy_port { $ports:
-    ports => $ports,
+    ports   => $ports,
+    running => $running,
   }
 }

@@ -1,6 +1,6 @@
 # A wrapper that contains all thr functionality needed for a standard java web
 # application --- does not support JEE applications
-class profile::tomcat_container {
+node default {
   #  $maven_repo = hiera('profile::tomcat_container::maven_repo')
 
   #$groupId    = hiera('profile::tomcat_container::groupId')
@@ -33,6 +33,7 @@ class profile::tomcat_container {
   # Remove examples
   file { '/usr/local/tomcat/webapps/examples':
     ensure => absent,
+    force  => true,
   }
 
   # Remove favicon

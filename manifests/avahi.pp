@@ -12,6 +12,7 @@ class profile::avahi {
     match   => '#?disallow-other-stacks=(yes|no)',
     require => Package['avahi'],
     before  => Service['avahi-daemon'],
-  } ~>
-  Service['avahi-daemon']
+  }
+#  } ~>
+#  Service['avahi-daemon']
 }

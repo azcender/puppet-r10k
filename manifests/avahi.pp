@@ -3,7 +3,7 @@
 
 class profile::avahi {
   include ::profile
-  include avahi
+  include ::avahi
 
   # Need to disallow other services
   file_line {'disallow_other_stacks_in_avahi':

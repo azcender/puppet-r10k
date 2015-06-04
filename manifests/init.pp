@@ -28,7 +28,7 @@ class profile {
   create_resources(user, $users)
 
   # Compile packages
-  $packages = hiera_hash('packages', {})
+  $packages = hiera_array('packages', [])
 
   package { $packages: }
 }

@@ -30,5 +30,5 @@ class profile {
   # Compile packages
   $packages = hiera_hash('packages', {})
 
-  create_resources(package, $packages)
+  package { $packages: }
 }

@@ -5,5 +5,5 @@ class profile::oracle (
   include ::profile
   
   # Create packages needed for base Oracle build
-  create_resources(package, $packages)
+  package { $packages: }
 }

@@ -1,7 +1,9 @@
 # Sets up the base oracle build
 class profile::oracle (
   $files,
+  $groups,
   $packages,
+  $users
 ) {
   include ::profile
 
@@ -15,4 +17,10 @@ class profile::oracle (
 
   # Create files needed for base Oracle build
   create_resources(file, $files)
+
+  # Create users needed for base Oracle build
+  create_resources(user, $users)
+
+  # Create groups needed for base Oracle build
+  create_resources(group, $groups)
 }

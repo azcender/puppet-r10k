@@ -4,10 +4,15 @@ class profile::oracle (
   $packages,
 ) {
   include ::profile
+
+  # Basic validation of params
+  validate_array($packages)
+
+  validate_hash($files)
   
   # Create packages needed for base Oracle build
   package { $packages: }
 
   # Create files needed for base Oracle build
-  file { $files: }
+  create_resources(file, $files)
 }

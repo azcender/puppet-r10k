@@ -15,8 +15,6 @@ class profile::weblogic (
   # Create file resources
   create_resources(file, $files)
 
-#  include os
-#  include ssh
 #  include java, orawls::urandomfix
 #  include orawls::weblogic, orautils
 #  include bsu
@@ -37,160 +35,55 @@ class profile::weblogic (
 #  Class[java] -> Class[orawls::weblogic]
 #}
 #
-## operating settings for Middleware
-#class os {
 #
-#  $default_params = {}
-#  $host_instances = hiera('hosts', {})
-#  create_resources('host',$host_instances, $default_params)
-#
-#  group { 'dba' :
-#    ensure => present,
-#  }
-#
-#  # http://raftaman.net/?p=1311 for generating password
-#  # password = oracle
-#  user { 'wls' :
-#    ensure     => present,
-#    groups     => 'dba',
-#    shell      => '/bin/bash',
-#    password   => '$1$DSJ51vh6$4XzzwyIOk6Bi/54kglGk3.',
-#    home       => "/home/wls",
-#    comment    => 'wls user created by Puppet',
-#    managehome => true,
-#    require    => Group['dba'],
-#  }
-#
-#  $install = [ 'binutils.x86_64','unzip.x86_64']
-#
-#
-#  package { $install:
-#    ensure  => present,
-#  }
-#
-#  class { 'limits':
-#    config => {
-#      '*'       => {  'nofile'  => { soft => '2048'   , hard => '8192',   },},
-#      'wls'     => {  'nofile'  => { soft => '65536'  , hard => '65536',  },
-#      'nproc'   => { soft => '2048'   , hard => '16384',   },
-#      'memlock' => { soft => '1048576', hard => '1048576',},
-#      'stack'   => { soft => '10240'  ,},},
-#    },
-#    use_hiera => false,
-#  }
-#
-#  sysctl { 'kernel.msgmnb':                 ensure => 'present', permanent => 'yes', value => '65536',}
-#  sysctl { 'kernel.msgmax':                 ensure => 'present', permanent => 'yes', value => '65536',}
-#  sysctl { 'kernel.shmmax':                 ensure => 'present', permanent => 'yes', value => '2588483584',}
-#  sysctl { 'kernel.shmall':                 ensure => 'present', permanent => 'yes', value => '2097152',}
-#  sysctl { 'fs.file-max':                   ensure => 'present', permanent => 'yes', value => '6815744',}
-#  sysctl { 'net.ipv4.tcp_keepalive_time':   ensure => 'present', permanent => 'yes', value => '1800',}
-#  sysctl { 'net.ipv4.tcp_keepalive_intvl':  ensure => 'present', permanent => 'yes', value => '30',}
-#  sysctl { 'net.ipv4.tcp_keepalive_probes': ensure => 'present', permanent => 'yes', value => '5',}
-#  sysctl { 'net.ipv4.tcp_fin_timeout':      ensure => 'present', permanent => 'yes', value => '30',}
-#  sysctl { 'kernel.shmmni':                 ensure => 'present', permanent => 'yes', value => '4096', }
-#  sysctl { 'fs.aio-max-nr':                 ensure => 'present', permanent => 'yes', value => '1048576',}
-#  sysctl { 'kernel.sem':                    ensure => 'present', permanent => 'yes', value => '250 32000 100 128',}
-#  sysctl { 'net.ipv4.ip_local_port_range':  ensure => 'present', permanent => 'yes', value => '9000 65500',}
-#  sysctl { 'net.core.rmem_default':         ensure => 'present', permanent => 'yes', value => '262144',}
-#  sysctl { 'net.core.rmem_max':             ensure => 'present', permanent => 'yes', value => '4194304', }
-#  sysctl { 'net.core.wmem_default':         ensure => 'present', permanent => 'yes', value => '262144',}
-#  sysctl { 'net.core.wmem_max':             ensure => 'present', permanent => 'yes', value => '1048576',}
-#
-#}
-#
-#class ssh {
-#  require os
-#
-#
-#  file { "/home/wls/.ssh/":
-#    owner  => "wls",
-#    group  => "dba",
-#    mode   => "700",
-#    ensure => "directory",
-#    alias  => "wls-ssh-dir",
-#  }
-#
-#  file { "/home/wls/.ssh/id_rsa.pub":
-#    ensure  => present,
-#    owner   => "wls",
-#    group   => "dba",
-#    mode    => "644",
-#    source  => "/vagrant/ssh/id_rsa.pub",
-#    require => File["wls-ssh-dir"],
-#  }
-#
-#  file { "/home/wls/.ssh/id_rsa":
-#    ensure  => present,
-#    owner   => "wls",
-#    group   => "dba",
-#    mode    => "600",
-#    source  => "/vagrant/ssh/id_rsa",
-#    require => File["wls-ssh-dir"],
-#  }
-#
-#  file { "/home/wls/.ssh/authorized_keys":
-#    ensure  => present,
-#    owner   => "wls",
-#    group   => "dba",
-#    mode    => "644",
-#    source  => "/vagrant/ssh/id_rsa.pub",
-#    require => File["wls-ssh-dir"],
-#  }
-#}
-#
-#class java {
-#  require os
-#  require wget
-#
-#  file { '/software':
-#    ensure => directory,
-#  }
-#
-#  wget::fetch { 'UnlimitedJCEPolicyJDK7':
-#    source      => 'http://artifactory.azcender.com/artifactory/application-deploys/com/oracle/UnlimitedJCEPolicyJDK7/7.0.0/UnlimitedJCEPolicyJDK7-7.0.0.zip',
-#    destination => '/software/UnlimitedJCEPolicyJDK7.zip',
-#    require     => File['/software'],
-#  }
-#
-#  wget::fetch { 'JDK7':
-#    source      => 'http://artifactory.azcender.com/artifactory/application-deploys/com/oracle/jdk/7u55/jdk-7u55-linux-x64.tar.gz',
-#    destination => '/software/jdk-7u55-linux-x64.tar.gz',
-#    require     => File['/software'],
-#  }
-#
-#
-#  wget::fetch { 'wls1036_generic.jar':
-#    source      => 'http://artifactory.azcender.com/artifactory/ext-release-local/com/oracle/wls1036_generic/10.3.6/wls1036_generic-10.3.6.jar',
-#    destination => '/software/wls1036_generic.jar',
-#    require     => File['/software'],
-#  }
-#
-#
-#  $remove = [ "java-1.7.0-openjdk.x86_64", "java-1.6.0-openjdk.x86_64" ]
-#
-#  package { $remove:
-#    ensure  => absent,
-#  }
-#
-#  include jdk7
-#
-#  # $javas = ["/usr/java/jdk1.7.0_55/jre/bin/java", "/usr/java/jdk1.7.0_55/bin/java"]
-#  # $LOG_DIR='/tmp/log_puppet_weblogic'
-#
-#  jdk7::install7{ 'jdk1.7.0_55':
-#    version                   => "7u55" ,
-#    fullVersion               => "jdk1.7.0_55",
-#    alternativesPriority      => 18000,
-#    x64                       => true,
-#    downloadDir               => "/var/tmp/install",
-#    urandomJavaFix            => true,
-#    rsakeySizeFix             => true,
-#    cryptographyExtensionFile => "UnlimitedJCEPolicyJDK7.zip",
-#    sourcePath                => "/software",
-#    require                   => Class['wget']
-#  }
-#}
+
+  # Create a software directory for install files
+  file { '/software':
+    ensure => directory,
+  }
+
+  # Fetch install media from a download location
+  # TODO: Move to organization specific location
+  wget::fetch { 'UnlimitedJCEPolicyJDK7':
+    source      => 'http://artifactory.azcender.com/artifactory/application-deploys/com/oracle/UnlimitedJCEPolicyJDK7/7.0.0/UnlimitedJCEPolicyJDK7-7.0.0.zip',
+    destination => '/software/UnlimitedJCEPolicyJDK7.zip',
+    require     => File['/software'],
+  }
+
+  wget::fetch { 'JDK7':
+    source      => 'http://artifactory.azcender.com/artifactory/application-deploys/com/oracle/jdk/7u55/jdk-7u55-linux-x64.tar.gz',
+    destination => '/software/jdk-7u55-linux-x64.tar.gz',
+    require     => File['/software'],
+  }
+
+
+  wget::fetch { 'wls1036_generic.jar':
+    source      => 'http://artifactory.azcender.com/artifactory/ext-release-local/com/oracle/wls1036_generic/10.3.6/wls1036_generic-10.3.6.jar',
+    destination => '/software/wls1036_generic.jar',
+    require     => File['/software'],
+  }
+
+  # Remove any openjdk files
+  $remove = [ 'java-1.7.0-openjdk.x86_64', 'java-1.6.0-openjdk.x86_64' ]
+
+  package { $remove:
+    ensure  => absent,
+  }
+
+  # Instdall JDK 7
+  jdk7::install7{ 'jdk1.7.0_55':
+    version                   => '7u55' ,
+    fullVersion               => 'jdk1.7.0_55',
+    alternativesPriority      => 18000,
+    x64                       => true,
+    downloadDir               => '/var/tmp/install',
+    urandomJavaFix            => true,
+    rsakeySizeFix             => true,
+    cryptographyExtensionFile => 'UnlimitedJCEPolicyJDK7.zip',
+    sourcePath                => '/software',
+    require                   => Class['wget']
+  }
+
 #
 ## log all java executions:
 #define javaexec_debug() {

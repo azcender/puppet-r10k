@@ -15,28 +15,6 @@ class profile::weblogic (
   # Create file resources
   create_resources(file, $files)
 
-#  include java, orawls::urandomfix
-#  include orawls::weblogic, orautils
-#  include bsu
-#  include fmw
-#  include opatch
-#  include domains
-#  include nodemanager, startwls, userconfig
-#  include security
-#  include basic_config
-#  include datasources
-#  include virtual_hosts
-#  include workmanagers
-#  include file_persistence
-#  include jms
-#  include pack_domain
-#  include deployments
-#
-#  Class[java] -> Class[orawls::weblogic]
-#}
-#
-#
-
   # Create a software directory for install files
   file { '/software':
     ensure => directory,
@@ -83,6 +61,11 @@ class profile::weblogic (
     sourcePath                => '/software',
     require                   => Class['wget']
   }
+
+  # Ensure Java is installed before orawls
+  Class[java] -> Class[orawls::weblogic]
+
+  include ::orawls::weblogic
 
 #
 ## log all java executions:

@@ -6,11 +6,15 @@
 
 class profile::weblogic (
   $augeas,
+  $files,
 ) {
 
   # Execute augesus for weblogic
   create_resources(augeas, $augeas)
   
+  # Create file resources
+  create_resources(file, $files)
+
 #  include os
 #  include ssh
 #  include java, orawls::urandomfix

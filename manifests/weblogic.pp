@@ -48,10 +48,13 @@ class profile::weblogic (
     ensure  => absent,
   }
 
+  # TODO: Move jdk version to Hiera
+  $java_version = 'jdk1.7.0_55'
+
   # Instdall JDK 7
-  jdk7::install7{ 'jdk1.7.0_55':
+  jdk7::install7{ $java_version :
     version                   => '7u55' ,
-    fullVersion               => 'jdk1.7.0_55',
+    fullVersion               => $java_version,
     alternativesPriority      => 18000,
     x64                       => true,
     downloadDir               => '/var/tmp/install',
@@ -63,7 +66,7 @@ class profile::weblogic (
   }
 
   # Ensure Java is installed before orawls
-  Class[java] -> Class[orawls::weblogic]
+  Jdk7::Install7[$java_version] -> Class[orawls::weblogic]
 
   include ::orawls::weblogic
 

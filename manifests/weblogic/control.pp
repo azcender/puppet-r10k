@@ -5,7 +5,6 @@
 #
 
 class profile::weblogic::control {
-  include ::orawls::weblogic
   include ::profile::weblogic::nodemanager
 
   $default_startwls_params = {

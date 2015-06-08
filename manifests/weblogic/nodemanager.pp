@@ -5,7 +5,6 @@
 #
 
 class profile::weblogic::nodemanager {
-  include ::orawls::weblogic
   include ::profile::weblogic::domain
 
   $default_params_nodemanager = { }

@@ -66,56 +66,11 @@ class profile::weblogic (
   }
 
   # Ensure Java is installed before orawls
-  Jdk7::Install7[$java_version] -> Class[orawls::weblogic]
+  Jdk7::Install7[$java_version] -> Class[::orawls::weblogic]
 
-  include ::orawls::weblogic
-
-  # Create domains
-  $default_domain_params = {
-    require => Class[orawls::weblogic],
-    tag     => 'wls_domain',
-  }
-
-  $domain_instances = hiera('domain_instances', {})
-  create_resources(orawls::domain, $domain_instances, $default_domain_params)
-
-  $file_domain_libs = hiera('file_domain_libs', {})
-  create_resources(file, $file_domain_libs, $default_domain_params)
-
-  $wls_setting_instances = hiera('wls_setting_instances', {})
-  create_resources(wls_setting, $wls_setting_instances, $default_domain_params)
-
-  Orawls::Domain <| tag == wls_domain |> ->
-  Orawls::Nodemanager <| tag == wls_nodemanager |> ->
-  Orawls::Control <| tag == wls_control |>
-
-  $default_params_nodemanager = {
-    tag => 'wls_nodemanager',
-  }
-
-  $nodemanager_instances = hiera('nodemanager_instances', {})
-  create_resources('orawls::nodemanager', $nodemanager_instances,
-  $default_params_nodemanager)
-
-  $version = hiera('wls_version')
-
-  orautils::nodemanagerautostart{'autostart weblogic 11g':
-    version                 => $version,
-    wlHome                  => hiera('wls_weblogic_home_dir'),
-    user                    => hiera('wls_os_user'),
-    jsseEnabled             => hiera('wls_jsse_enabled'             ,false),
-    customTrust             => hiera('wls_custom_trust'             ,false),
-    trustKeystoreFile       => hiera('wls_trust_keystore_file'      ,undef),
-    trustKeystorePassphrase => hiera('wls_trust_keystore_passphrase',undef),
-  }
-
-  $default_startwls_params = {
-    tag => 'wls_control',
-  }
-
-  $control_instances = hiera('control_instances', {})
-  create_resources('orawls::control', $control_instances,
-  $default_startwls_params)
+  include ::profile::weblogic::domain
+  include ::profile::weblogic::nodemanager
+  include ::profile::weblogic::control
 
   #
   ## log all java executions:

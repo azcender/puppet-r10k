@@ -5,7 +5,10 @@
 #
 
 class profile::weblogic {
+  include ::profile::oracle
+
   # Ensure Java is installed before orawls
+  Class[::profile::oracle] ->
   Class[::profile::weblogic::setup] ->
   Class[::profile::weblogic::java] ->
   Class[::orawls::weblogic] ->

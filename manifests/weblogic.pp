@@ -15,6 +15,7 @@ class profile::weblogic {
 
   include ::profile::weblogic::setup
   include ::profile::weblogic::java
+  include ::orawls::weblogic
   include ::profile::weblogic::domain
   include ::profile::weblogic::nodemanager
   include ::profile::weblogic::control

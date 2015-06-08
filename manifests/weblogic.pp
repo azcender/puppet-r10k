@@ -41,33 +41,10 @@ class profile::weblogic (
     require     => File['/software'],
   }
 
-  # Remove any openjdk files
-  $remove = [ 'java-1.7.0-openjdk.x86_64', 'java-1.6.0-openjdk.x86_64' ]
-
-  package { $remove:
-    ensure  => absent,
-  }
-
-  # TODO: Move jdk version to Hiera
-  $java_version = 'jdk1.7.0_55'
-
-  # Instdall JDK 7
-  jdk7::install7{ $java_version :
-    version                   => '7u55' ,
-    fullVersion               => $java_version,
-    alternativesPriority      => 18000,
-    x64                       => true,
-    downloadDir               => '/var/tmp/install',
-    urandomJavaFix            => true,
-    rsakeySizeFix             => true,
-    cryptographyExtensionFile => 'UnlimitedJCEPolicyJDK7.zip',
-    sourcePath                => '/software',
-    require                   => Class['wget']
-  }
-
   # Ensure Java is installed before orawls
-  Jdk7::Install7[$java_version] -> Class[::orawls::weblogic]
+  Class[::profile::weblogic::java] -> Class[::orawls::weblogic]
 
+  include ::profile::weblogic::java
   include ::profile::weblogic::domain
   include ::profile::weblogic::nodemanager
   include ::profile::weblogic::control

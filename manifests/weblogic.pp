@@ -71,6 +71,10 @@ class profile::weblogic (
   include ::orawls::weblogic
 
   # Create domains
+  $nodemanager_instances = hiera('nodemanager_instances', {})
+  create_resources('orawls::nodemanager', $nodemanager_instances,
+    $default_params_nodemanager)
+
   $default_domain_params = {
     require => Class[orawls::weblogic],
     before  => Orautils::Nodemanagerautostart[$nodemanager_instances]
@@ -87,10 +91,6 @@ class profile::weblogic (
 
   $default_params_nodemanager = {}
   
-  $nodemanager_instances = hiera('nodemanager_instances', {})
-  create_resources('orawls::nodemanager', $nodemanager_instances,
-    $default_params_nodemanager)
-
   $version = hiera('wls_version')
 
   orautils::nodemanagerautostart{'autostart weblogic 11g':

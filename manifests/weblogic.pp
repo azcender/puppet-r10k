@@ -13,7 +13,7 @@ class profile::weblogic {
   Class[::profile::weblogic::java] ->
   Class[::orawls::weblogic] ->
   Class[::profile::weblogic::domain] ->
-  Class[::profile::weblogic::nodemanager] -
+  Class[::profile::weblogic::nodemanager] ->
   Class[::profile::weblogic::control]
 
   include ::profile::weblogic::setup

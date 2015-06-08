@@ -5,6 +5,11 @@ vms:
     roles:
       - pe-puppet-master
 
+  - name: weblogic0
+    box: puppetlabs/centos-7.0-64-nocm
+    roles:
+      - pe-puppet-agent-linux
+
   - name: jenkins0
     box: puppetlabs/centos-7.0-64-nocm
     roles:
@@ -25,7 +30,7 @@ vms:
     roles:
       - pe-puppet-agent-linux
 
-  - name: haproxy
+  - name: haproxy0
     box:  puppetlabs/centos-7.0-64-nocm
     roles:
       - pe-puppet-agent-linux

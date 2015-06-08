@@ -9,10 +9,10 @@ roles:
 #      customize:
 #        - [modifyvm, !ruby/sym id, '--memory', 6144, '--cpus', 4]
       vmx:
-        memsize:  5120
-        numvcpus: 2
+        memsize:  6144
+        numvcpus: 4
     private_networks:
-      - {ip: '0.0.0.0', auto_network: true}
+      - {ip: '10.20.2.2', auto_network: true}
     provisioners:
       - {type: hosts}
       - {type: pe_bootstrap, role: !ruby/sym master}
@@ -32,7 +32,7 @@ roles:
     provider:
 # The code below is for the original virtualbox implementaiton
 #      type: virtualbox
-#      gui: false
+      gui: false
 #      customize:
 #        - [modifyvm, !ruby/sym id, '--memory', 1024, '--cpus', 1]
       type: vmware_fusion

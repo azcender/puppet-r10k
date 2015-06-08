@@ -5,8 +5,6 @@
 #
 
 class profile::weblogic::nodemanager {
-  include ::profile::weblogic::domain
-
   $default_params_nodemanager = { }
 
   $nodemanager_instances = hiera('nodemanager_instances', {})

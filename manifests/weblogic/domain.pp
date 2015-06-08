@@ -5,8 +5,6 @@
 #
 
 class profile::weblogic::domain {
-  include ::orawls::weblogic
-
   # Placeholder for defaults
   $default_params = {}
 

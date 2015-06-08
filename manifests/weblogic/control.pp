@@ -5,8 +5,6 @@
 #
 
 class profile::weblogic::control {
-  include ::profile::weblogic::nodemanager
-
   $default_startwls_params = {
     tag => 'wls_control',
   }

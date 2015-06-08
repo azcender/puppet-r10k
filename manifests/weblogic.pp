@@ -71,13 +71,9 @@ class profile::weblogic (
   include ::orawls::weblogic
 
   # Create domains
-  $nodemanager_instances = hiera('nodemanager_instances', {})
-  create_resources('orawls::nodemanager', $nodemanager_instances,
-    $default_params_nodemanager)
-
   $default_domain_params = {
     require => Class[orawls::weblogic],
-    before  => Orautils::Nodemanagerautostart[$nodemanager_instances]
+    tag     => 'wls_domain',
   }
 
   $domain_instances = hiera('domain_instances', {})
@@ -89,8 +85,18 @@ class profile::weblogic (
   $wls_setting_instances = hiera('wls_setting_instances', {})
   create_resources(wls_setting, $wls_setting_instances, $default_domain_params)
 
-  $default_params_nodemanager = {}
-  
+  Orawls::Domain <| tag == wls_domain |> ->
+  Orawls::Nodemanager <| tag == wls_nodemanager |> ->
+  Orawls::Control <| tag == wls_control |>
+
+  $default_params_nodemanager = {
+    tag => 'wls_nodemanager',
+  }
+
+  $nodemanager_instances = hiera('nodemanager_instances', {})
+  create_resources('orawls::nodemanager', $nodemanager_instances,
+  $default_params_nodemanager)
+
   $version = hiera('wls_version')
 
   orautils::nodemanagerautostart{'autostart weblogic 11g':
@@ -102,15 +108,15 @@ class profile::weblogic (
     trustKeystoreFile       => hiera('wls_trust_keystore_file'      ,undef),
     trustKeystorePassphrase => hiera('wls_trust_keystore_passphrase',undef),
   }
-  
+
   $default_startwls_params = {
-    require => Orawls::Nodemanager[$nodemanager_instances],
+    tag => 'wls_control',
   }
-  
+
   $control_instances = hiera('control_instances', {})
   create_resources('orawls::control', $control_instances,
-    $default_startwls_params)
-  
+  $default_startwls_params)
+
   #
   ## log all java executions:
   #define javaexec_debug() {

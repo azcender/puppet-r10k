@@ -2,9 +2,13 @@
 #
 
 class profile::docker(
-  $files,
-  $file_lines,
+  $images = {},
+  $runs = {},
 ) {
+  # Basic validations
+  validate_hash($images)
+  validate_hash($runs)
+
   # Include base class
   include ::profile
   include ::docker
@@ -14,15 +18,7 @@ class profile::docker(
     restart => '/sbin/service auditd restart',
   }
 
-  # File lines to build
-  create_resources(file_line, $file_lines)
-  
-  # Create docker files
-  create_resources(file, $files)
-
-  # Docker runs in docker yaml
-  $runs = hiera('profile::docker::runs')
-
+  # Create and runs being passed in
   create_resources(::docker::run, $runs)
 
   # Create haproxy mappings

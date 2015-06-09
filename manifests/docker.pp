@@ -19,7 +19,7 @@ class profile::docker(
   }
 
   # Create and runs being passed in
-  create_resources(::docker::run, $runs)
+  create_resources(::profile::docker::run, $runs)
 
   # Create haproxy mappings
   create_resources(::profile::helper_docker_haproxy, $runs)

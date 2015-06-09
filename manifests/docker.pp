@@ -9,7 +9,7 @@ class profile::docker(
   include ::docker
 
   # File lines to build
-  create_resources(files_line, $file_lines)
+  create_resources(file_line, $file_lines)
   
   # Docker runs in docker yaml
   $runs = hiera('profile::docker::runs')

@@ -9,7 +9,8 @@ class profile::docker(
   include ::docker
 
   service { 'auditd':
-    ensure => running,
+    ensure  => running,
+    restart => '/sbin/service auditd restart',
   }
 
   # File lines to build

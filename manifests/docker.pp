@@ -8,6 +8,10 @@ class profile::docker(
   include ::profile
   include ::docker
 
+  service { 'auditd':
+    ensure => running,
+  }
+
   # File lines to build
   create_resources(file_line, $file_lines)
   

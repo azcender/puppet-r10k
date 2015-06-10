@@ -1,51 +1,26 @@
 # Installs the Docker daemon
-class profile::docker {
+#
+
+class profile::docker(
+  $images = {},
+  $runs = {},
+) {
+  # Basic validations
+  validate_hash($images)
+  validate_hash($runs)
+
   # Include base class
   include ::profile
-
   include ::docker
-  include ::haproxy
 
-  ::haproxy::listen { 'puppet00':
-    #ipaddres => $::ipaddress,
-    mode      => 'http',
-    ipaddress => '*',
-    ports     => '8140',
+  service { 'auditd':
+    ensure  => running,
+    restart => '/sbin/service auditd restart',
   }
 
-  #  ::haproxy::balancermember { '70b223b40eab':
-  #  listening_service => 'puppet00',
-  #  server_names      => '70b223b40eab',
-  #  ipaddresses       => '172.17.0.2',
-  #  ports             => '8080',
-  #}
+  # Create and runs being passed in
+  create_resources(::profile::docker::run, $runs)
 
-  $balancermember_defaults = {
-    listening_service => 'puppet00',
-    require           => Class['::docker'],
-  }
-
-  # Create balance members if containers exist
-  create_resources('::haproxy::balancermember', $::containers,
-  $balancermember_defaults)
-
-  # Pull images
-  #  $images_defaults = {
-  #  before => Class['::haproxy::balancermember'],
-  #}
-
-  ::Docker::Image <<||>> -> ::Haproxy::Balancermember <<||>>
-  ::Docker::Run <<||>> -> ::Haproxy::Balancermember <<||>>
-
-  $images = hiera('profile::docker::images', {})
-
-  create_resources('::docker::image', $images)
-
-  #  $runs_defaults = {
-  #  before => Class['::haproxy::balancermember'],
-  #}
-
-  $runs = hiera('profile::docker::runs', {})
-
-  create_resources('::docker::run', $runs)
+  # Create haproxy mappings
+  create_resources(::profile::docker::haproxy, $runs)
 }

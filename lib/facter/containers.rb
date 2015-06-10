@@ -7,7 +7,7 @@ if Facter::Util::Resolution.which('docker')
       containers  = []
       inspections = {}
 
-      interfaces  = `docker ps`
+      interfaces  = Facter::Core::Execution.execute('docker ps')
 
       # the 'interfaces' fact returns a single comma-delimited string, e.g., "lo0,eth0,eth1"
       interfaces_array = interfaces.split("\n")

@@ -6,10 +6,10 @@
 
 :hierarchy:
   - defaults
+  - "clientcert/%{clientcert}"
   - "role/%{::role}/%{::role_group}"
   - "role/application/%{::application}"
   - "role/%{::role}"
   - "tier/%{::tier}"
-  - "clientcert/%{clientcert}"
   - "%{environment}"
   - common

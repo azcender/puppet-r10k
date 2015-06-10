@@ -22,5 +22,5 @@ class profile::docker(
   create_resources(::profile::docker::run, $runs)
 
   # Create haproxy mappings
-  create_resources(::profile::helper_docker_haproxy, $runs)
+  create_resources(::profile::docker::haproxy, $runs)
 }

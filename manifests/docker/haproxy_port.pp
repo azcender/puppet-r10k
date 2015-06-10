@@ -1,6 +1,6 @@
 # Helps map ports on haproxy to docker hosts
 # The name of this resource is <<host port>>:<<guest port>>
-define profile::helper_docker_haproxy_port(
+define profile::docker::haproxy_port(
   $ports,
   $listening_service = 'docker',
   $running = true,

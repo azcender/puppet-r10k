@@ -5,20 +5,20 @@ define profile::docker::haproxy_port(
   $listening_service = 'docker',
   $running = true,
 ) {
+  # The ports array is made ip of
+  # <<host ipaddress>>:<<host port>>:<<container port>>
   $ports_array = split($name, ':')
 
-  $port = $ports_array[0]
+  $port = $ports_array[1]
 
   $concat_name = "${port}-${::clientcert}"
 
   # Ensure the container is running. Else we should delete
   # the rule.
-
   $ensure = $running ? {
     true  => present,
     false => absent,
   }
-
 
   @@::haproxy::balancermember { $concat_name:
     ensure            => $ensure,

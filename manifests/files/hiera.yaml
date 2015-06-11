@@ -13,3 +13,4 @@
   - "tier/%{::tier}"
   - "%{environment}"
   - common
+  - global

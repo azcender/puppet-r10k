@@ -12,4 +12,5 @@
   - "role/%{::role}/%{::role_group}"
   - "role/application/%{::application}"
   - "role/%{::role}"
+  - common
   - global

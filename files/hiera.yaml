@@ -7,6 +7,7 @@
 :hierarchy:
   - defaults
   - "clientcert/%{::clientcert}"
+  - "domain/%{::domain}"
   - "environment/%{::environment}"
   - "tier/%{::tier}"
   - "role/%{::role}/%{::role_group}"

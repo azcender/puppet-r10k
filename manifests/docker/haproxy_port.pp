@@ -9,6 +9,10 @@ define profile::docker::haproxy_port(
   # <<host ipaddress>>:<<host port>>:<<container port>>
   $ports_array = split($name, ':')
 
+  # The ip docker should be listening on
+  $docker_ip = $ports_array[0]
+
+  # The host port to map to
   $port = $ports_array[1]
 
   $concat_name = "${port}-${::clientcert}"
@@ -24,7 +28,7 @@ define profile::docker::haproxy_port(
     ensure            => $ensure,
     listening_service => $listening_service,
     server_names      => $::hostname,
-    ipaddresses       => $::ipaddress,
+    ipaddresses       => $docker_ip,
     ports             => $port,
   }
 }

@@ -1,6 +1,6 @@
 # Installs the Docker daemon
 #
-# [docker_ipaddress]
+# [ipaddress]
 #   The ipaddress the docker host can listed to for container requests.
 #   A node may have multiple networks, but docker should be limited to one.
 #   for security reasons.
@@ -23,7 +23,7 @@
 #   - OPTIONAL
 #     - default: empty
 class profile::docker(
-  $docker_ipaddress = $::ipaddress,
+  $ipaddress,
   $images = {},
   $runs = {},
 ) {
@@ -41,13 +41,13 @@ class profile::docker(
   }
 
   # Pass in the set ip address for docker runs
-  $default_params_run = {
-    docker_ipaddress => $docker_ipaddress,
+  $default_params = {
+    ipaddress => $ipaddress,
   }
 
   # Create and runs being passed in
-  create_resources(::profile::docker::run, $runs, $default_params_run)
+  create_resources(::profile::docker::run, $runs, $default_params)
 
   # Create haproxy mappings
-  create_resources(::profile::docker::haproxy, $runs)
+  create_resources(::profile::docker::haproxy, $runs, $default_params)
 }

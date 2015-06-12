@@ -27,7 +27,7 @@
 # This is a subprofile of the standard docker run. This contains hardening
 # data checks.
 define profile::docker::run(
-  $docker_ipaddress,
+  $ipaddress,
   $image,
   $username,
   $memory_limit = undef,
@@ -159,7 +159,7 @@ define profile::docker::run(
   }
 
   # Prepend ip address to port mappings
-  $_ports = prefix($ports, "${docker_ipaddress}:")
+  $_ports = prefix($ports, "${ipaddress}:")
 
   # 5.16 Do not share the host's process namespace
   $_check_pid_is_host = grep($extra_parameters, '--pid=host')

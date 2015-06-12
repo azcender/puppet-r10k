@@ -12,7 +12,7 @@ define profile::docker::haproxy_port(
   $ports_array = split($name, ':')
 
   # The host port to map to
-  $port = $ports_array[1]
+  $port = $ports_array[0]
 
   $concat_name = "${port}-${::clientcert}"
 

@@ -3,13 +3,16 @@
 
 class profile::haproxy(
   $ipaddress = $::ipaddress,
+  $listeners = {},
 ) {
   # Include base class
   include ::profile
   include ::haproxy
 
-  haproxy::listen { 'docker':
+  # Set the default ipaddress to the one passed in
+  $default_listener_params = {
     ipaddress => $ipaddress,
-    ports     =>  9999,
   }
+
+  create_resources(::haproxy::listen, $listeners, $default_listener_params)
 }

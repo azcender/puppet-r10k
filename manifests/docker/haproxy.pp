@@ -37,8 +37,8 @@ define profile::docker::haproxy(
   validate_bool($running)
 
   ::profile::docker::haproxy_port { $ports:
-    docker  => $ipaddress,
-    ports   => $ports,
-    running => $running,
+    ipaddress => $ipaddress,
+    ports     => $ports,
+    running   => $running,
   }
 }

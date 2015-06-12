@@ -27,6 +27,7 @@
 # This is a subprofile of the standard docker run. This contains hardening
 # data checks.
 define profile::docker::run(
+  $ipaddress,
   $image,
   $username,
   $memory_limit = undef,
@@ -150,19 +151,15 @@ define profile::docker::run(
 
   # 5.14 Bind incoming container traffic to a specific host interface
   $_check_port_mappings =
-    grep($ports,
-      '(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):\d+:\d+')
+    grep($ports, '^\d+:\d+$')
 
   if size($_check_port_mappings) != size($ports) {
     $port_differences = difference($ports, $_check_port_mappings)
-    fail("Security concern -- Ports mappings must be fully mapped: <<host ipaddress>>:<<host port>>:<<container port>>. ${port_differences}")
+    fail("Security concern -- Ports must be in the form of <host port>>:<<container port>>. IP binding is enforced through the profile ipaddress.  ${port_differences}")
   }
 
-  $_check_open_ip = grep($ports, '0.0.0.0:')
-
-  if size($_check_open_ip) != 0 {
-    fail("Security concern -- Port mappings must not use ip 0.0.0.0. ${_check_open_ip}")
-  }
+  # Prepend ip address to port mappings
+  $_ports = prefix($ports, "${ipaddress}:")
 
   # 5.16 Do not share the host's process namespace
   $_check_pid_is_host = grep($extra_parameters, '--pid=host')
@@ -190,7 +187,7 @@ define profile::docker::run(
     command          => $command,
     memory_limit     => $memory_limit,
     cpuset           => $cpuset,
-    ports            => $ports,
+    ports            => $_ports,
     expose           => $expose,
     volumes          => $volumes,
     links            => $links,

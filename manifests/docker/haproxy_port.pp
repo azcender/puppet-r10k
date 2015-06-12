@@ -1,17 +1,15 @@
+#
 # Helps map ports on haproxy to docker hosts
 # The name of this resource is <<host port>>:<<guest port>>
 define profile::docker::haproxy_port(
   $ipaddress,
   $ports,
-  $listening_service = 'docker',
+  $listening_service = 'jenkins',
   $running = true,
 ) {
   # The ports array is made ip of
   # <<host ipaddress>>:<<host port>>:<<container port>>
   $ports_array = split($name, ':')
-
-  # The ip docker should be listening on
-  $docker_ip = $ports_array[0]
 
   # The host port to map to
   $port = $ports_array[1]

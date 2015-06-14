@@ -26,6 +26,29 @@ filebucket { 'main':
 File { backup => 'main' }
 
 node /^master*$/ {
+  package { "git": }
+
+  file { '/root': 
+    ensure => directory,
+  }
+
+  file { '/root/.ssh':
+    ensure  => directory,
+    require => File['/root'],
+  }
+
+  file { '/root/.ssh/id_rsa':
+    ensure  => file,
+    source  => '/vagrant/id_rsa',
+    require => File['/root/.ssh'],
+  }
+
+  file { '/root/.ssh/known_hosts':
+    ensure  => file,
+    source  => '/vagrant/known_hosts',
+    require => File['/root/.ssh'],
+  }
+
   class { '::ntp':
     servers    =>
     [ '0.us.pool.ntp.org iburst',

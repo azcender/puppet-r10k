@@ -25,11 +25,12 @@
 class profile::docker(
   $ipaddress,
   $images = {},
-  $runs = {},
 ) {
   # Basic validations
   validate_hash($images)
-  validate_hash($runs)
+
+  # Call runs across hiera
+  $runs = hiera_hash(profile::docker::runs, {})
 
   # Include base class
   include ::profile

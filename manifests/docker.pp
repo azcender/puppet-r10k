@@ -45,11 +45,10 @@ class profile::docker(
   # Runs as root user
   ::docker::run { 'cadvisor':
     image        => 'google/cadvisor:latest',
-    ports        => '9000:8000',
+    ports        => "${ipaddress}:9000:8080",
     volumes      =>
       ['/:/rootfs:ro', '/var/run:/var/run:rw', '/sys:/sys:ro',
   '/var/lib/docker/:/var/lib/docker:ro ', '/cgroup:/cgroup:ro'],
-    detach       => true,
     memory_limit => '512m',
     username     => 'root',
   }

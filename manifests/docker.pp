@@ -41,6 +41,19 @@ class profile::docker(
     restart => '/sbin/service auditd restart',
   }
 
+  # Start the cadvisor container with root
+  # Runs as root user
+  ::docker::run { 'cadvisor':
+    image        => 'google/cadvisor:latest',
+    ports        => '9000:8000',
+    volumes      =>
+      ['/:/rootfs:ro', '/var/run:/var/run:rw', '/sys:/sys:ro',
+  '/var/lib/docker/:/var/lib/docker:ro ', '/cgroup:/cgroup:ro'],
+    detach       => true,
+    memory_limit => '512m',
+    username     => 'root',
+  }
+
   # Pass in the set ip address for docker runs
   $default_params = {
     ipaddress => $ipaddress,

@@ -1,16 +1,26 @@
 ---
+
 :backends: yaml
 
 :yaml:
-  :datadir: "/etc/puppetlabs/puppet/hiera/hiera_%{::environment}"
+  :datadir: "/"
 
 :hierarchy:
-  - defaults
-  - "clientcert/%{::clientcert}"
-  - "domain/%{::domain}"
-  - "environment/%{::environment}"
-  - "tier/%{::tier}"
-  - "role/%{::role}/%{::role_group}"
-  - "role/application/%{::application}"
-  - "role/%{::role}"
-  - global
+  - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/defaults"
+  - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/clientcert/%{::clientcert}"
+  - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/domain/%{::domain}"
+  - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/environment/%{::environment}"
+  - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/tier/%{::tier}"
+  - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/role/%{::role}/%{::role_group}"
+  - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/role/application/%{::application}"
+  - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/role/%{::role}"
+  - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/global"
+  - "vagrant/puppet/hiera/%{::environment}/defaults"
+  - "vagrant/puppet/hiera/%{::environment}/clientcert/%{::clientcert}"
+  - "vagrant/puppet/hiera/%{::environment}/domain/%{::domain}"
+  - "vagrant/puppet/hiera/%{::environment}/environment/%{::environment}"
+  - "vagrant/puppet/hiera/%{::environment}/tier/%{::tier}"
+  - "vagrant/puppet/hiera/%{::environment}/role/%{::role}/%{::role_group}"
+  - "vagrant/puppet/hiera/%{::environment}/role/application/%{::application}"
+  - "vagrant/puppet/hiera/%{::environment}/role/%{::role}"
+  - "vagrant/puppet/hiera/%{::environment}/global"

@@ -47,6 +47,23 @@ roles:
          inline: 'curl -k https://master:8140/packages/current/install.bash | sudo bash'}
       - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/sbin/service NetworkManager restart'}
 
+  pe-puppet-agent-docker:
+    vbguest:
+      auto-update: true
+    provider:
+      gui: false
+      type: vmware_fusion
+      vmx:
+        memsize: 2048
+        numvcpus: 2
+    private_networks:
+      - {ip: '0.0.0.0', auto_network: true}
+    provisioners:
+      - {type: hosts}
+      - {type: shell,
+         inline: 'curl -k https://master:8140/packages/current/install.bash | sudo bash'}
+      - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/sbin/service NetworkManager restart'}
+
   pe-puppet-agent-windows:
     hostname: #{name}
     guest: 'windows'

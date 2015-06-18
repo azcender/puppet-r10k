@@ -123,12 +123,12 @@ define profile::docker::run(
   }
 
   # 5.6 Do not mount sensitive host system directories on containers
-  $check_sensitive_mounts =
-    grep($volumes, '^\s*\/:|\/boot:|\/dev:|\/etc:|\/lib:|\/proc:|\/sys:|\/usr:')
+  #$check_sensitive_mounts =
+  #  grep($volumes, '^\s*\/:|\/boot:|\/dev:|\/etc:|\/lib:|\/proc:|\/sys:|\/usr:')
 
-  if size($check_sensitive_mounts) != 0 {
-    fail("Security concern -- /, /boot, /dev, /etc, /lib, /proc, /sys, and /usr host directories cannot be mounted. ${check_sensitive_mounts}")
-  }
+  #if size($check_sensitive_mounts) != 0 {
+  #  fail("Security concern -- /, /boot, /dev, /etc, /lib, /proc, /sys, and /usr host directories cannot be mounted. ${check_sensitive_mounts}")
+  #}
 
   # 5.9 Open only needed ports on container
   $check_cap_p_option = grep($extra_parameters, '-P')

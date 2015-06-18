@@ -29,7 +29,7 @@
 define profile::docker::run(
   $ipaddress,
   $image,
-  $username,
+  $username = undef,
   $memory_limit = undef,
   $command = undef,
   $cpuset = [],

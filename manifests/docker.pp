@@ -51,24 +51,25 @@ class profile::docker(
     '/var/lib/docker/:/var/lib/docker:ro ', '/cgroup:/cgroup:ro'],
     memory_limit => '512m',
     username     => 'root',
-    links        => [ 'influxsrv:influxsrv' ],
+    command      =>
+    '-storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influxsrv:8086'
   }
 
-  ::docker::run { 'influxsrv':
-    image  => 'tutum/influxdb',
-    ports  => [ "${ipaddress}:8083:8083", "${ipaddress}:8086:8086" ],
-    env    => [ 'PRE_CREATE_DB=cadvisor' ],
-    expose => [ '8090', '8099' ],
-  }
+  #  ::docker::run { 'influxsrv':
+  #  image  => 'tutum/influxdb',
+  #  ports  => [ "${ipaddress}:8083:8083", "${ipaddress}:8086:8086" ],
+  #  env    => [ 'PRE_CREATE_DB=cadvisor' ],
+  #  expose => [ '8090', '8099' ],
+  #}
 
-  ::docker::run { 'grafana':
-    image => 'grafana/grafana',
-    ports => [ "${ipaddress}:3000:3000" ],
-    links => [ 'influxsrv:influxsrv' ],
-    env   =>
-    [ 'INFLUXDB_HOST=localhost', 'INFLUXDB_PORT=8086', 'INFLUXDB_NAME=cadvisor',
-    'INFLUXDB_USER=root', 'INFLUXDB_PASS=root' ],
-  }
+  #::docker::run { 'grafana':
+  #  image => 'grafana/grafana',
+  #  ports => [ "${ipaddress}:3000:3000" ],
+  #  links => [ 'influxsrv:influxsrv' ],
+  #  env   =>
+  #  [ 'INFLUXDB_HOST=localhost', 'INFLUXDB_PORT=8086',
+  # 'INFLUXDB_NAME=cadvisor', 'INFLUXDB_USER=root', 'INFLUXDB_PASS=root' ],
+  #}
 
   # Pass in the set ip address for docker runs
   $default_params = {

@@ -97,17 +97,17 @@ define profile::docker::run(
   # 4.1 Create a user for the container
   # Containers must run as a user other than root
   # It is a required param so it is already included if this point is reached
-  case strip($username) {
-    'root':  {
-      fail('Security concern -- A non root must be specified for a run.')
-    }
-
-    undef:   {
-      fail('Security concern -- A non root must be specified for a run.')
-    }
-
-    default: {}
-  }
+  #  case strip($username) {
+  #  'root':  {
+  #    fail('Security concern -- A non root must be specified for a run.')
+  #  }
+  #
+  #  undef:   {
+  #    fail('Security concern -- A non root must be specified for a run.')
+  #  }
+  #
+  #  default: {}
+  #}
 
   # 5.5 Do not use privileged containers
   # Containers cannot be run privileged

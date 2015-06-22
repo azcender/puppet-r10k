@@ -4,7 +4,7 @@
 define profile::docker::haproxy_port(
   $docker_ipaddress,
   $ports,
-  $listening_service = 'jenkins',
+  $listening_service,
   $running = true,
 ) {
   # The ports array is made ip of

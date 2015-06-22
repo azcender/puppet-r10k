@@ -1,13 +1,13 @@
 # Installs the Docker daemon
 #
-# [ipaddress]
-#   The ipaddress the docker host can listed to for container requests.
+# [docker_ipaddress]
+#   The docker_ipaddress the docker host can listed to for container requests.
 #   A node may have multiple networks, but docker should be limited to one.
 #   for security reasons.
 #
 #   - String
 #   - OPTIONAL
-#     - default: ipaddress fact
+#     - default: docker_ipaddress fact
 #
 # [images]
 #   The images docker should pull down and cache locally.
@@ -23,7 +23,7 @@
 #   - OPTIONAL
 #     - default: empty
 class profile::docker(
-  $ipaddress,
+  $docker_ipaddress,
   $images = {},
 ) {
   # Basic validations
@@ -52,7 +52,7 @@ class profile::docker(
   # Runs as root user
   ::docker::run { 'cadvisor':
     image        => 'google/cadvisor:latest',
-    ports        => [ "${ipaddress}:9000:8080" ],
+    ports        => [ "${docker_ipaddress}:9000:8080" ],
     volumes      =>
     ['/:/rootfs:ro', '/var/run:/var/run:rw', '/sys:/sys:ro',
     '/var/lib/docker/:/var/lib/docker:ro ', '/cgroup:/cgroup:ro'],
@@ -64,7 +64,7 @@ class profile::docker(
 
   # Pass in the set ip address for docker runs
   $default_params = {
-    ipaddress => $ipaddress,
+    docker_ipaddress => $docker_ipaddress,
   }
 
   # Create and runs being passed in

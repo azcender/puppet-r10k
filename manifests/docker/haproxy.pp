@@ -1,7 +1,7 @@
 #
 define profile::docker::haproxy(
   $image,
-  $ipaddress,
+  $docker_ipaddress,
   $command = undef,
   $memory_limit = '0b',
   $cpuset = [],
@@ -37,8 +37,8 @@ define profile::docker::haproxy(
   validate_bool($running)
 
   ::profile::docker::haproxy_port { $ports:
-    ipaddress => $ipaddress,
-    ports     => $ports,
-    running   => $running,
+    docker_ipaddress => $docker_ipaddress,
+    ports            => $ports,
+    running          => $running,
   }
 }

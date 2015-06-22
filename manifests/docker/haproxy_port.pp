@@ -2,7 +2,7 @@
 # Helps map ports on haproxy to docker hosts
 # The name of this resource is <<host port>>:<<guest port>>
 define profile::docker::haproxy_port(
-  $ipaddress,
+  $docker_ipaddress,
   $ports,
   $listening_service = 'jenkins',
   $running = true,
@@ -27,7 +27,7 @@ define profile::docker::haproxy_port(
     ensure            => $ensure,
     listening_service => $listening_service,
     server_names      => $::hostname,
-    ipaddresses       => $ipaddress,
+    ipaddresses       => $docker_ipaddress,
     ports             => $port,
   }
 }

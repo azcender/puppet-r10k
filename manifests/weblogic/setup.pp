@@ -11,7 +11,7 @@ class profile::weblogic::setup (
   #$augeas = hiera_hash('profile::weblogic::setup::augeas', {}),
   #$files  = hiera_hash('profile::weblogic::setup::files', {}),
   #$file_lines = hiera_hash('profile::weblogic::setup::file_lines', {}),
-  $ports,
+  #$ports,
 ) {
 
   #notify { "ACHTUNG! $augeas": }
@@ -22,7 +22,7 @@ class profile::weblogic::setup (
   # SWAP: 4 GB (4096 MB)
 
   #netstat -tanp |grep LISTEN
-  notify { "PORTS\: $ports": }
+  #notify { "PORTS\: $ports": }
 
   # Create logical volume /opt/oracle, 30gb, oracle:oinstall, 775
 

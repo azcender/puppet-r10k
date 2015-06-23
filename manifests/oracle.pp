@@ -20,7 +20,10 @@ class profile::oracle (
     validate_hash($files)
     validate_hash($users)
     validate_hash($groups)
-    validate_string($operatingsystemmajrelease_min)
+
+    validate_numeric($operatingsystemmajrelease_min)
+    validate_numeric($operatingsystemmajrelease_max)
+    
     validate_string($nfs_mount_sysinfra)
     validate_string($nfs_mount_ops)
 
@@ -34,9 +37,7 @@ class profile::oracle (
       'RedHat': {
         if ( $::operatingsystemmajrelease < $operatingsystemmajrelease_min ) or
         ($::operatingsystemmajrelease > $operatingsystemmajrelease_max ) {
-          fail("Class['profile::oracle']: Unsupported operating system major \
-          release ${::operatingsystemmajrelease}. Requires \
-          ${operatingsystemmajrelease_max}")
+          fail("Class['profile::oracle']: Unsupported operating system major release ${::operatingsystemmajrelease}. Requires ${operatingsystemmajrelease_max}")
         }
       }
       default: {

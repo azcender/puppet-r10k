@@ -2,7 +2,7 @@
 define profile::docker::haproxy(
   $image,
   $docker_ipaddress,
-  $listening_service,
+  $listening_service = '',
   $command = undef,
   $memory_limit = '0b',
   $cpuset = [],

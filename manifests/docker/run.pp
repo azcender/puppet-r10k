@@ -29,6 +29,7 @@
 define profile::docker::run(
   $docker_ipaddress,
   $image,
+  $listening_service = '',
   $username = undef,
   $memory_limit = undef,
   $command = undef,

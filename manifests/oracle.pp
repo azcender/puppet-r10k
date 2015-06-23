@@ -4,7 +4,6 @@ class profile::oracle (
   $files,
   $groups,
   $packages,
-  $users,
   $operatingsystemmajrelease_max,   # need to make hierarchy
   $operatingsystemmajrelease_min,   # need to make hierarchy
   $nfs_mount_sysinfra,
@@ -20,7 +19,6 @@ class profile::oracle (
   validate_hash($files)
   validate_hash($users)
   validate_hash($groups)
-  validate_string($operatingsystemmajrelease_max)
   validate_string($operatingsystemmajrelease_min)
   validate_string($nfs_mount_sysinfra)
   validate_string($nfs_mount_ops)
@@ -83,17 +81,6 @@ class profile::oracle (
   #  logoutput    => "true",
   #}
 
-  ### Oracle Database Prereqs  #################################
-
-   
-  
-  ### Weblogic Prereqs #################################
-
-  ### OEM Prereqs #################################
-
-  ### OID Prereqs #################################
- 
-  
   # end pre-reqs
   ####################################
 
@@ -112,5 +99,4 @@ class profile::oracle (
 
   # Create groups needed for base Oracle build
   create_resources(group, $groups)
-
 }

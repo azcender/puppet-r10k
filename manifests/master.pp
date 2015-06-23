@@ -8,14 +8,14 @@ class profile::master {
   #  recurse => true
   #}
 
-  #file { '/etc/puppetlabs/puppet/hiera.yaml':
-  #  ensure => 'file',
-  #  owner  => 'root',
-  #  group  => 'root',
-  #  mode   => '0755',
-  #  source => 'puppet:///modules/profile/hiera.yaml',
-  #  #  notify => Service['pe-puppetserver'],
-  #}
+  file { '/etc/puppetlabs/puppet/hiera.yaml':
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    source => 'puppet:///modules/profile/hiera.yaml',
+    #  notify => Service['pe-puppetserver'],
+  }
 
   #  ini_setting { 'modulepath':
   #  ensure  => absent,

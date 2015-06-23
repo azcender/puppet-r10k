@@ -1,3 +1,4 @@
+#
 # == Define: profile:docker:run
 #
 # A define which manages a running docker container.
@@ -26,9 +27,10 @@
 # This is a subprofile of the standard docker run. This contains hardening
 # data checks.
 define profile::docker::run(
+  $docker_ipaddress,
   $image,
-  $username,
-  $memory_limit,
+  $username = undef,
+  $memory_limit = undef,
   $command = undef,
   $cpuset = [],
   $ports = [],
@@ -49,7 +51,7 @@ define profile::docker::run(
   $disable_network = false,
   $privileged = false,
   $detach = undef,
-  $extra_parameters = undef,
+  $extra_parameters = [],
   $pull_on_start = false,
   $depends = [],
   $tty = false,
@@ -62,9 +64,10 @@ define profile::docker::run(
   $docker_command = $docker::params::docker_command
   $service_name = $docker::params::service_name
 
+  validate_array($extra_parameters)
+
   validate_re($image, '^[\S]*$')
   validate_re($title, '^[\S]*$')
-  validate_re($memory_limit, '^[\d]*(b|k|m|g)$')
 
   if $restart {
     validate_re($restart, '^(no|always)|^on-failure:[\d]+$')
@@ -91,19 +94,100 @@ define profile::docker::run(
   validate_bool($tty)
   validate_bool($privileged)
 
-  # Containers cannot be run privileged
-  validate_re($privileged, false, 'Containers cannot be privileged')
-
+  # 4.1 Create a user for the container
   # Containers must run as a user other than root
   # It is a required param so it is already included if this point is reached
-  validate_re($username, '[^\s*root]', 'Users cannot run as root')
+  #  case strip($username) {
+  #  'root':  {
+  #    fail('Security concern -- A non root must be specified for a run.')
+  #  }
+  #
+  #  undef:   {
+  #    fail('Security concern -- A non root must be specified for a run.')
+  #  }
+  #
+  #  default: {}
+  #}
+
+  # 5.5 Do not use privileged containers
+  # Containers cannot be run privileged
+  if $privileged {
+    fail('Security concern -- Containers cannot be privileged')
+  }
+
+  $_check_privilege_extra_params = grep($extra_parameters, '--privileged')
+
+  case size($_check_privilege_extra_params) {
+    0:       {}
+    default: { fail('Security concern -- Containers cannot be privileged') }
+  }
+
+  # 5.6 Do not mount sensitive host system directories on containers
+  $check_sensitive_mounts =
+    grep($volumes, '^\s*\/:|\/boot:|\/dev:|\/etc:|\/lib:|\/proc:|\/sys:|\/usr:')
+
+  if size($check_sensitive_mounts) != 0 {
+    fail("Security concern -- /, /boot, /dev, /etc, /lib, /proc, /sys, and /usr host directories cannot be mounted. ${check_sensitive_mounts}")
+  }
+
+  # 5.9 Open only needed ports on container
+  $check_cap_p_option = grep($extra_parameters, '-P')
+
+  if size($check_cap_p_option) != 0 {
+    fail('Security concern -- Containers runs cannot use "-P" option. orts must be explicitly mapped.')
+  }
+
+  # 5.10 Do not use host network mode on container
+  if 'host' == strip($net) {
+    fail('Security concern -- Containers cannot network directly to host')
+  }
+
+  # 5.11 Limit memory usage for container
+  validate_re($memory_limit,
+    '^[\d]+(b|k|m|g)$', 'Security concern -- Memory limit must be set.')
+
+  # 5.13 Mount container's root filesystem as read only
+  $_extra_parameters = union($extra_parameters, ['--read-only'])
+
+  # 5.14 Bind incoming container traffic to a specific host interface
+  $_check_port_mappings =
+    grep($ports, '^\d+:\d+$')
+
+  if size($_check_port_mappings) != size($ports) {
+    $port_differences = difference($ports, $_check_port_mappings)
+    fail("Security concern -- Ports must be in the form of <host port>>:<<container port>>. IP binding is enforced through the profile ipaddress.  ${port_differences}")
+  }
+
+  # Prepend ip address to port mappings
+  $_ports = prefix($ports, "${docker_ipaddress}:")
+
+  # 5.16 Do not share the host's process namespace
+  $_check_pid_is_host = grep($extra_parameters, '--pid=host')
+
+  if size($_check_pid_is_host) != 0 {
+    fail('Security concern -- Containers cannot run pid=host')
+  }
+
+  # 5.17 Do not share the host's IPC namespace
+  $_check_ipc_is_host = grep($extra_parameters, '--ipc=host')
+
+  if size($_check_ipc_is_host) != 0 {
+    fail('Security concern -- Containers cannot run ipc=host')
+  }
+
+  # 5.18 Do not directly expose host devices to containers
+  $_check_device_mapping = grep($extra_parameters, '--device')
+
+  if size($_check_device_mapping) != 0 {
+    fail("Security concern -- Containers cannot map devices. ${_check_device_mapping}")
+  }
 
   ::docker::run { $name:
     image            => $image,
     command          => $command,
     memory_limit     => $memory_limit,
     cpuset           => $cpuset,
-    ports            => $ports,
+    ports            => $_ports,
     expose           => $expose,
     volumes          => $volumes,
     links            => $links,
@@ -122,7 +206,7 @@ define profile::docker::run(
     disable_network  => $disable_network,
     privileged       => $privileged,
     detach           => $detach,
-    extra_parameters => $extra_parameters,
+    extra_parameters => $_extra_parameters,
     pull_on_start    => $pull_on_start,
     depends          => $depends,
     tty              => $tty,

@@ -1,0 +1,3 @@
+#Oracle Installer Location File Location
+inst_group=oinstall
+inventory_loc=/opt/oraInventory

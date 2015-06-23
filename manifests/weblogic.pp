@@ -1,27 +1,39 @@
-# test
-#
 # one machine setup with weblogic 10.3.6 with BSU
 # needs jdk7, orawls, orautils, fiddyspence-sysctl, erwbgy-limits puppet modules
-#
 
-class profile::weblogic {
-  include ::profile::oracle
+class profile::weblogic (
+) {
+
+#  include ::profile
+#  include ::profile::oracle
+#  class{ '::profile::oracle': } 
+  class{ '::profile::weblogic::setup': }
+#  class{ '::profile::weblogic::java': }
+#  class{ '::orawls::weblogic': }
+#  class{ '::profile::weblogic::domain': }
+#  class{ '::profile::weblogic::nodemanager': }
+#  class{ '::profile::weblogic::control': }
+
+  #$augeas = hiera_hash( 'profile::weblogic::setup::augeas', {} )
+  #notify { "ACHTUNG  $augeas": }
+  #notify { "CLIENTCERT  ${::clientcert}": }
 
   # Ensure Java is installed before orawls
-  Class[::profile::oracle] ->
-  Class[::profile::weblogic::setup] ->
-  Class[::profile::weblogic::java] ->
-  Class[::orawls::weblogic] ->
-  Class[::profile::weblogic::domain] ->
-  Class[::profile::weblogic::nodemanager] ->
-  Class[::profile::weblogic::control]
-
-  include ::profile::weblogic::setup
-  include ::profile::weblogic::java
-  include ::orawls::weblogic
-  include ::profile::weblogic::domain
-  include ::profile::weblogic::nodemanager
-  include ::profile::weblogic::control
+#  Class[::profile::oracle] ->
+#  Class[::profile::weblogic::setup] ->
+#  Class[::profile::weblogic::java] ->
+#  Class[::orawls::weblogic] ->
+#  Class[::profile::weblogic::domain] ->
+#  Class[::profile::weblogic::nodemanager] ->
+#  Class[::profile::weblogic::control]
+#
+#  include ::profile::weblogic::setup
+#  include ::profile::weblogic::java
+#  include ::orawls::weblogic
+#  include ::profile::weblogic::domain
+#  include ::profile::weblogic::nodemanager
+#  include ::profile::weblogic::control
+#
 
   #
   ## log all java executions:
@@ -220,4 +232,5 @@ class profile::weblogic {
   #  $default_params = {}
   #  $deployment_instances = hiera('deployment_instances', $default_params)
   #  create_resources('wls_deployment',$deployment_instances, $default_params)
-  }
+  #}
+}

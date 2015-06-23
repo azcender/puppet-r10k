@@ -1,1 +1,1 @@
-S_OEMDEPLOY ALL=(oracle) NOPASSWD: ALL
+S_OEM-Deploy ALL=(oracle) NOPASSWD: ALL

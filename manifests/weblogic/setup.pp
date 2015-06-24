@@ -5,24 +5,7 @@
 #
 
 class profile::weblogic::setup (
-  $augeas,
-  $files,
-  #$file_lines,
-  #$augeas = hiera_hash('profile::weblogic::setup::augeas', {}),
-  #$files  = hiera_hash('profile::weblogic::setup::files', {}),
-  #$file_lines = hiera_hash('profile::weblogic::setup::file_lines', {}),
-  #$ports,
 ) {
-
-  #notify { "ACHTUNG! $augeas": }
-  
-  # System Requirements
-  # CPU: 4 cores 
-  # RAM: 8 GB (8192MB)
-  # SWAP: 4 GB (4096 MB)
-
-  #netstat -tanp |grep LISTEN
-  #notify { "PORTS\: $ports": }
 
   # Create logical volume /opt/oracle, 30gb, oracle:oinstall, 775
 
@@ -31,19 +14,10 @@ class profile::weblogic::setup (
   #/opt/oracle/fmw/product/11.1.2/oracle_fr/oracleRoot.sh
   #/opt/oracle/fmw/product/11.1.2/updateRC.sh
 
-  # Execute augesus for weblogic
-  create_resources(augeas, $augeas)
-
-  # Create file resources
-  create_resources(file, $files)
-
-  # Create file_lines resources
-  #create_resources(file_line, $file_lines)
-
   # Create a software directory for install files
-  file { '/software':
-    ensure => directory,
-  }
+  #file { '/software':
+  #  ensure => directory,
+  #}
 
   # Fetch install media from a download location
   # TODO: Move to organization specific location

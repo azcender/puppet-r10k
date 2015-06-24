@@ -30,8 +30,8 @@ class profile::oracle (
     ### Oracle Base Prereqs #################################
 
     ## Redhat Enterprise Linux 6.x with latest patchset (not RHEL 7)
-    notify { "OSFAMILY ${::osfamily}": }
-    notify { "OPERATINGSYSTEMMAJRELEASE ${::operatingsystemmajrelease}": }
+    #notify { "OSFAMILY ${::osfamily}": }
+    #notify { "OPERATINGSYSTEMMAJRELEASE ${::operatingsystemmajrelease}": }
 
     case $::osfamily {
       'RedHat': {
@@ -46,10 +46,10 @@ class profile::oracle (
     }
 
     ## 2.6.32-100.28.5.el6  - or greater
-    notify { "KERNELMAJVERSION ${::kernelmajversion}": }
+    #notify { "KERNELMAJVERSION ${::kernelmajversion}": }
 
     #Architecture x86 64 bit
-    notify { "ARCHITECTURE ${::architecture}": }
+    #notify { "ARCHITECTURE ${::architecture}": }
 
     ## Kernel settings:  kernel.shmmax - minimum 4294967295
     ## SELINUX and firewall disabled

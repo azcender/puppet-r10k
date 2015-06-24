@@ -12,6 +12,16 @@ class profile {
   # Default:  1800 (30 mins)
   $runinterval = hiera('profile::puppet_agent_runinterval', '1800')
 
+  # Execute augesus types
+  $augeas = hiera_hash(augeas, {})
+
+  create_resources(augeas, $augeas)
+
+  # Create defined host entrier
+  $hosts = hiera_hash(hosts, {})
+
+  create_resources(host, $hosts)
+
   # Create defined files
   $files = hiera_hash(files, {})
 

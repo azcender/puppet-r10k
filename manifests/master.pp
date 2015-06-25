@@ -14,8 +14,17 @@ class profile::master {
     group  => 'root',
     mode   => '0755',
     source => 'puppet:///modules/profile/hiera.yaml',
-    #  notify => Service['pe-puppetserver'],
+    #notify => Service['pe-puppetserver'],
   }
+
+  file { '/opt/puppet/share/augeas/lenses/dist/sudoers2.aug':
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    source => 'puppet:///modules/profile/oracle/sudoers2.aug',
+    #notify => Service['pe-puppetserver'],
+}
 
   #  ini_setting { 'modulepath':
   #  ensure  => absent,

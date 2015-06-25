@@ -1,5 +1,5 @@
 (*
-Module: Sudoers
+Module: Sudoers2
   Parses /etc/sudoers
 
 Author: Raphael Pinson <raphink@gmail.com>

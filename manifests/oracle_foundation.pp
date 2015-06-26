@@ -1,5 +1,5 @@
 # Sets up the base oracle build
-class profile::oracle (
+class profile::oracle_foundation (
   $augeas,
   $users,
   $files,

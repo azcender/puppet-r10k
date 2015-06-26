@@ -1,5 +1,5 @@
 # Lays foundation for Oracle ID for Forest Service
-class profile::oid (
+class profile::oracle_oid (
 ) {
   include ::profile
 

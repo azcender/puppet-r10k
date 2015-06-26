@@ -24,7 +24,7 @@ class profile::master {
     mode   => '0755',
     source => 'puppet:///modules/profile/oracle/sudoers2.aug',
     #notify => Service['pe-puppetserver'],
-}
+  }
 
   #  ini_setting { 'modulepath':
   #  ensure  => absent,

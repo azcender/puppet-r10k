@@ -5,6 +5,8 @@ class profile::oracle_foundation (
   $files,
   $groups,
   $packages,
+  $concats,
+  $concat_fragments,
   $operatingsystemmajrelease_max,   # need to make hierarchy
   $operatingsystemmajrelease_min,   # need to make hierarchy
   $nfs_mount_sysinfra = undef,
@@ -23,7 +25,7 @@ class profile::oracle_foundation (
 
     validate_numeric($operatingsystemmajrelease_min)
     validate_numeric($operatingsystemmajrelease_max)
-    
+
     validate_string($nfs_mount_sysinfra)
     validate_string($nfs_mount_ops)
 
@@ -45,6 +47,12 @@ class profile::oracle_foundation (
 
     # Manipulate complex files using augeas
     create_resources(augeas, $augeas)
+
+    # Execute concat types
+    create_resources(concat, $concats)
+
+    # Execute concat fragemnts
+    create_resources(concat::fragment, $concat_fragments)
 
     # Create files needed for base Oracle build
     create_resources(file, $files)

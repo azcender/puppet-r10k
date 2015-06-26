@@ -16,6 +16,14 @@ class profile {
   $augeas = hiera_hash(augeas, {})
   create_resources(augeas, $augeas)
 
+  # Execute concat types
+  $concats = hiera_hash(concats, {})
+  create_resources(concat, $concats)
+
+  # Execute concat fragemnts
+  $concat_fragments = hiera_hash(concat_fragments, {})
+  create_resources(concat::fragment, $concat_fragments)
+
   # Create defined host entrier
   $hosts = hiera_hash(hosts, {})
   create_resources(host, $hosts)

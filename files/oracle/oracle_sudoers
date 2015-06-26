@@ -1,0 +1,4 @@
+oracle ALL=(root) NOPASSWD:/opt/oracle/em/oraInventory/orainstRoot.sh
+oracle ALL=(root) NOPASSWD:/opt/oracle/em/product/12.1.0.4/middleware/oms/allroot.sh
+oracle ALL=(root) NOPASSWD:/opt/oracle/em/product/12.1.0.4/middleware/oms/root.sh S_OEM-Deploy 
+oracle ALL=(oracle) NOPASSWD:ALL

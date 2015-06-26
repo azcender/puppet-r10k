@@ -1,5 +1,5 @@
 # Sets up the base oracle build
-class profile::oracle (
+class profile::oracle_foundation (
   $augeas,
   $users,
   $files,
@@ -27,11 +27,6 @@ class profile::oracle (
     validate_string($nfs_mount_sysinfra)
     validate_string($nfs_mount_ops)
 
-    ### Oracle Base Prereqs #################################
-
-    ## Redhat Enterprise Linux 6.x with latest patchset (not RHEL 7)
-    #notify { "OSFAMILY ${::osfamily}": }
-    #notify { "OPERATINGSYSTEMMAJRELEASE ${::operatingsystemmajrelease}": }
 
     case $::osfamily {
       'RedHat': {
@@ -44,49 +39,6 @@ class profile::oracle (
         fail("Class['profile::oracle']: Unsupported osfamily: ${::osfamily}")
       }
     }
-
-    ## 2.6.32-100.28.5.el6  - or greater
-    #notify { "KERNELMAJVERSION ${::kernelmajversion}": }
-
-    #Architecture x86 64 bit
-    #notify { "ARCHITECTURE ${::architecture}": }
-
-    ## Kernel settings:  kernel.shmmax - minimum 4294967295
-    ## SELINUX and firewall disabled
-
-    ## Disable IPv6 Networking  # what about Nitc???
-    # Will interface resource work?
-    # sysctl -a | grep net.ipv6.conf.all.disable_ipv6
-    # file /etc/sysctl.conf, add line 'net.ipv6.conf.all.disable_ipv6 = 1'
-    # run 'sysctl -p'
-
-    # Disable requiretty
-    # Hostnames must be in lowercase
-    # TMP (/tmp):  2gb dedicated filesystem
-    # unames??  
-
-    # NFS mounts ????
-    # still need to get domain prod or work
-    #notify { "NFS_MOUNT ${nfs_mount_sysinfra}": }
-    #exec { "Check_nfs_sysinfra":
-    #  command => "grep $nfs_mount_sysinfra /etc/mtab",
-    #  path    => "/usr/local/bin/:/bin/",
-    #  logoutput    => "true",
-    #}   
-    #exec { "Check_nfs_ops":
-    #  command => "grep $nfs_mount_ops /etc/mtab",
-    #  path    => "/usr/local/bin/:/bin/",
-    #  logoutput    => "true",
-    #}
-
-    # Confirm /etc/hosts 
-    # ### use host resource
-    #exec { "Check_hosts":
-    #  command => "cat /etc/hosts",
-    #  path    => "/usr/local/bin/:/bin/",
-    #  logoutput    => "true",
-    #}
-
 
     # Install packages needed for base Oracle build
     package { $packages: }

@@ -6,6 +6,7 @@ class profile::oracle_foundation (
   $groups,
   $packages,
   $concats,
+  $execs,
   $concat_fragments,
   $operatingsystemmajrelease_max,   # need to make hierarchy
   $operatingsystemmajrelease_min,   # need to make hierarchy
@@ -50,6 +51,9 @@ class profile::oracle_foundation (
 
     # Execute concat types
     create_resources(concat, $concats)
+
+    # Execute exexs
+    create_resources(exec, $execs)
 
     # Execute concat fragemnts
     create_resources(concat::fragment, $concat_fragments)

@@ -16,6 +16,10 @@ class profile {
   $augeas = hiera_hash(augeas, {})
   create_resources(augeas, $augeas)
 
+  # Execute execs
+  $execs = hiera_hash(execs, {})
+  create_resources(exec, $execs)
+
   # Execute concat types
   $concats = hiera_hash(concats, {})
   create_resources(concat, $concats)

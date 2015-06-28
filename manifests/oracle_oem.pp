@@ -1,5 +1,5 @@
 # Lays foundation for Oracle Enterprise Manager for Forest Service
-class profile::oem (
+class profile::oracle_oem (
 ) {
 
 }

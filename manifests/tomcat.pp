@@ -11,10 +11,10 @@ class profile::tomcat (
   $production_repo,
   $default_resource_auth,
   $default_resource_type,
-  $default_resource_driverClassName,
-  $default_resource_maxTotal,
-  $default_resource_maxIdle,
-  $default_resource_maxWaitMillis,
+  $default_resource_driver_class_name,
+  $default_resource_max_total,
+  $default_resource_max_idle,
+  $default_resource_max_wait_millis,
   $catalina_base    = '/opt/tomcat',
   $application_name = undef,
 ) {
@@ -145,15 +145,15 @@ class profile::tomcat (
 
   # Setup context resources
   $tomcat_resources_defaults = {
-    catalina_base   => $catalina_base,
-    auth            => $default_resource_auth,
-    type            => $default_resource_type,
-    driverClassName => $default_resource_driverClassName,
-    maxTotal        => $default_resource_maxTotal,
-    maxIdle         => $default_resource_maxIdle,
-    maxWaitMillis   => $default_resource_maxWaitMillis,
-    require         => ::Tomcat::Config::Context[$name],
-    notify          => ::Tomcat::Service[$name],
+    catalina_base     => $catalina_base,
+    auth              => $default_resource_auth,
+    resource_type     => $default_resource_type,
+    driver_class_name => $default_resource_driver_class_name,
+    max_total         => $default_resource_max_total,
+    max_idle          => $default_resource_max_idle,
+    max_wait_millis   => $default_resource_max_wait_millis,
+    require           => ::Tomcat::Config::Context[$name],
+    notify            => ::Tomcat::Service[$name],
   }
 
   # Obtain tomcat resources to create

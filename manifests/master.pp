@@ -2,11 +2,6 @@
 #
 
 class profile::master {
-  # Set global file settings
-  #file {'/etc/puppetlabs/puppet/modules':
-  #  mode    => 'a+r',
-  #  recurse => true
-  #}
 
   file { '/etc/puppetlabs/puppet/hiera.yaml':
     ensure => 'file',
@@ -17,10 +12,4 @@ class profile::master {
     #  notify => Service['pe-puppetserver'],
   }
 
-  #  ini_setting { 'modulepath':
-  #  ensure  => absent,
-  #  path    => '/etc/puppetlabs/puppet/puppet.conf',
-  #  section => 'main',
-  #  setting => 'modulepath',
-  #}
 }

@@ -8,6 +8,7 @@
 :hierarchy:
   - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/defaults"
   - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/clientcert/%{::clientcert}"
+  - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/fqdn/%{::fqdn}"
   - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/domain/%{::domain}"
   - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/environment/%{::environment}"
   - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/tier/%{::tier}"
@@ -18,6 +19,7 @@
   - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/common"
   - "vagrant/puppet/hiera/%{::environment}/defaults"
   - "vagrant/puppet/hiera/%{::environment}/clientcert/%{::clientcert}"
+  - "vagrant/puppet/hiera/%{::environment}/fqdn/%{::fqdn}"
   - "vagrant/puppet/hiera/%{::environment}/domain/%{::domain}"
   - "vagrant/puppet/hiera/%{::environment}/environment/%{::environment}"
   - "vagrant/puppet/hiera/%{::environment}/tier/%{::tier}"

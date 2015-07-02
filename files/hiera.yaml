@@ -15,6 +15,7 @@
   - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/role/application/%{::application}"
   - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/role/%{::role}"
   - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/global"
+  - "etc/puppetlabs/puppet/hiera/hiera_%{::environment}/common"
   - "vagrant/puppet/hiera/%{::environment}/defaults"
   - "vagrant/puppet/hiera/%{::environment}/clientcert/%{::clientcert}"
   - "vagrant/puppet/hiera/%{::environment}/domain/%{::domain}"
@@ -24,3 +25,4 @@
   - "vagrant/puppet/hiera/%{::environment}/role/application/%{::application}"
   - "vagrant/puppet/hiera/%{::environment}/role/%{::role}"
   - "vagrant/puppet/hiera/%{::environment}/global"
+  - "vagrant/puppet/hiera/%{::environment}/common"

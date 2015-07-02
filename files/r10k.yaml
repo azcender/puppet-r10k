@@ -1,0 +1,11 @@
+:cachedir: /var/cache/r10k
+
+:sources:
+  hiera:
+    basedir: /etc/puppetlabs/puppet/hiera
+    prefix: true
+    remote: https://github.com/azcender/puppet-r10k-hiera.git
+  puppet:
+    basedir: /etc/puppetlabs/puppet/environments
+    prefix: false
+    remote: https://github.com/azcender/puppet-r10k-environment.git

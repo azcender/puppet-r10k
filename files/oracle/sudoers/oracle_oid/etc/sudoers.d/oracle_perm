@@ -1,0 +1,8 @@
+oracle ALL=NOPASSWD:/opt/oracle/product/[0-9.]*/db_?/root.sh, \
+     /opt/oracle/product/[0-9.]*/db_?/OPatch/opatch, \
+     /opt/oracle/fmw/product/[0-9.]*/Oracle_IDM1/oracleRoot.sh, \
+     /opt/oracle/fmw/product/[0-9.]*/Oracle_IDM1/oidRoot.sh  
+oracle ALL=(grid)NOPASSWD:ALL
+oracle ALL=(root) NOPASSWD:/opt/oracle/em/oraInventory/orainstRoot.sh
+oracle ALL=(root) NOPASSWD:/opt/oracle/em/product/[0-9.]*/middleware/oms/allroot.sh
+oracle ALL=(root) NOPASSWD:/opt/oracle/em/product/[0-9.]*/middleware/oms/root.sh

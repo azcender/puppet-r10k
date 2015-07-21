@@ -1,0 +1,14 @@
+oracle ALL=(root)NOPASSWD:/opt/oracle/product/[0-9.]*/db_?/root.sh, \
+    /opt/oracle/product/[0-9.]*/db_?/OPatch/opatch, \
+    /fslink/sysinfra/oracle/scripts/db/RAC/[0-9.]*/orainst/fix_inittab, \
+    /fslink/sysinfra/oracle/scripts/db/RAC/[0-9.]*/orainst/root_setup, \
+    /fslink/ops/cio/projects/oracle/scripts/db/RAC/[0-9.]*/orainst/fix_inittab, \
+    /fslink/ops/cio/projects/oracle/scripts/db/RAC/[0-9.]*/orainst/root_setup, \
+    /tmp/root_raccheck.sh, \
+    /home/oracle/dbcheck/scripts/trim_logs.sh, \
+    /opt/oracle/em/oraInventory/orainstRoot.sh, \
+    /opt/oracle/em/product/[0-9.]*/middleware/oms/allroot.sh, \
+    /opt/oracle/em/product/[0-9.]*/middleware/oms/root.sh, \
+    /opt/oracle/em/oraInventory/orainstRoot.sh, \
+    /opt/grid/[0-9.]*/grid_?/bin/ocrconfig
+oracle ALL=(grid)NOPASSWD:ALL

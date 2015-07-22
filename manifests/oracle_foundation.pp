@@ -5,9 +5,7 @@ class profile::oracle_foundation (
   $files,
   $groups,
   $packages,
-  $concats,
   $execs,
-  $concat_fragments,
   $operatingsystemmajrelease_max,   # need to make hierarchy
   $operatingsystemmajrelease_min,   # need to make hierarchy
   $nfs_mount_sysinfra = undef,
@@ -30,7 +28,6 @@ class profile::oracle_foundation (
     validate_string($nfs_mount_sysinfra)
     validate_string($nfs_mount_ops)
 
-
     case $::osfamily {
       'RedHat': {
         if ( $::operatingsystemmajrelease < $operatingsystemmajrelease_min ) or
@@ -49,14 +46,8 @@ class profile::oracle_foundation (
     # Manipulate complex files using augeas
     create_resources(augeas, $augeas)
 
-    # Execute concat types
-    create_resources(concat, $concats)
-
     # Execute exexs
     create_resources(exec, $execs)
-
-    # Execute concat fragemnts
-    create_resources(concat::fragment, $concat_fragments)
 
     # Create files needed for base Oracle build
     create_resources(file, $files)

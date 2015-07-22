@@ -1,0 +1,4 @@
+oracle ALL=(grid)NOPASSWD:ALL
+oracle ALL=NOPASSWD:/opt/oracle/fmw/product/[0-9.]*/oracle_fr/root.sh, \
+       /opt/oracle/fmw/product/[0-9.]*/oracle_fr/oracleRoot.sh, \
+       /opt/oracle/fmw/product/[0-9.]*/updateRC.sh

@@ -28,9 +28,13 @@ class profile {
   $concat_fragments = hiera_hash(concat_fragments, {})
   create_resources(concat::fragment, $concat_fragments)
 
-  # Create defined host entrier
+  # Create defined hosts entries
   $hosts = hiera_hash(hosts, {})
   create_resources(host, $hosts)
+
+  # Create exported hosts entries
+  $exported_hosts = hiera_hash(exported_hosts, {})
+  create_resources("@@host", $exported_hosts)  
 
   # Create defined files
   $files = hiera_hash(files, {})

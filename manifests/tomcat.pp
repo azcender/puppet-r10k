@@ -121,7 +121,7 @@ class profile::tomcat (
 
   # All of groupid, artifactid and version must be supplied to autodeploy an
   # application
-  if(groupid and artifactid and version) {
+  if($groupid and $artifactid and $version) {
     ::tomcat::maven { $name:
       ensure        => present,
       war_name      => $_war_name,

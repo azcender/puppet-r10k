@@ -131,6 +131,7 @@ class profile::tomcat (
       maven_repo    => $_repo,
       catalina_base => $catalina_base,
       packaging     => 'war',
+      before        => ::Tomcat::Service[$name],
       require       => ::Tomcat::Instance[$name],
     }
   }
@@ -143,7 +144,6 @@ class profile::tomcat (
     service_name  => $name,
     catalina_home => $catalina_base,
     catalina_base => $catalina_base,
-    require       => ::Tomcat::Maven[$name],
   }
 
   ::tomcat::config::context { $name:

@@ -17,6 +17,7 @@ class profile::tomcat (
   $groupid = undef,
   $artifactid = undef,
   $version = undef,
+  $packaging = war,
 ) {
   include ::profile
 
@@ -25,6 +26,9 @@ class profile::tomcat (
   # instances
   include ::java
   include ::tomcat
+
+  # Find the artifactory host
+  $artifactory_host = hiera('artifactory_host')
 
   # Use the correct repo based on version
   if empty(grep([$version], '.+SNAPSHOT$')) {
@@ -122,17 +126,16 @@ class profile::tomcat (
   # All of groupid, artifactid and version must be supplied to autodeploy an
   # application
   if($groupid and $artifactid and $version) {
-    ::tomcat::maven { $name:
-      ensure        => present,
-      war_name      => $_war_name,
-      groupid       => $groupid,
-      artifactid    => $artifactid,
-      version       => $version,
-      maven_repo    => $_repo,
-      catalina_base => $catalina_base,
-      packaging     => 'war',
-      before        => ::Tomcat::Service[$name],
-      require       => ::Tomcat::Instance[$name],
+    $_group_id = regsubst($groupid, '\.', '/', 'G')
+
+    $artifactory_path = "${_repo}/${_group_id}/${artifactid}/${version}/${artifactid}-${version}.${packaging}"
+
+    $destination = "${catalina_base}/webapps/${_war_name}"
+
+    ::tomcat::artifactory { $destination:
+      artifactory_host => $artifactory_host,
+      artifactory_path => $artifactory_path,
+      require          => [::Tomcat::Instance[$name], ::Tomcat::Service[$name]],
     }
   }
   else {

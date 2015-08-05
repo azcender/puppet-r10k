@@ -12,6 +12,7 @@ class profile::tomcat_adf (
   # Set defaults for the artifactory resources
   $adf_files_defaults = {
     artifactory_host => hiera('artifactory_host'),
+    before           => ::Tomcat::Service['profile::tomcat'],
     require          => ::Tomcat::Instance['profile::tomcat'],
   }
 

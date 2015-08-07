@@ -167,6 +167,23 @@ class profile::tomcat (
     notify            => ::Tomcat::Service[$name],
   }
 
+  # Setup global resources
+  $tomcat_global_resources_defaults = {
+    catalina_base     => $catalina_base,
+    auth              => $default_resource_auth,
+    driver_class_name => $default_resource_driver_class_name,
+    max_total         => $default_resource_max_total,
+    max_idle          => $default_resource_max_idle,
+    max_wait_millis   => $default_resource_max_wait_millis,
+    require           => ::Tomcat::Config::Context[$name],
+    notify            => ::Tomcat::Service[$name],
+  }
+
+  # Setup resource links
+  $tomcat_resourcelinks_defaults = {
+    catalina_base     => $catalina_base,
+  }
+
   # Obtain tomcat resources to create
   $tomcat_resources = hiera_hash('tomcat_resources', {})
 
@@ -177,11 +194,11 @@ class profile::tomcat (
   $tomcat_resourcelinks = hiera_hash('tomcat_resourcelinks', {})
 
   create_resources('::tomcat::config::context::resourcelink',
-  $tomcat_resourcelinks)
+  $tomcat_resourcelinks, $tomcat_resourcelinks_defaults)
 
   # Add global resoure to server.xml
   $tomcat_global_resources = hiera_hash('tomcat_global_resources', {})
 
   create_resources('::tomcat::config::server::globalnamingresources',
-  $tomcat_global_resources, $tomcat_resources_defaults)
+  $tomcat_global_resources, $tomcat_global_resources_defaults)
 }

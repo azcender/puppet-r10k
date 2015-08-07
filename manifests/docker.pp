@@ -59,7 +59,7 @@ class profile::docker(
     memory_limit => '512m',
     username     => 'root',
     command      =>
-    '-storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influxsrv:8086'
+    '-storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=server0.local:8086'
   }
 
   # Pass in the set ip address for docker runs

@@ -5,7 +5,6 @@ class profile::haproxy(
   $ipaddress = $::ipaddress,
   $listeners = {},
 ) {
-  # Include base class
   include ::profile
   include ::haproxy
 

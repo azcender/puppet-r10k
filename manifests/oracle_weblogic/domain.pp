@@ -4,7 +4,7 @@
 # needs jdk7, orawls, orautils, fiddyspence-sysctl, erwbgy-limits puppet modules
 #
 
-class profile::weblogic::domain {
+class profile::oracle_weblogic::domain {
   # Placeholder for defaults
   $default_params = {}
 

@@ -2,9 +2,6 @@
 # application --- does not support JEE applications
 
 class profile::tomcat (
-  $groupid,
-  $artifactid,
-  $version,
   $source_url,
   $snapshot_repo,
   $release_repo,
@@ -17,6 +14,9 @@ class profile::tomcat (
   $default_resource_max_wait_millis,
   $catalina_base    = '/opt/tomcat',
   $application_name = undef,
+  $groupid = undef,
+  $artifactid = undef,
+  $version = undef,
 ) {
   include ::profile
 
@@ -119,23 +119,31 @@ class profile::tomcat (
     source_url    => $source_url,
   }
 
-  ::tomcat::maven { $name:
-    ensure        => present,
-    war_name      => $_war_name,
-    groupid       => $groupid,
-    artifactid    => $artifactid,
-    version       => $version,
-    maven_repo    => $_repo,
-    catalina_base => $catalina_base,
-    packaging     => 'war',
-    require       => ::Tomcat::Instance[$name],
+  # All of groupid, artifactid and version must be supplied to autodeploy an
+  # application
+  if($groupid and $artifactid and $version) {
+    ::tomcat::maven { $name:
+      ensure        => present,
+      war_name      => $_war_name,
+      groupid       => $groupid,
+      artifactid    => $artifactid,
+      version       => $version,
+      maven_repo    => $_repo,
+      catalina_base => $catalina_base,
+      packaging     => 'war',
+      before        => ::Tomcat::Service[$name],
+      require       => ::Tomcat::Instance[$name],
+    }
+  }
+  else {
+    warning("One or more of groupid, artifactid and version was not supplied to\
+    the Tomcat instance ${name}. An application will not be deployed")
   }
 
   ::tomcat::service { $name:
     service_name  => $name,
     catalina_home => $catalina_base,
     catalina_base => $catalina_base,
-    require       => ::Tomcat::Maven[$name],
   }
 
   ::tomcat::config::context { $name:

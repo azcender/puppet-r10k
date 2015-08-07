@@ -182,6 +182,8 @@ class profile::tomcat (
   # Setup resource links
   $tomcat_resourcelinks_defaults = {
     catalina_base     => $catalina_base,
+    require           => ::Tomcat::Config::Context[$name],
+        notify            => ::Tomcat::Service[$name],
   }
 
   # Obtain tomcat resources to create

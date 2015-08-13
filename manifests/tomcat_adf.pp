@@ -10,7 +10,7 @@ class profile::tomcat_adf (
   validate_hash($adf_files)
 
   # Set Oracle cache
-  file_lines { 'adf_catalina_opts':
+  file_line { 'adf_catalina_opts':
     require  => ::Tomcat::Instance['profile:tomcat'],
     before   => ::Tomcat::Service['profile::tomcat'],
     path     => '/opt/tomcat/bin/catalina.sh',

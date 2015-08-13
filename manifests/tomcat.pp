@@ -97,6 +97,26 @@ class profile::tomcat (
     notify  => ::Tomcat::Service[$name],
   }
 
+  # Secure instance
+  file { '/opt/tomcat/webapps/manager':
+    ensure  => absent,
+    force   => true,
+    require => ::Tomcat::Instance[$name],
+  }
+
+
+  file { '/opt/tomcat/webapps/examples':
+    ensure  => absent,
+    force   => true,
+    require => ::Tomcat::Instance[$name],
+  }
+
+  file { '/opt/tomcat/webapps/docs':
+    ensure  => absent,
+    force   => true,
+    require => ::Tomcat::Instance[$name],
+  }
+
   # Hard fix of staging dirs
   # TODO: Fix this
   file { '/opt/staging/tomcat':
@@ -183,7 +203,7 @@ class profile::tomcat (
   $tomcat_resourcelinks_defaults = {
     catalina_base     => $catalina_base,
     require           => ::Tomcat::Config::Context[$name],
-        notify            => ::Tomcat::Service[$name],
+    notify            => ::Tomcat::Service[$name],
   }
 
   # Obtain tomcat resources to create

@@ -32,7 +32,7 @@ class profile::tomcat_adf (
   # Only application if coordinates are set
   if($groupid and $artifactid and $version) {
     exec { 'wait for service':
-      path      => '/bin',
+      path      => ['/bin', '/usr/bin'],
       command   => $wait_command,
       onlyif    => 'test -z `curl --silent --show-error --connect-timeout 1 -I http://localhost:8080 | grep Coyote | cut -d : -f 2`',
       require   => Service['tomcat-profile::tomcat'],

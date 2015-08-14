@@ -13,11 +13,11 @@ class profile::tomcat_adf (
   $wait_command = 'curl --silent --show-error --connect-timeout 1 -I http://localhost:8080'
 
   # Grab tomcat values from hiera
-  $application_name = hiera('profile::tomcat::application_name')
+  $application_name = hiera('profile::tomcat::application_name', undef)
 
-  $groupid          = hiera('profile::tomcat::groupid')
-  $artifactid       = hiera('profile::tomcat::artifactid')
-  $version          = hiera('profile::tomcat::version')
+  $groupid          = hiera('profile::tomcat::groupid', undef)
+  $artifactid       = hiera('profile::tomcat::artifactid', undef)
+  $version          = hiera('profile::tomcat::version', undef)
 
 
   # If war name is empty use artifact id

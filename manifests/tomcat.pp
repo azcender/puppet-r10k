@@ -6,12 +6,12 @@ class profile::tomcat (
   $snapshot_repo,
   $release_repo,
   $production_repo,
-  $default_resource_auth,
-  $default_resource_type,
-  $default_resource_driver_class_name,
-  $default_resource_max_total,
-  $default_resource_max_idle,
-  $default_resource_max_wait_millis,
+  $auth = 'Container',
+  $type = 'javax.sql.DataSource',
+  $driver_class_name = 'oracle.jdbc.OracleDriver',
+  $max_total = 20,
+  $max_idle = 10,
+  $max_wait_millis = -1,
   $catalina_base    = '/opt/tomcat',
   $application_name = undef,
   $groupid = undef,
@@ -148,7 +148,8 @@ class profile::tomcat (
   if($groupid and $artifactid and $version) {
     $_group_id = regsubst($groupid, '\.', '/', 'G')
 
-    $artifactory_path = "${_repo}/${_group_id}/${artifactid}/${version}/${artifactid}-${version}.${packaging}"
+    $artifactory_path =
+    "${_repo}/${_group_id}/${artifactid}/${version}/${artifactid}-${version}.${packaging}"
 
     $destination = "${catalina_base}/webapps/${_war_name}"
 
@@ -177,12 +178,12 @@ class profile::tomcat (
   # Setup context resources
   $tomcat_resources_defaults = {
     catalina_base     => $catalina_base,
-    auth              => $default_resource_auth,
-    resource_type     => $default_resource_type,
-    driver_class_name => $default_resource_driver_class_name,
-    max_total         => $default_resource_max_total,
-    max_idle          => $default_resource_max_idle,
-    max_wait_millis   => $default_resource_max_wait_millis,
+    auth              => $auth,
+    resource_type     => $type,
+    driver_class_name => $driver_class_name,
+    max_total         => $max_total,
+    max_idle          => $max_idle,
+    max_wait_millis   => $max_wait_millis,
     require           => ::Tomcat::Config::Context[$name],
     notify            => ::Tomcat::Service[$name],
   }
@@ -190,11 +191,11 @@ class profile::tomcat (
   # Setup global resources
   $tomcat_global_resources_defaults = {
     catalina_base     => $catalina_base,
-    auth              => $default_resource_auth,
-    driver_class_name => $default_resource_driver_class_name,
-    max_total         => $default_resource_max_total,
-    max_idle          => $default_resource_max_idle,
-    max_wait_millis   => $default_resource_max_wait_millis,
+    auth              => $auth,
+    driver_class_name => $driver_class_name,
+    max_total         => $max_total,
+    max_idle          => $max_idle,
+    max_wait_millis   => $max_wait_millis,
     require           => ::Tomcat::Config::Context[$name],
     notify            => ::Tomcat::Service[$name],
   }

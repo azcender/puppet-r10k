@@ -1,6 +1,7 @@
 # foundation for Oracle Database
 
 class profile::oracle_database (
+  $nic_prod = undef,
   $nic_priv = undef,
   $nic_iscsi = undef,
   $rac_instance = undef

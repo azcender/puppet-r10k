@@ -4,7 +4,7 @@
 # needs jdk7, orawls, orautils, fiddyspence-sysctl, erwbgy-limits puppet modules
 #
 
-class profile::weblogic::nodemanager {
+class profile::oracle_weblogic::nodemanager {
   $default_params_nodemanager = { }
 
   $nodemanager_instances = hiera('nodemanager_instances', {})

@@ -4,7 +4,7 @@
 # needs jdk7, orawls, orautils, fiddyspence-sysctl, erwbgy-limits puppet modules
 #
 
-class profile::weblogic::control {
+class profile::oracle_weblogic::control {
   $default_startwls_params = {
     tag => 'wls_control',
   }

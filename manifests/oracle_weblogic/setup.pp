@@ -4,12 +4,13 @@
 # needs jdk7, orawls, orautils, fiddyspence-sysctl, erwbgy-limits puppet modules
 #
 
-class profile::weblogic::setup (
+class profile::oracle_weblogic::setup (
 ) {
 
   # Create logical volume /opt/oracle, 30gb, oracle:oinstall, 775
 
-  # Setup the sudoers file for the oracle user to be able to execute the following scripts as root
+  # Setup the sudoers file for the oracle user to be able to execute the
+  # following scripts as root
   #/opt/oracle/fmw/product/11.1.2/oracle_fr/root.sh
   #/opt/oracle/fmw/product/11.1.2/oracle_fr/oracleRoot.sh
   #/opt/oracle/fmw/product/11.1.2/updateRC.sh

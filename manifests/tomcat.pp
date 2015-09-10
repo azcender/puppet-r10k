@@ -6,17 +6,18 @@ class profile::tomcat (
   $snapshot_repo,
   $release_repo,
   $production_repo,
-  $default_resource_auth,
-  $default_resource_type,
-  $default_resource_driver_class_name,
-  $default_resource_max_total,
-  $default_resource_max_idle,
-  $default_resource_max_wait_millis,
+  $auth = 'Container',
+  $type = 'javax.sql.DataSource',
+  $driver_class_name = 'oracle.jdbc.OracleDriver',
+  $max_total = 20,
+  $max_idle = 10,
+  $max_wait_millis = -1,
   $catalina_base    = '/opt/tomcat',
   $application_name = undef,
   $groupid = undef,
   $artifactid = undef,
   $version = undef,
+  $packaging = war,
 ) {
   include ::profile
 
@@ -25,6 +26,9 @@ class profile::tomcat (
   # instances
   include ::java
   include ::tomcat
+
+  # Find the artifactory host
+  $artifactory_host = hiera('artifactory_host')
 
   # Use the correct repo based on version
   if empty(grep([$version], '.+SNAPSHOT$')) {
@@ -93,6 +97,26 @@ class profile::tomcat (
     notify  => ::Tomcat::Service[$name],
   }
 
+  # Secure instance
+  file { '/opt/tomcat/webapps/manager':
+    ensure  => absent,
+    force   => true,
+    require => ::Tomcat::Instance[$name],
+  }
+
+
+  file { '/opt/tomcat/webapps/examples':
+    ensure  => absent,
+    force   => true,
+    require => ::Tomcat::Instance[$name],
+  }
+
+  file { '/opt/tomcat/webapps/docs':
+    ensure  => absent,
+    force   => true,
+    require => ::Tomcat::Instance[$name],
+  }
+
   # Hard fix of staging dirs
   # TODO: Fix this
   file { '/opt/staging/tomcat':
@@ -122,17 +146,17 @@ class profile::tomcat (
   # All of groupid, artifactid and version must be supplied to autodeploy an
   # application
   if($groupid and $artifactid and $version) {
-    ::tomcat::maven { $name:
-      ensure        => present,
-      war_name      => $_war_name,
-      groupid       => $groupid,
-      artifactid    => $artifactid,
-      version       => $version,
-      maven_repo    => $_repo,
-      catalina_base => $catalina_base,
-      packaging     => 'war',
-      before        => ::Tomcat::Service[$name],
-      require       => ::Tomcat::Instance[$name],
+    $_group_id = regsubst($groupid, '\.', '/', 'G')
+
+    $artifactory_path =
+    "${_repo}/${_group_id}/${artifactid}/${version}/${artifactid}-${version}.${packaging}"
+
+    $destination = "${catalina_base}/webapps/${_war_name}"
+
+    ::tomcat::artifactory { $destination:
+      artifactory_host => $artifactory_host,
+      artifactory_path => $artifactory_path,
+      require          => [::Tomcat::Instance[$name], ::Tomcat::Service[$name]],
     }
   }
   else {
@@ -154,12 +178,31 @@ class profile::tomcat (
   # Setup context resources
   $tomcat_resources_defaults = {
     catalina_base     => $catalina_base,
-    auth              => $default_resource_auth,
-    resource_type     => $default_resource_type,
-    driver_class_name => $default_resource_driver_class_name,
-    max_total         => $default_resource_max_total,
-    max_idle          => $default_resource_max_idle,
-    max_wait_millis   => $default_resource_max_wait_millis,
+    auth              => $auth,
+    resource_type     => $type,
+    driver_class_name => $driver_class_name,
+    max_total         => $max_total,
+    max_idle          => $max_idle,
+    max_wait_millis   => $max_wait_millis,
+    require           => ::Tomcat::Config::Context[$name],
+    notify            => ::Tomcat::Service[$name],
+  }
+
+  # Setup global resources
+  $tomcat_global_resources_defaults = {
+    catalina_base     => $catalina_base,
+    auth              => $auth,
+    driver_class_name => $driver_class_name,
+    max_total         => $max_total,
+    max_idle          => $max_idle,
+    max_wait_millis   => $max_wait_millis,
+    require           => ::Tomcat::Config::Context[$name],
+    notify            => ::Tomcat::Service[$name],
+  }
+
+  # Setup resource links
+  $tomcat_resourcelinks_defaults = {
+    catalina_base     => $catalina_base,
     require           => ::Tomcat::Config::Context[$name],
     notify            => ::Tomcat::Service[$name],
   }
@@ -174,11 +217,11 @@ class profile::tomcat (
   $tomcat_resourcelinks = hiera_hash('tomcat_resourcelinks', {})
 
   create_resources('::tomcat::config::context::resourcelink',
-  $tomcat_resourcelinks)
+  $tomcat_resourcelinks, $tomcat_resourcelinks_defaults)
 
   # Add global resoure to server.xml
   $tomcat_global_resources = hiera_hash('tomcat_global_resources', {})
 
   create_resources('::tomcat::config::server::globalnamingresources',
-  $tomcat_global_resources, $tomcat_resources_defaults)
+  $tomcat_global_resources, $tomcat_global_resources_defaults)
 }

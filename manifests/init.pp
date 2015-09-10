@@ -34,7 +34,7 @@ class profile {
 
   # Create exported hosts entries
   $exported_hosts = hiera_hash(exported_hosts, {})
-  create_resources("@@host", $exported_hosts)  
+  create_resources('@@host', $exported_hosts)
 
   # Create defined files
   $files = hiera_hash(files, {})

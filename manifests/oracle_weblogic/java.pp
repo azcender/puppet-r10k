@@ -4,7 +4,7 @@
 # needs jdk7, orawls, orautils, fiddyspence-sysctl, erwbgy-limits puppet modules
 #
 
-class profile::weblogic::java {
+class profile::oracle_weblogic::java {
   # Remove any openjdk files
   $remove = [ 'java-1.7.0-openjdk.x86_64', 'java-1.6.0-openjdk.x86_64' ]
 

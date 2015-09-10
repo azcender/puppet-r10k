@@ -2,6 +2,7 @@
 #
 
 class profile::master {
+
   file { '/etc/puppetlabs/puppet/hiera.yaml':
     ensure => 'file',
     owner  => 'root',

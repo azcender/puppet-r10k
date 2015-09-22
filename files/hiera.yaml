@@ -13,7 +13,7 @@
 
 :hierarchy:
   - "etc/puppetlabs/code/environments/%{environment}/hieradata/clientcert/%{::clientcert}"
-  - "vagrant/puppet/environments/%{::environment}/hieradta/clientcert/%{::clientcert}"
+  - "vagrant/puppet/environments/%{::environment}/hieradata/clientcert/%{::clientcert}"
 
   - "etc/puppetlabs/code/environments/%{environment}/hieradata/domain/%{::domain}"
   - "vagrant/puppet/environments/%{::environment}/hieradata/domain/%{::domain}"

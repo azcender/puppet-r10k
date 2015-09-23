@@ -9,8 +9,8 @@ roles:
 #      customize:
 #        - [modifyvm, !ruby/sym id, '--memory', 6144, '--cpus', 4]
       vmx:
-        memsize:  6144
-        numvcpus: 4
+        memsize:  4096
+        numvcpus: 2
     private_networks:
       - {ip: '10.20.2.2', auto_network: true}
     provisioners:
@@ -21,10 +21,27 @@ roles:
       - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp,
          module_path: puppet/modules,
          options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
-      - {type: shell, inline: 'r10k deploy environment production --puppetfile'}
-      - {type: shell, inline: 'r10k deploy environment hiera_production'}
+      - {type: shell, inline: 'r10k deploy environment'}
+#      - {type: shell, inline: 'r10k deploy environment hiera_production'}
       - {type: shell, inline: 'puppet agent -t'}
       - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/sbin/service NetworkManager restart'}
+      - {type: shell, inline: '/usr/bin/yum install open-vm-tools'}
+
+  beaker:
+    vbguest:
+      auto-update: true
+    provider:
+       gui: false
+       type: vmware_fusion
+       vmx:
+         memsize: 4096
+         numvcpus: 1
+       private_networks:
+         - {ip: '0.0.0.0', auto_network: true}
+       provisioners:
+         - {type: hosts}
+         - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/sbin/service NetworkManager restart'}
+         - {type: shell, inline: '/usr/bin/yum install open-vm-tools'}
 
   pe-puppet-agent-linux:
     vbguest:
@@ -37,15 +54,16 @@ roles:
 #        - [modifyvm, !ruby/sym id, '--memory', 1024, '--cpus', 1]
       type: vmware_fusion
       vmx:
-        memsize: 1024
+        memsize: 512
         numvcpus: 1
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
       - {type: hosts}
-      - {type: shell,
-         inline: 'curl -k https://master:8140/packages/current/install.bash | sudo bash'}
+#      - {type: shell,
+#         inline: 'curl -k https://master:8140/packages/current/install.bash | sudo bash'}
       - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/sbin/service NetworkManager restart'}
+      - {type: shell, inline: '/usr/bin/yum install open-vm-tools'}
 
   pe-puppet-agent-docker:
     vbguest:
@@ -60,9 +78,10 @@ roles:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
       - {type: hosts}
-      - {type: shell,
-         inline: 'curl -k https://master:8140/packages/current/install.bash | sudo bash'}
+#      - {type: shell,
+#         inline: 'curl -k https://master:8140/packages/current/install.bash | sudo bash'}
       - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/sbin/service NetworkManager restart'}
+      - {type: shell, inline: '/usr/bin/yum install open-vm-tools'}
 
   pe-puppet-agent-windows:
     hostname: #{name}
@@ -72,6 +91,7 @@ roles:
       auto_update: false
     provider:
       type: virtualbox
+#      type: vmware_fusion
       gui: true
       customize:
         - [modifyvm, !ruby/sym id, '--memory', 2048, '--cpus', 2]

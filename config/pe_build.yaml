@@ -1,4 +1,4 @@
 ---
 pe_build:
-  version: 3.8.0
-  download_root: "http://s3.amazonaws.com/pe-builds/released/:version"
+  version: 3.8.2
+  download_root: "http://artifactory.azcender.com/artifactory/puppet-enterprise-local/com/puppetlabs/puppet-enterprise/:version"

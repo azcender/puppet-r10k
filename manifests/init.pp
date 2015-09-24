@@ -55,4 +55,9 @@ class profile {
   # Compile packages
   $packages = hiera_array('packages', [])
   package { $packages: }
+
+  # Compile file lines
+  $yumrepos = hiera_hash(yumrepos, {})
+  create_resources(yumrepo, $yumrepos)
+
 }

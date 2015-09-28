@@ -29,7 +29,9 @@ class profile::lampstack(
 
   # Set the defaults for vhosts
   $default_vhost_params = {
-    port => 80,
+    port          => 80,
+    docroot_owner => 'apache',
+    docroot_group => 'apache',
   }
 
   # Set the defaults for php
@@ -52,9 +54,10 @@ class profile::lampstack(
   # vhosts
   create_resources(::apache::vhost, $vhosts, $default_vhost_params)
 
-  # php_apps
-  create_resources(::vcsrepo, $php_apps, $default_php_apps_params)
-
   # mysql
   create_resources(::mysql::db, $mysql_databases, $default_mysql_params)
+
+  # php_apps
+  create_resources(vcsrepo, $php_apps, $default_php_apps_params)
+
 }

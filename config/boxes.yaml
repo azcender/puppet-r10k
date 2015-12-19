@@ -13,7 +13,7 @@ boxes:
   fs_ubuntu-server-14041-x64-vbox4320-nocm:
     'http://file.azcender.com/boxes/fs_ubuntu-server-14041-x64-vbox4320-nocm.box'
   fs_win-2012r2-standard-amd64-vbox4316-nocm:
-    'http://file.azcender.com/boxes/fs_win-2012r2-standard-amd64-vbox4316-nocm.box'
+    'http://artifactory.azcender.com/artifactory/vagrant-local/win-2012r2-standard-amd64-nocm'
   azcender/rhel-6.6-x86_64:
     'http://file.azcender.com/boxes/rhel66.box'
   azcender/rhel-7.0-x86_64:

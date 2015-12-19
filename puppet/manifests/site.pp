@@ -91,13 +91,13 @@ node /^master*$/ {
   #  value   => 'future',
   #}
 
-  #  ini_setting { 'environmentpath':
-  #  ensure  => present,
-  #  path    => '/etc/puppetlabs/puppet/puppet.conf',
-  #  section => 'main',
-  #  setting => 'environmentpath',
-  #  value   => '$confdir/environments',
-  #} ->
+  ini_setting { 'environmentpath':
+    ensure  => present,
+    path    => '/etc/puppetlabs/puppet/puppet.conf',
+    section => 'main',
+    setting => 'environmentpath',
+    value   => '/etc/puppetlabs/code/environments',
+  } 
   #
   #ini_setting { 'default_manifest':
   #  ensure  => present,

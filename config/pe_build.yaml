@@ -1,4 +1,4 @@
 ---
 pe_build:
-  version: 3.8.2
+  version: 2015.2.3
   download_root: "http://artifactory.azcender.com/artifactory/puppet-enterprise-local/com/puppetlabs/puppet-enterprise/:version"

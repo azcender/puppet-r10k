@@ -5,41 +5,6 @@ vms:
     roles:
       - pe-puppet-master
 
-  - name: rhel-master
-    box: azcender/rhel-6.6-x86_64
-    roles:
-      - pe-puppet-master
-
-  - name: weblogic0
-    box: puppetlabs/centos-7.0-64-nocm
-    roles:
-      - pe-puppet-agent-docker
-
-  - name: database0
-    box: puppetlabs/centos-7.0-64-nocm
-    roles:
-      - pe-puppet-agent-linux
-
-  - name: oid0
-    box: puppetlabs/centos-7.0-64-nocm
-    roles:
-      - pe-puppet-agent-linux
-
-  - name: oem0
-    box: puppetlabs/centos-7.0-64-nocm
-    roles:
-      - pe-puppet-agent-linux
-
-  - name: jenkins0
-    box: puppetlabs/centos-7.0-64-nocm
-    roles:
-      - pe-puppet-agent-linux
-
-  - name: jenkins1
-    box: puppetlabs/centos-7.0-64-nocm 
-    roles:
-      - pe-puppet-agent-linux
-
   - name: docker0
     box: puppetlabs/centos-7.0-64-nocm
     roles:
@@ -50,43 +15,23 @@ vms:
     roles:
       - pe-puppet-agent-docker
 
+  - name: docker2
+    box: puppetlabs/centos-7.0-64-nocm
+    roles:
+      - pe-puppet-agent-docker
+
+  - name: docker3
+    box: puppetlabs/centos-7.0-64-nocm
+    roles:
+      - pe-puppet-agent-docker
+
   - name: haproxy0
     box:  puppetlabs/centos-7.0-64-nocm
     roles:
       - pe-puppet-agent-linux
 
-  - name: tomcat200
-    box: puppetlabs/centos-7.0-64-nocm
-    roles:
-      - pe-puppet-agent-linux
-
-  - name: tomcat201
-    box: puppetlabs/centos-7.0-64-nocm
-    roles:
-      - pe-puppet-agent-linux
-
-  - name: tomcat202
-    box: puppetlabs/centos-7.0-64-nocm
-    roles:
-      - pe-puppet-agent-linux
-
-  - name: tomcat207
-    box: puppetlabs/centos-7.0-64-nocm
-    roles:
-      - pe-puppet-agent-linux
-
-  - name: tomcat222
-    box: puppetlabs/centos-7.0-64-nocm
-    roles:
-      - pe-puppet-agent-linux
-
-  - name: tomcat229
-    box: puppetlabs/centos-7.0-64-nocm
-    roles:
-      - pe-puppet-agent-linux
-
-  - name: tomcat230
-    box: puppetlabs/centos-7.0-64-nocm
+  - name: haproxy1
+    box:  puppetlabs/centos-7.0-64-nocm
     roles:
       - pe-puppet-agent-linux
 

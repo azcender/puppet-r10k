@@ -8,3 +8,5 @@
 puppet/modules
 Puppetfile.lock
 .cache/*.gz
+*.gz
+*.jar

@@ -1,62 +1,62 @@
 ---
 vms:
   - name: master
-    box: puppetlabs/centos-7.2.64-nocm
+    box: puppetlabs/centos-7.2-64-nocm
     roles:
       - pe-puppet-master
 
   - name: consul0
-    box: puppetlabs/centos-7.2.64-nocm
+    box: puppetlabs/centos-7.2-64-nocm
     roles:
       - pe-puppet-agent-consul
 
   - name: consul1
-    box: puppetlabs/centos-7.2.64-nocm
+    box: puppetlabs/centos-7.2-64-nocm
     roles:
       - pe-puppet-agent-consul
 
   - name: consul2
-    box: puppetlabs/centos-7.2.64-nocm
+    box: puppetlabs/centos-7.2-64-nocm
     roles:
       - pe-puppet-agent-consul
 
   - name: docker0
-    box: puppetlabs/centos-7.2.64-nocm
+    box: puppetlabs/centos-7.2-64-nocm
     roles:
       - pe-puppet-agent-docker
 
   - name: docker1
-    box: puppetlabs/centos-7.2.64-nocm
+    box: puppetlabs/centos-7.2-64-nocm
     roles:
       - pe-puppet-agent-docker
 
   - name: docker2
-    box: puppetlabs/centos-7.2.64-nocm
+    box: puppetlabs/centos-7.2-64-nocm
     roles:
       - pe-puppet-agent-docker
 
   - name: docker3
-    box: puppetlabs/centos-7.2.64-nocm
+    box: puppetlabs/centos-7.2-64-nocm
     roles:
       - pe-puppet-agent-docker
 
   - name: haproxy0
-    box:  puppetlabs/centos-7.2.64-nocm
+    box: puppetlabs/centos-7.2-64-nocm
     roles:
       - pe-puppet-agent-linux
 
   - name: haproxy1
-    box:  puppetlabs/centos-7.2-64-nocm
+    box: puppetlabs/centos-7.2-64-nocm
     roles:
       - pe-puppet-agent-linux
 
   - name: tomcat0
-    box: puppetlabs/centos-7.2.64-nocm
+    box: puppetlabs/centos-7.2-64-nocm
     roles:
       - pe-puppet-agent-linux
 
   - name: tomcat1
-    box: puppetlabs/centos-7.2.64-nocm
+    box: puppetlabs/centos-7.2-64-nocm
     roles:
       - pe-puppet-agent-linux
 
@@ -71,6 +71,6 @@ vms:
       - pe-puppet-agent-windows
 
   - name: beaker
-    box: puppetlabs/centos-7.2.64-nocm
+    box: puppetlabs/centos-7.2-64-nocm
     roles:
       - beaker

@@ -10,6 +10,8 @@ boxes:
     'https://atlas.hashicorp.com/puppetlabs/boxes/centos-6.6-64-nocm'
   puppetlabs/centos-7.0-64-nocm:
     'https://atlas.hashicorp.com/puppetlabs/boxes/centos-7.0-64-nocm'
+  puppetlabs/centos-7.2-64-nocm:
+    'https://atlas.hashicorp.com/puppetlabs/boxes/centos-7.2-64-nocm'
   fs_ubuntu-server-14041-x64-vbox4320-nocm:
     'http://file.azcender.com/boxes/fs_ubuntu-server-14041-x64-vbox4320-nocm.box'
   fs_win-2012r2-standard-amd64-vbox4316-nocm:

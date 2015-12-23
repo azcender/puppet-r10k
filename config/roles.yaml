@@ -1,116 +1,119 @@
 ---
 roles:
   pe-puppet-master:
-    provider:
-      type: vmware_fusion
-      gui: false
-# Customize is for virtual box... have switched to vmware
-#      type: virtualbox
-#      customize:
-#        - [modifyvm, !ruby/sym id, '--memory', 6144, '--cpus', 4]
-      vmx:
-        memsize: 4096
-        numvcpus: 4
+    providers:
+      - type: virtualbox
+        customize:
+          - [modifyvm, !ruby/sym id, '--memory', 4096, '--cpus', 2]
+      - type: vmware_fusion
+        gui: false
+        vmx:
+          memsize: 4096
+          numvcpus: 2
     private_networks:
       - {ip: '10.20.2.2', auto_network: true}
     provisioners:
       - {type: hosts}
-#      - {type: pe_bootstrap, role: !ruby/sym master}
-#      - {type: shell, inline: 'ln -s -f /opt/puppet/bin/puppet /usr/bin/puppet'}
-#      - {type: shell, inline: 'ln -s -f /opt/puppet/bin/r10k /usr/bin/r10k'}
-#      - {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp,
-#         module_path: puppet/modules,
-#         options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
-#      - {type: shell, inline: 'r10k deploy environment production -pv'}
-#      - {type: shell, inline: 'r10k deploy environment hiera_production'}
-#      - {type: shell, inline: 'puppet agent -t'}
+      #- {type: pe_bootstrap, role: !ruby/sym master}
+      #- {type: shell, inline: 'ln -s -f /opt/puppet/bin/puppet /usr/bin/puppet'}
+      #- {type: shell, inline: 'ln -s -f /opt/puppet/bin/r10k /usr/bin/r10k'}
+      #- {type: puppet, manifests_path: puppet/manifests, manifest_file: site.pp, module_path: puppet/modules, options: '--verbose --debug --hiera_config /vagrant/puppet/hiera.yaml'}
+      #- {type: shell, inline: 'r10k deploy environment production -pv'}
+      #- {type: shell, inline: 'r10k deploy environment hiera_production'}
+      #- {type: shell, inline: 'puppet agent -t'}
       - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/bin/yum -y install fuse; /usr/bin/yum -y install open-vm-tools; /usr/sbin/service NetworkManager restart'}
 
   beaker:
-    vbguest:
-      auto-update: true
-    provider:
-       gui: false
-       type: vmware_fusion
-       vmx:
-         memsize: 4096
-         numvcpus: 1
-       private_networks:
-         - {ip: '0.0.0.0', auto_network: true}
-       provisioners:
-         - {type: hosts}
-         - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/sbin/service NetworkManager restart'}
-#         - {type: shell, inline: '/usr/bin/yum install open-vm-tools'}
-
-  pe-puppet-agent-linux:
-    vbguest:
-      auto-update: true
-    provider:
-# The code below is for the original virtualbox implementaiton
-#      type: virtualbox
-      gui: false
-#      customize:
-#        - [modifyvm, !ruby/sym id, '--memory', 1024, '--cpus', 1]
-      type: vmware_fusion
-      vmx:
-        memsize: 512
-        numvcpus: 1
+    #vbguest:
+    #  auto-update: true
+    providers:
+      - type: virtualbox
+        customize:
+          - [modifyvm, !ruby/sym id, '--memory', 6144, '--cpus', 2]
+      - type: vmware_fusion
+        gui: false
+        vmx:
+          memsize: 4096
+          numvcpus: 2
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
       - {type: hosts}
-#      - {type: shell,
-#         inline: 'curl -k https://master:8140/packages/current/install.bash | sudo bash'}
+      - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/sbin/service NetworkManager restart'}
+      #- {type: shell, inline: '/usr/bin/yum install open-vm-tools'}
+
+  pe-puppet-agent-linux:
+    #vbguest:
+    #  auto-update: true
+    providers:
+      - type: virtualbox
+        customize:
+          - [modifyvm, !ruby/sym id, '--memory', 2048, '--cpus', 2]
+      - type: vmware_fusion
+        gui: false
+        vmx:
+          memsize: 2048
+          numvcpus: 2
+    private_networks:
+      - {ip: '0.0.0.0', auto_network: true}
+    provisioners:
+      - {type: hosts}
+      #- {type: shell, inline: '/usr/bin/yum install open-vm-tools'}
       - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/sbin/service NetworkManager restart; yum -y install fuse'}
 
   pe-puppet-agent-docker:
-    vbguest:
-      auto-update: true
-    provider:
-      gui: false
-      type: vmware_fusion
-      vmx:
-        memsize: 1024
-        numvcpus: 4
+    #vbguest:
+    #  auto-update: true
+    providers:
+      - type: virtualbox
+        customize:
+          - [modifyvm, !ruby/sym id, '--memory', 1024, '--cpus', 2]
+      - type: vmware_fusion
+        gui: false
+        vmx:
+          memsize: 1024
+          numvcpus: 2
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
       - {type: hosts}
-#      - {type: shell,
-#         inline: 'curl -k https://master:8140/packages/current/install.bash | sudo bash'}
       - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/bin/yum -y install fuse; /usr/bin/yum -y install open-vm-tools; /usr/sbin/service NetworkManager restart'}
-#      - {type: shell, inline: '/usr/bin/yum install open-vm-tools'}
+      #- {type: shell, inline: '/usr/bin/yum install open-vm-tools'}
 
   pe-puppet-agent-consul:
-    vbguest:
-      auto-update: true
-    provider:
-      gui: false
-      type: vmware_fusion
-      vmx:
-        memsize: 256
-        numvcpus: 1
+    #vbguest:
+    #  auto-update: true
+    providers:
+      - type: virtualbox
+        customize:
+          - [modifyvm, !ruby/sym id, '--memory', 256, '--cpus', 2]
+      - type: vmware_fusion
+        gui: false
+        vmx:
+          memsize: 256
+          numvcpus: 2
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
       - {type: hosts}
-#      - {type: shell,
-#      #         inline: 'curl -k https://master:8140/packages/current/install.bash | sudo bash'}
       - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/bin/yum -y install fuse; /usr/bin/yum -y install open-vm-tools; /usr/sbin/service NetworkManager restart'}
-#            #      - {type: shell, inline: '/usr/bin/yum install open-vm-tools'}
+      #- {type: shell, inline: '/usr/bin/yum install open-vm-tools'}
 
   pe-puppet-agent-windows:
     hostname: #{name}
     guest: 'windows'
     communicator: 'winrm'
-    vbguest:
-      auto_update: false
-    provider:
-      type: virtualbox
-#      type: vmware_fusion
-      gui: true
-      customize:
-        - [modifyvm, !ruby/sym id, '--memory', 2048, '--cpus', 2]
+    #vbguest:
+    #  auto_update: false
+    providers:
+      - type: virtualbox
+        customize:
+          - [modifyvm, !ruby/sym id, '--memory', 256, '--cpus', 2]
+      - type: vmware_fusion
+        gui: true
+        vmx:
+          memsize: 256
+          numvcpus: 2
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     forwarded_ports:

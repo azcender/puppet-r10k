@@ -8,8 +8,8 @@ roles:
       - type: vmware_fusion
         gui: false
         vmx:
-          memsize: 4096
-          numvcpus: 2
+          memsize: 4608
+          numvcpus: 4
     private_networks:
       - {ip: '10.20.2.2', auto_network: true}
     provisioners:
@@ -71,8 +71,8 @@ roles:
       - type: vmware_fusion
         gui: false
         vmx:
-          memsize: 1024
-          numvcpus: 2
+          memsize: 1536
+          numvcpus: 4
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:

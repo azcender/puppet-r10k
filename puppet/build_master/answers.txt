@@ -1,9 +1,11 @@
 ########################################
 #
 # Puppet Enterprise 2015.3 installer answers file
-# Flavor: "monolithic"
-# Created: 2015-12-22 17:08:54 UTC
-# https://docs.puppetlabs.com/pe/2015.3/install_answer_file_reference.html
+#
+# Flavor:    "monolithic"
+# Created:   2015-12-24 13:25:08 UTC
+# Author:    Paul Talbot
+# Reference: https://docs.puppetlabs.com/pe/2015.3/install_answer_file_reference.html
 #
 ########################################
 q_activity_database_name='pe-activity'
@@ -45,6 +47,9 @@ q_puppetmaster_certname='master'
 q_puppetmaster_dnsaltnames='puppet'
 q_puppetmaster_enterpriseconsole_hostname='master'
 q_puppetmaster_enterpriseconsole_port='443'
+q_puppetmaster_r10k_remote='git@github.com:azcender/puppet-r10k-environment.git'
+q_puppetmaster_r10k_private_key='/etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa'
+q_puppetmaster_code_manager_auto_configure='y'
 q_puppetmaster_install='y'
 q_rbac_database_name='pe-rbac'
 q_rbac_database_password='_rl_40AlTVfEaPP1TlnZtQ'

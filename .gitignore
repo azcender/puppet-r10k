@@ -10,3 +10,4 @@ Puppetfile.lock
 .cache/*.gz
 *.gz
 *.jar
+*.zip

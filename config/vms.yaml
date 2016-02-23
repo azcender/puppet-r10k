@@ -5,6 +5,11 @@ vms:
     roles:
       - pe-puppet-master
 
+  - name: master2
+    box: puppetlabs/centos-7.2-64-nocm
+    roles:
+      - pe-puppet-agent-docker
+
   - name: consul0
     box: puppetlabs/centos-7.2-64-nocm
     roles:

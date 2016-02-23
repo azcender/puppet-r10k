@@ -9,9 +9,11 @@ roles:
         gui: false
         vmx:
           memsize: 4608
-          numvcpus: 4
+          numvcpus: 2
     private_networks:
       - {ip: '10.20.2.2', auto_network: true}
+#    forwarded_ports:
+#      - {guest: 8140, host: 8140, id: 'puppet_master', auto_correct: true}
     provisioners:
       - {type: hosts}
       #- {type: pe_bootstrap, role: !ruby/sym master}
@@ -52,8 +54,8 @@ roles:
       - type: vmware_fusion
         gui: false
         vmx:
-          memsize: 2048
-          numvcpus: 2
+          memsize: 512
+          numvcpus: 1
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
@@ -67,12 +69,12 @@ roles:
     providers:
       - type: virtualbox
         customize:
-          - [modifyvm, !ruby/sym id, '--memory', 1024, '--cpus', 2]
+          - [modifyvm, !ruby/sym id, '--memory', 1536, '--cpus', 3]
       - type: vmware_fusion
         gui: false
         vmx:
           memsize: 1536
-          numvcpus: 4
+          numvcpus: 3
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
@@ -86,14 +88,16 @@ roles:
     providers:
       - type: virtualbox
         customize:
-          - [modifyvm, !ruby/sym id, '--memory', 256, '--cpus', 2]
+          - [modifyvm, !ruby/sym id, '--memory', 256, '--cpus', 1]
       - type: vmware_fusion
         gui: false
         vmx:
           memsize: 256
-          numvcpus: 2
+          numvcpus: 1
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
+    private_networks:
+      - {bridge: 'eth0'}
     provisioners:
       - {type: hosts}
       - {type: shell, inline: '/usr/bin/yum clean all; /usr/bin/yum update -y; /usr/bin/yum -y install fuse; /usr/bin/yum -y install open-vm-tools; /usr/sbin/service NetworkManager restart'}
